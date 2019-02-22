@@ -8,11 +8,9 @@ namespace AlgoritmiekOefenen {
         private ProductCreator productCreator;
         private List<Product> _products;
         public Order() {
-            // Creating the products
             productCreator = new ProductCreator();
             _products = productCreator.InitProducts(10, 0, 10);
 
-            // Sorting products
             SortProductsByPrice(_products);
         }
 
@@ -49,17 +47,12 @@ namespace AlgoritmiekOefenen {
             return toReturn;
         }
 
-        /// <summary>
-        /// Uses bubble sort to sort a list of products by price from low to high
-        /// </summary>
         public void SortProductsByPrice(List<Product> products)
         {
-            // Bubble sort
             bool isSorted = false;
             while(! isSorted)
             {
                 isSorted = true;
-                // Bubble sort 1 iteration
                 for (int i = 0; i < products.Count - 1; i++)
                 {
                     if (products[i].Price > products[i + 1].Price)
@@ -69,13 +62,8 @@ namespace AlgoritmiekOefenen {
                     }
                 }
             }
-
         }
 
-        /// <summary>
-        /// Swaps 2 consecutively indexes in a list
-        /// </summary>
-        /// <param name="index">The starting index</param>
         private void SwapInList(List<Product> list, int index)
         {
             Product temp;
