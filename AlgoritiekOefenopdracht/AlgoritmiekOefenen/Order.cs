@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 
-namespace AlgoritmiekOefenen {
-    public class Order {
+namespace AlgoritmiekOefenen
+{
+    public class Order
+    {
         private ProductCreator productCreator;
         private List<Product> _products;
-        public Order() {
+
+        public Order()
+        {
             productCreator = new ProductCreator();
             _products = productCreator.InitProducts(10, 0, 10);
 
@@ -34,10 +38,11 @@ namespace AlgoritmiekOefenen {
                 total += product.Price;
             }
 
-            return total / products.Count;
+            return Math.Round(total / products.Count , 2);
         }
 
-        public List<Product> GetAllProducts(List<Product> products, double minimumPrice) {
+        public List<Product> GetAllProducts(List<Product> products, double minimumPrice)
+        {
             List<Product> toReturn = new List<Product>();
             foreach (Product product in products)
             {
@@ -62,6 +67,11 @@ namespace AlgoritmiekOefenen {
                     }
                 }
             }
+        }
+
+        public bool BubbleSort()
+        {
+
         }
 
         private void SwapInList(List<Product> list, int index)
