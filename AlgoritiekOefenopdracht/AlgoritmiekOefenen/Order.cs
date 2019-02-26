@@ -69,11 +69,6 @@ namespace AlgoritmiekOefenen
             }
         }
 
-        public bool BubbleSort()
-        {
-
-        }
-
         private void SwapInList(List<Product> list, int index)
         {
             Product temp;
