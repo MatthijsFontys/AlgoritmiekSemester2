@@ -1,0 +1,508 @@
+[1mdiff --git a/Circustrein/CircustreinCode/Circustrein/Builder.cs b/Circustrein/CircustreinCode/Circustrein/Builder.cs[m
+[1mindex 5df1de4..6544c35 100644[m
+[1m--- a/Circustrein/CircustreinCode/Circustrein/Builder.cs[m
+[1m+++ b/Circustrein/CircustreinCode/Circustrein/Builder.cs[m
+[36m@@ -7,20 +7,6 @@[m [musing System.Threading.Tasks;[m
+ [m
+ namespace Circustrein {[m
+     public static class Builder {[m
+[31m-        public static Animal CreateAnimal(AnimalSize size, AnimalDiet diet) {[m
+[31m-            return new Animal(size, diet);[m
+[31m-        }[m
+[31m-[m
+[31m-        public static AnimalValidator CreateAnimalValidator(int maxCapacity) {[m
+[31m-            return new AnimalValidator(maxCapacity);[m
+[31m-        }[m
+[31m-[m
+[31m-        public static Wagon CreateWagon(int maxCapacity = 10) {[m
+[31m-            return new Wagon(CreateAnimalValidator(maxCapacity), maxCapacity);[m
+[31m-        }[m
+[31m-[m
+[31m-        public static void AddWagon(Train train, int maxCapacity) {[m
+[31m-            train.AddWagon(CreateWagon(maxCapacity));[m
+[31m-        }[m
+[32m+[m[41m      [m
+     }[m
+ }[m
+[1mdiff --git a/Circustrein/CircustreinCode/Circustrein/Circustrein.csproj b/Circustrein/CircustreinCode/Circustrein/Circustrein.csproj[m
+[1mindex d987cc1..74ee719 100644[m
+[1m--- a/Circustrein/CircustreinCode/Circustrein/Circustrein.csproj[m
+[1m+++ b/Circustrein/CircustreinCode/Circustrein/Circustrein.csproj[m
+[36m@@ -46,6 +46,8 @@[m
+     <Reference Include="System.Xml" />[m
+   </ItemGroup>[m
+   <ItemGroup>[m
+[32m+[m[32m    <Compile Include="AlgorithmLogic\AnimalDivider.cs" />[m
+[32m+[m[32m    <Compile Include="AlgorithmLogic\AnimalWagonSorter.cs" />[m
+     <Compile Include="Enums.cs" />[m
+     <Compile Include="Builder.cs" />[m
+     <Compile Include="Form1.cs">[m
+[36m@@ -54,13 +56,9 @@[m
+     <Compile Include="Form1.Designer.cs">[m
+       <DependentUpon>Form1.cs</DependentUpon>[m
+     </Compile>[m
+[31m-    <Compile Include="HordeGenerator.cs" />[m
+[31m-    <Compile Include="Logic\Algorithm.cs" />[m
+[31m-    <Compile Include="Logic\Checker.cs" />[m
+[31m-    <Compile Include="Logic\Getter.cs" />[m
+[31m-    <Compile Include="Logic\Sorter.cs" />[m
+[31m-    <Compile Include="Objects\Animal.cs" />[m
+[31m-    <Compile Include="Logic\AnimalValidator.cs" />[m
+[32m+[m[32m    <Compile Include="Objects\Carnivore.cs" />[m
+[32m+[m[32m    <Compile Include="Objects\Herbivore.cs" />[m
+[32m+[m[32m    <Compile Include="Objects\IAnimal.cs" />[m
+     <Compile Include="Objects\Train.cs" />[m
+     <Compile Include="Program.cs" />[m
+     <Compile Include="Properties\AssemblyInfo.cs" />[m
+[1mdiff --git a/Circustrein/CircustreinCode/Circustrein/Enums.cs b/Circustrein/CircustreinCode/Circustrein/Enums.cs[m
+[1mindex bcd1ec2..c58dd52 100644[m
+[1m--- a/Circustrein/CircustreinCode/Circustrein/Enums.cs[m
+[1m+++ b/Circustrein/CircustreinCode/Circustrein/Enums.cs[m
+[36m@@ -8,15 +8,8 @@[m [mnamespace Circustrein {[m
+ [m
+     public enum AnimalSize[m
+     {[m
+[31m-        NoAnimal = 0,[m
+         Small = 1,[m
+         Medium = 3,[m
+         Large = 5[m
+     }[m
+[31m-[m
+[31m-    public enum AnimalDiet[m
+[31m-    {[m
+[31m-        Carnivore,[m
+[31m-        Herbivore[m
+[31m-    }[m
+ }[m
+[1mdiff --git a/Circustrein/CircustreinCode/Circustrein/HordeGenerator.cs b/Circustrein/CircustreinCode/Circustrein/HordeGenerator.cs[m
+[1mdeleted file mode 100644[m
+[1mindex f6887c5..0000000[m
+[1m--- a/Circustrein/CircustreinCode/Circustrein/HordeGenerator.cs[m
+[1m+++ /dev/null[m
+[36m@@ -1,31 +0,0 @@[m
+[31m-﻿using System;[m
+[31m-using System.CodeDom.Compiler;[m
+[31m-using System.Collections.Generic;[m
+[31m-using System.Linq;[m
+[31m-using System.Text;[m
+[31m-using System.Threading.Tasks;[m
+[31m-[m
+[31m-namespace Circustrein {[m
+[31m-    public static class HordeGenerator {[m
+[31m-/*[m
+[31m-        public static List<Animal> Generate(double percentageCarnivore, int small, int medium, int large) {[m
+[31m-            List<Animal> toReturn = new List<Animal>();[m
+[31m-            int carnivoreCount = ((int)(percentageCarnivore / 100) * amount);[m
+[31m-            return toReturn;[m
+[31m-        }[m
+[31m-[m
+[31m-        private List<Animal> GenerateSmallAnimals()[m
+[31m-        {[m
+[31m-[m
+[31m-        }[m
+[31m-[m
+[31m-        private List<Animal> GenerateMediumAnimals() {[m
+[31m-[m
+[31m-        }[m
+[31m-[m
+[31m-        private List<Animal> GenerateLargeAnimals() {[m
+[31m-[m
+[31m-        }[m
+[31m-        */[m
+[31m-    }[m
+[31m-}[m
+[1mdiff --git a/Circustrein/CircustreinCode/Circustrein/Logic/Algorithm.cs b/Circustrein/CircustreinCode/Circustrein/Logic/Algorithm.cs[m
+[1mdeleted file mode 100644[m
+[1mindex 43bc0e9..0000000[m
+[1m--- a/Circustrein/CircustreinCode/Circustrein/Logic/Algorithm.cs[m
+[1m+++ /dev/null[m
+[36m@@ -1,27 +0,0 @@[m
+[31m-﻿using System;[m
+[31m-using System.Collections.Generic;[m
+[31m-using System.Linq;[m
+[31m-using System.Text;[m
+[31m-using System.Threading.Tasks;[m
+[31m-using Circustrein.Logic;[m
+[31m-[m
+[31m-namespace Circustrein {[m
+[31m-    public class Algorithm[m
+[31m-    {[m
+[31m-        private Checker checker;[m
+[31m-        private Getter getter;[m
+[31m-        private Sorter sorter;[m
+[31m-[m
+[31m-        public Algorithm()[m
+[31m-        {[m
+[31m-            checker = new Checker();[m
+[31m-            getter = new Getter();[m
+[31m-            sorter = new Sorter();[m
+[31m-        }[m
+[31m-[m
+[31m-        public int Run()[m
+[31m-        {[m
+[31m-            return 0;[m
+[31m-        }[m
+[31m-    }[m
+[31m-}[m
+[1mdiff --git a/Circustrein/CircustreinCode/Circustrein/Logic/AnimalValidator.cs b/Circustrein/CircustreinCode/Circustrein/Logic/AnimalValidator.cs[m
+[1mdeleted file mode 100644[m
+[1mindex d661aad..0000000[m
+[1m--- a/Circustrein/CircustreinCode/Circustrein/Logic/AnimalValidator.cs[m
+[1m+++ /dev/null[m
+[36m@@ -1,42 +0,0 @@[m
+[31m-﻿using System;[m
+[31m-using System.Collections.Generic;[m
+[31m-using System.Linq;[m
+[31m-using System.Text;[m
+[31m-using System.Threading.Tasks;[m
+[31m-[m
+[31m-namespace Circustrein {[m
+[31m-    public class AnimalValidator {[m
+[31m-[m
+[31m-        public Animal Carnivore;[m
+[31m-        public readonly int MaxCapacity;[m
+[31m-        public int CurrentCapacity { get; private set; }[m
+[31m-[m
+[31m-        public AnimalValidator(int maxCapacity) {[m
+[31m-            MaxCapacity = maxCapacity;[m
+[31m-            CurrentCapacity = 0;[m
+[31m-            Carnivore = null;[m
+[31m-        }[m
+[31m-[m
+[31m-        public bool Validate(Animal animal) {[m
+[31m-            if (DoesAnimalFit(animal)) {[m
+[31m-                if (animal.Diet == AnimalDiet.Herbivore && (Carnivore == null || animal.Size > Carnivore.Size)) {[m
+[31m-                    return true;[m
+[31m-                }[m
+[31m-                else if (animal.Diet == AnimalDiet.Carnivore && Carnivore == null) {[m
+[31m-                    SetLargestCarnivore(animal);[m
+[31m-                    return true;[m
+[31m-                }[m
+[31m-            }[m
+[31m-            return false;[m
+[31m-        }[m
+[31m-[m
+[31m-        private void SetLargestCarnivore(Animal animal) {[m
+[31m-            if (animal.Diet == AnimalDiet.Carnivore)[m
+[31m-                Carnivore = animal;[m
+[31m-        }[m
+[31m-[m
+[31m-        private bool DoesAnimalFit(Animal animal) {[m
+[31m-            return (int)animal.Size + CurrentCapacity <= MaxCapacity;[m
+[31m-        }[m
+[31m-    }[m
+[31m-}[m
+[1mdiff --git a/Circustrein/CircustreinCode/Circustrein/Logic/Checker.cs b/Circustrein/CircustreinCode/Circustrein/Logic/Checker.cs[m
+[1mdeleted file mode 100644[m
+[1mindex cece3fe..0000000[m
+[1m--- a/Circustrein/CircustreinCode/Circustrein/Logic/Checker.cs[m
+[1m+++ /dev/null[m
+[36m@@ -1,22 +0,0 @@[m
+[31m-﻿using System;[m
+[31m-using System.Collections.Generic;[m
+[31m-using System.Linq;[m
+[31m-using System.Text;[m
+[31m-using System.Threading.Tasks;[m
+[31m-[m
+[31m-namespace Circustrein {[m
+[31m-    public class Checker {[m
+[31m-[m
+[31m-        public bool CanFillSmallCarnivore() {[m
+[31m-            return true;[m
+[31m-        }[m
+[31m-[m
+[31m-        public bool CanFillMediumCarnivore() {[m
+[31m-            return true;[m
+[31m-        }[m
+[31m-[m
+[31m-        public bool AvailableCarnivoreWagon(Sorter sorter, Train train) {[m
+[31m-            List<Wagon> sortedWagons = sorter.SortWagonsByAnimalDiet(train.AvailableWagons);[m
+[31m-        }[m
+[31m-    }[m
+[31m-}[m
+[1mdiff --git a/Circustrein/CircustreinCode/Circustrein/Logic/Getter.cs b/Circustrein/CircustreinCode/Circustrein/Logic/Getter.cs[m
+[1mdeleted file mode 100644[m
+[1mindex a6e6a7c..0000000[m
+[1m--- a/Circustrein/CircustreinCode/Circustrein/Logic/Getter.cs[m
+[1m+++ /dev/null[m
+[36m@@ -1,10 +0,0 @@[m
+[31m-﻿using System;[m
+[31m-using System.Collections.Generic;[m
+[31m-using System.Linq;[m
+[31m-using System.Text;[m
+[31m-using System.Threading.Tasks;[m
+[31m-[m
+[31m-namespace Circustrein.Logic {[m
+[31m-    public class Getter {[m
+[31m-    }[m
+[31m-}[m
+[1mdiff --git a/Circustrein/CircustreinCode/Circustrein/Logic/Sorter.cs b/Circustrein/CircustreinCode/Circustrein/Logic/Sorter.cs[m
+[1mdeleted file mode 100644[m
+[1mindex ae75cb2..0000000[m
+[1m--- a/Circustrein/CircustreinCode/Circustrein/Logic/Sorter.cs[m
+[1m+++ /dev/null[m
+[36m@@ -1,27 +0,0 @@[m
+[31m-﻿using System;[m
+[31m-using System.Collections.Generic;[m
+[31m-using System.Linq;[m
+[31m-using System.Text;[m
+[31m-using System.Threading.Tasks;[m
+[31m-[m
+[31m-namespace Circustrein {[m
+[31m-    public class Sorter {[m
+[31m-[m
+[31m-        public Sorter(){[m
+[31m-        }[m
+[31m-[m
+[31m-        public List<Animal> SortAnimalsBySize(List<Animal> animals) {[m
+[31m-            return animals.OrderBy((x) => x.Size).ToList();[m
+[31m-        }[m
+[31m-[m
+[31m-        public List<Animal> SortAnimalsByDiet(List<Animal> animals) {[m
+[31m-            return animals.OrderByDescending(x => x.Diet).ToList();[m
+[31m-        }[m
+[31m-[m
+[31m-        public List<Wagon> SortWagonsByAnimalDiet(List<Wagon> wagons) {[m
+[31m-            List<Wagon> toReturn = wagons.Where(x => x.Validator.Carnivore != null).OrderByDescending(x => x.Validator.Carnivore.Size).ToList();[m
+[31m-            toReturn.AddRange(wagons.Where(x => x.Validator.Carnivore == null).ToList());[m
+[31m-            return toReturn;[m
+[31m-        }[m
+[31m-    }[m
+[31m-}[m
+[1mdiff --git a/Circustrein/CircustreinCode/Circustrein/Objects/Animal.cs b/Circustrein/CircustreinCode/Circustrein/Objects/Animal.cs[m
+[1mdeleted file mode 100644[m
+[1mindex 40f145e..0000000[m
+[1m--- a/Circustrein/CircustreinCode/Circustrein/Objects/Animal.cs[m
+[1m+++ /dev/null[m
+[36m@@ -1,24 +0,0 @@[m
+[31m-﻿using System;[m
+[31m-using System.Collections.Generic;[m
+[31m-using System.Linq;[m
+[31m-using System.Text;[m
+[31m-using System.Threading.Tasks;[m
+[31m-[m
+[31m-namespace Circustrein {[m
+[31m-    public class Animal[m
+[31m-    {[m
+[31m-        public readonly AnimalSize Size;[m
+[31m-        public readonly AnimalDiet Diet;[m
+[31m-[m
+[31m-        public Animal(AnimalSize size, AnimalDiet diet)[m
+[31m-        {[m
+[31m-            Size = size;[m
+[31m-            Diet = diet;[m
+[31m-        }[m
+[31m-[m
+[31m-        public override string ToString()[m
+[31m-        {[m
+[31m-            return Size + " " + Diet;[m
+[31m-        }[m
+[31m-    }[m
+[31m-}[m
+[1mdiff --git a/Circustrein/CircustreinCode/Circustrein/Objects/Train.cs b/Circustrein/CircustreinCode/Circustrein/Objects/Train.cs[m
+[1mindex b13455d..91c266a 100644[m
+[1m--- a/Circustrein/CircustreinCode/Circustrein/Objects/Train.cs[m
+[1m+++ b/Circustrein/CircustreinCode/Circustrein/Objects/Train.cs[m
+[36m@@ -6,26 +6,16 @@[m [musing System.Text;[m
+ using System.Threading.Tasks;[m
+ [m
+ namespace Circustrein {[m
+[31m-    public class Train[m
+[31m-    {[m
+[31m-        private List<Wagon> availableWagons;[m
+[31m-        private List<Wagon> sortedWagons;[m
+[31m-[m
+[31m-        public IEnumerable<Wagon> AvailableWagons {[m
+[31m-            get { return availableWagons.AsReadOnly(); }[m
+[32m+[m[32m    class Train {[m
+[32m+[m[32m        private List<Wagon> wagons;[m
+[32m+[m[32m        public ReadOnlyCollection<Wagon> Wagons {[m
+[32m+[m[32m            get { return wagons.AsReadOnly(); }[m
+         }[m
+ [m
+[31m-        public ReadOnlyCollection<Wagon> SortedWagons {[m
+[31m-            get { return sortedWagons.AsReadOnly(); }[m
+[32m+[m[32m        public void AddWagon(Wagon wagon) {[m
+[32m+[m[32m            wagons.Add(wagon);[m
+         }[m
+ [m
+[31m-        public Train() {[m
+[31m-            availableWagons = new List<Wagon>();[m
+[31m-            sortedWagons = new List<Wagon>();[m
+[31m-        }[m
+ [m
+[31m-        public void AddWagon(Wagon wagon) {[m
+[31m-            availableWagons.Add(wagon);[m
+[31m-        }[m
+     }[m
+ }[m
+[1mdiff --git a/Circustrein/CircustreinCode/Circustrein/Objects/Wagon.cs b/Circustrein/CircustreinCode/Circustrein/Objects/Wagon.cs[m
+[1mindex 6bd8142..e1a7a74 100644[m
+[1m--- a/Circustrein/CircustreinCode/Circustrein/Objects/Wagon.cs[m
+[1m+++ b/Circustrein/CircustreinCode/Circustrein/Objects/Wagon.cs[m
+[36m@@ -2,40 +2,37 @@[m
+ using System.Collections.Generic;[m
+ using System.Collections.ObjectModel;[m
+ using System.Linq;[m
+[31m-using System.Reflection;[m
+[31m-using System.Security.Cryptography.X509Certificates;[m
+ using System.Text;[m
+ using System.Threading.Tasks;[m
+ [m
+ namespace Circustrein {[m
+[31m-    public class Wagon {[m
+[31m-        private List<Animal> animals;[m
+[31m-        public static int Count { get; private set; }[m
+[32m+[m[32m    class Wagon {[m
+[32m+[m[32m        private List<IAnimal> animals;[m
+ [m
+[31m-        public AnimalValidator Validator;[m
+[32m+[m[32m        public ReadOnlyCollection<IAnimal> Animals {[m
+[32m+[m[32m            get { return animals.AsReadOnly(); }[m
+[32m+[m[32m        }[m
+[32m+[m[32m        public readonly int MaxCapacity;[m
+[32m+[m[32m        public int CurrentCapacity { get; private set; }[m
+[32m+[m[32m        public IAnimal BiggestCarnivore;[m
+ [m
+[31m-        public List<Animal> /*ReadOnlyCollection<Animal>*/ Animals {[m
+[31m-            get { return animals/*.AsReadOnly()*/; }[m
+[31m-        } [m
+[32m+[m[32m        public Wagon(int maxCapacity = 10) {[m
+[32m+[m[32m            MaxCapacity = maxCapacity;[m
+[32m+[m[32m            BiggestCarnivore = null;[m
+[32m+[m[32m            CurrentCapacity = 0;[m
+[32m+[m[32m        }[m
+ [m
+[31m-        public Wagon(AnimalValidator animalValidator, int maxCapacity) {[m
+[31m-            Count++;[m
+[31m-            animals = new List<Animal>();[m
+[31m-            Validator = animalValidator;[m
+[32m+[m[32m        public bool AddAnimal(IAnimal animal) {[m
+[32m+[m[32m            return true;[m
+         }[m
+ [m
+[31m-        public bool AddAnimal(Animal animal) {[m
+[31m-            if (Validator.Validate(animal))[m
+[31m-            {[m
+[31m-                animals.Add(animal);[m
+[31m-                return true;[m
+[31m-            }[m
+[31m-            else[m
+[31m-                return false;[m
+[32m+[m[32m        private bool doesAnimalFit() {[m
+[32m+[m[32m            return true;[m
+         }[m
+ [m
+[31m-        public override string ToString() {[m
+[31m-            return "Wagon " + Count;[m
+[32m+[m[32m        private bool doesAnimalGetEaten(List<IAnimal> hosileAnimals) {[m
+[32m+[m[32m            return true;[m
+         }[m
+[32m+[m
+     }[m
+[31m-}[m
+\ No newline at end of file[m
+[32m+[m[32m}[m
+[1mdiff --git a/Circustrein/CircustreinCode/CircustreinCode.Test/CircustreinCode.Test.csproj b/Circustrein/CircustreinCode/CircustreinCode.Test/CircustreinCode.Test.csproj[m
+[1mindex fc54ee0..1a0ec45 100644[m
+[1m--- a/Circustrein/CircustreinCode/CircustreinCode.Test/CircustreinCode.Test.csproj[m
+[1m+++ b/Circustrein/CircustreinCode/CircustreinCode.Test/CircustreinCode.Test.csproj[m
+[36m@@ -50,7 +50,6 @@[m
+   </ItemGroup>[m
+   <ItemGroup>[m
+     <Compile Include="Properties\AssemblyInfo.cs" />[m
+[31m-    <Compile Include="SorterTests.cs" />[m
+   </ItemGroup>[m
+   <ItemGroup>[m
+     <None Include="packages.config" />[m
+[36m@@ -61,9 +60,7 @@[m
+       <Name>Circustrein</Name>[m
+     </ProjectReference>[m
+   </ItemGroup>[m
+[31m-  <ItemGroup>[m
+[31m-    <Folder Include="LogicTests\" />[m
+[31m-  </ItemGroup>[m
+[32m+[m[32m  <ItemGroup />[m
+   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />[m
+   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />[m
+   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">[m
+[1mdiff --git a/Circustrein/CircustreinCode/CircustreinCode.Test/SorterTests.cs b/Circustrein/CircustreinCode/CircustreinCode.Test/SorterTests.cs[m
+[1mdeleted file mode 100644[m
+[1mindex d1ba0e4..0000000[m
+[1m--- a/Circustrein/CircustreinCode/CircustreinCode.Test/SorterTests.cs[m
+[1m+++ /dev/null[m
+[36m@@ -1,56 +0,0 @@[m
+[31m-﻿using System;[m
+[31m-using Microsoft.VisualStudio.TestTools.UnitTesting;[m
+[31m-using Circustrein;[m
+[31m-using System.Collections.Generic;[m
+[31m-[m
+[31m-namespace CircustreinCode.Test {[m
+[31m-    [TestClass][m
+[31m-    public class SorterTests {[m
+[31m-        Sorter sorter;[m
+[31m-        [TestInitialize][m
+[31m-        public void Setup() {[m
+[31m-            sorter = new Sorter();[m
+[31m-        }[m
+[31m-[m
+[31m-[m
+[31m-        [TestMethod][m
+[31m-        public void SortAnimalsBySize_Unsorted_DifferentDiet() {[m
+[31m-            List<Animal> actual = new List<Animal> {[m
+[31m-                new Animal(AnimalSize.Small, AnimalDiet.Carnivore),[m
+[31m-                new Animal(AnimalSize.Medium, AnimalDiet.Herbivore),[m
+[31m-                new Animal(AnimalSize.Large, AnimalDiet.Herbivore),[m
+[31m-                new Animal(AnimalSize.Small, AnimalDiet.Herbivore)[m
+[31m-            };[m
+[31m-[m
+[31m-            actual = sorter.SortAnimalsBySize(actual);[m
+[31m-[m
+[31m-            int size = 0;[m
+[31m-[m
+[31m-            foreach (Animal animal in actual) {[m
+[31m-                Console.WriteLine(animal.Size);[m
+[31m-                int animalSize = (int)animal.Size;[m
+[31m-                Assert.IsTrue(animalSize >= size);[m
+[31m-                size = animalSize;[m
+[31m-            }[m
+[31m-        }[m
+[31m-[m
+[31m-        [TestMethod][m
+[31m-        public void SortWagonsByAnimalDiet_Unsorted_DifferentDiet() {[m
+[31m-           List<Wagon> wagons = new List<Wagon> {[m
+[31m-                Builder.CreateWagon(),[m
+[31m-                Builder.CreateWagon(),[m
+[31m-                Builder.CreateWagon()[m
+[31m-            };[m
+[31m-[m
+[31m-            wagons[0].AddAnimal(new Animal(AnimalSize.Small, AnimalDiet.Herbivore));[m
+[31m-            wagons[1].AddAnimal(new Animal(AnimalSize.Large, AnimalDiet.Carnivore));[m
+[31m-            wagons[2].AddAnimal(new Animal(AnimalSize.Small, AnimalDiet.Carnivore));[m
+[31m-[m
+[31m-            wagons = sorter.SortWagonsByAnimalDiet(wagons);[m
+[31m-            Assert.IsTrue(wagons[0].Animals[0].Diet == AnimalDiet.Carnivore && wagons[0].Animals[0].Size == AnimalSize.Large);[m
+[31m-            Assert.IsTrue(wagons[1].Animals[0].Diet == AnimalDiet.Carnivore);[m
+[31m-            Assert.IsTrue(wagons[2].Animals[0].Diet == AnimalDiet.Herbivore);[m
+[31m-[m
+[31m-        }[m
+[31m-    }[m
+[31m-}[m
+[1mdiff --git a/Circustrein/Documentatie/CircustreinKlassendiagramMakkelijk b/Circustrein/Documentatie/CircustreinKlassendiagramMakkelijk[m
+[1mindex 4db26f1..d1b0f39 100644[m
+[1m--- a/Circustrein/Documentatie/CircustreinKlassendiagramMakkelijk[m
+[1m+++ b/Circustrein/Documentatie/CircustreinKlassendiagramMakkelijk[m
+[36m@@ -1 +1 @@[m
+[31m-<mxfile modified="2019-02-28T16:28:50.219Z" host="www.draw.io" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/8.8.0 Chrome/61.0.3163.100 Electron/2.0.2 Safari/537.36" etag="XO6WbVm4NQ3OZYYJzrTi" version="10.2.9-1" type="device"><diagram id="UVYx3vDyrPDeI06AiTOg" name="Page-1">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</diagram></mxfile>[m
+\ No newline at end of file[m
+[32m+[m[32m<mxfile modified="2019-02-28T19:36:55.726Z" host="www.draw.io" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/8.8.0 Chrome/61.0.3163.100 Electron/2.0.2 Safari/537.36" etag="EIPTxotLkVqZe4m05fKY" version="10.2.9-1" type="device"><diagram id="UVYx3vDyrPDeI06AiTOg" name="Page-1">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</diagram></mxfile>[m
+\ No newline at end of file[m
+[1mdiff --git a/Circustrein/Documentatie/flowchartCircusTrein - Makkelijk b/Circustrein/Documentatie/flowchartCircusTrein - Makkelijk[m
+[1mindex e4a6a18..29a6656 100644[m
+[1m--- a/Circustrein/Documentatie/flowchartCircusTrein - Makkelijk[m	
+[1m+++ b/Circustrein/Documentatie/flowchartCircusTrein - Makkelijk[m	
+[36m@@ -1 +1 @@[m
+[31m-<mxfile modified="2019-02-28T08:21:44.895Z" host="www.draw.io" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/8.8.0 Chrome/61.0.3163.100 Electron/2.0.2 Safari/537.36" etag="QhVYohuiOaFoDzGkG0ZD" version="10.2.8" type="device"><diagram id="YLdtX6lZnBRNKb16ynMl" name="Page-1">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</diagram></mxfile>[m
+\ No newline at end of file[m
+[32m+[m[32m<mxfile modified="2019-02-28T19:17:21.242Z" host="www.draw.io" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/8.8.0 Chrome/61.0.3163.100 Electron/2.0.2 Safari/537.36" etag="PTGddWZBPvP3RDhrEtHr" version="10.2.9-1" type="device"><diagram id="YLdtX6lZnBRNKb16ynMl" name="Page-1">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</diagram></mxfile>[m
+\ No newline at end of file[m

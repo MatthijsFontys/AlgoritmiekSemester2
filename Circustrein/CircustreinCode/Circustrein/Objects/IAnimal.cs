@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Circustrein.Logic {
-    public class Getter {
+namespace Circustrein {
+    interface IAnimal {
+        AnimalSize Size { get; }
+        List<IAnimal> GetHostileAnimals();
     }
 }

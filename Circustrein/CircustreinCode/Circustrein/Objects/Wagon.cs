@@ -2,40 +2,37 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Circustrein {
-    public class Wagon {
-        private List<Animal> animals;
-        public static int Count { get; private set; }
+    class Wagon {
+        private List<IAnimal> animals;
 
-        public AnimalValidator Validator;
+        public ReadOnlyCollection<IAnimal> Animals {
+            get { return animals.AsReadOnly(); }
+        }
+        public readonly int MaxCapacity;
+        public int CurrentCapacity { get; private set; }
+        public IAnimal BiggestCarnivore;
 
-        public List<Animal> /*ReadOnlyCollection<Animal>*/ Animals {
-            get { return animals/*.AsReadOnly()*/; }
-        } 
-
-        public Wagon(AnimalValidator animalValidator, int maxCapacity) {
-            Count++;
-            animals = new List<Animal>();
-            Validator = animalValidator;
+        public Wagon(int maxCapacity = 10) {
+            MaxCapacity = maxCapacity;
+            BiggestCarnivore = null;
+            CurrentCapacity = 0;
         }
 
-        public bool AddAnimal(Animal animal) {
-            if (Validator.Validate(animal))
-            {
-                animals.Add(animal);
-                return true;
-            }
-            else
-                return false;
+        public bool AddAnimal(IAnimal animal) {
+            return true;
         }
 
-        public override string ToString() {
-            return "Wagon " + Count;
+        private bool doesAnimalFit() {
+            return true;
         }
+
+        private bool doesAnimalGetEaten(List<IAnimal> hosileAnimals) {
+            return true;
+        }
+
     }
 }

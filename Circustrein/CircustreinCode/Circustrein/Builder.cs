@@ -7,20 +7,6 @@ using System.Threading.Tasks;
 
 namespace Circustrein {
     public static class Builder {
-        public static Animal CreateAnimal(AnimalSize size, AnimalDiet diet) {
-            return new Animal(size, diet);
-        }
-
-        public static AnimalValidator CreateAnimalValidator(int maxCapacity) {
-            return new AnimalValidator(maxCapacity);
-        }
-
-        public static Wagon CreateWagon(int maxCapacity = 10) {
-            return new Wagon(CreateAnimalValidator(maxCapacity), maxCapacity);
-        }
-
-        public static void AddWagon(Train train, int maxCapacity) {
-            train.AddWagon(CreateWagon(maxCapacity));
-        }
+      
     }
 }
