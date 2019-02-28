@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Linq;
 
 namespace Circustrein {
     public class Sorter {
@@ -20,7 +19,9 @@ namespace Circustrein {
         }
 
         public List<Wagon> SortWagonsByAnimalDiet(List<Wagon> wagons) {
-            return wagons.OrderByDescending(x => x).ToList();
+            List<Wagon> toReturn = wagons.Where(x => x.Validator.Carnivore != null).OrderByDescending(x => x.Validator.Carnivore.Size).ToList();
+            toReturn.AddRange(wagons.Where(x => x.Validator.Carnivore == null).ToList());
+            return toReturn;
         }
     }
 }

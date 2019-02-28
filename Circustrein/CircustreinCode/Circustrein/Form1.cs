@@ -21,7 +21,7 @@ namespace Circustrein {
             AnimalDiet diet = getAnimalDietFromDropdown();
             int animalCount = (int)NumAmount.Value;
             for (int i = 0; i < animalCount; i++)
-                LbAnimals.Items.Add(Factory.CreateAnimal(size, diet));
+                LbAnimals.Items.Add(Builder.CreateAnimal(size, diet));
         }
 
 

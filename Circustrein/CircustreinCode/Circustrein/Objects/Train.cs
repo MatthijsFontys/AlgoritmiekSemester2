@@ -11,16 +11,20 @@ namespace Circustrein {
         private List<Wagon> availableWagons;
         private List<Wagon> sortedWagons;
 
-        public ReadOnlyCollection<Wagon> AvailableWagons
-        {
+        public IEnumerable<Wagon> AvailableWagons {
             get { return availableWagons.AsReadOnly(); }
         }
-        public ReadOnlyCollection<Wagon> SortedWagons{
+
+        public ReadOnlyCollection<Wagon> SortedWagons {
             get { return sortedWagons.AsReadOnly(); }
         }
 
-        public void AddWagon(Wagon wagon)
-        {
+        public Train() {
+            availableWagons = new List<Wagon>();
+            sortedWagons = new List<Wagon>();
+        }
+
+        public void AddWagon(Wagon wagon) {
             availableWagons.Add(wagon);
         }
     }

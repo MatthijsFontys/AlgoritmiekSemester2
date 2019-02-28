@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Circustrein {
-    public static class Factory {
+    public static class Builder {
         public static Animal CreateAnimal(AnimalSize size, AnimalDiet diet) {
             return new Animal(size, diet);
         }
@@ -15,7 +15,7 @@ namespace Circustrein {
             return new AnimalValidator(maxCapacity);
         }
 
-        public static Wagon CreateWagon(int maxCapacity) {
+        public static Wagon CreateWagon(int maxCapacity = 10) {
             return new Wagon(CreateAnimalValidator(maxCapacity), maxCapacity);
         }
 

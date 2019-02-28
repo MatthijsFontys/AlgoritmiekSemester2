@@ -19,7 +19,7 @@ namespace Circustrein {
 
         public bool Validate(Animal animal) {
             if (DoesAnimalFit(animal)) {
-                if (animal.Diet == AnimalDiet.Herbivore && animal.Size > Carnivore.Size) {
+                if (animal.Diet == AnimalDiet.Herbivore && (Carnivore == null || animal.Size > Carnivore.Size)) {
                     return true;
                 }
                 else if (animal.Diet == AnimalDiet.Carnivore && Carnivore == null) {
@@ -36,9 +36,7 @@ namespace Circustrein {
         }
 
         private bool DoesAnimalFit(Animal animal) {
-            return (int)animal.Size + CurrentCapacity >= MaxCapacity;
+            return (int)animal.Size + CurrentCapacity <= MaxCapacity;
         }
-
-
     }
 }
