@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Circustrein {
-    interface IAnimal {
+    public interface IAnimal {
         AnimalSize Size { get; }
-        List<IAnimal> GetHostileAnimals();
+        bool IsSafeInWagon(Wagon wagon);
+        int Weight { get; }
     }
 }

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Circustrein {
-    class Wagon {
+    public class Wagon {
         private List<IAnimal> animals;
 
         public ReadOnlyCollection<IAnimal> Animals {
@@ -15,23 +15,39 @@ namespace Circustrein {
         public readonly int MaxCapacity;
         public int CurrentCapacity { get; private set; }
         public IAnimal BiggestCarnivore;
+        
 
         public Wagon(int maxCapacity = 10) {
             MaxCapacity = maxCapacity;
             BiggestCarnivore = null;
             CurrentCapacity = 0;
+            animals = new List<IAnimal>();
         }
 
         public bool AddAnimal(IAnimal animal) {
-            return true;
+            if (doesAnimalFit(animal) && animal.IsSafeInWagon(this)) {
+                animals.Add(animal);
+                setBiggestCarnivore(animal);
+                CurrentCapacity += animal.Weight;
+                return true;
+            }
+            else
+                return false;
         }
 
-        private bool doesAnimalFit() {
-            return true;
+        public bool IsSmallCarnivoreWagon() {
+            return (BiggestCarnivore.Size == AnimalSize.Small &&
+                CurrentCapacity == (int)AnimalSize.Small);
         }
 
-        private bool doesAnimalGetEaten(List<IAnimal> hosileAnimals) {
-            return true;
+        private bool doesAnimalFit(IAnimal animal) {
+            return animal.Weight + CurrentCapacity <= MaxCapacity;
+        }
+
+        private void setBiggestCarnivore(IAnimal animal) {
+            if (animal is Carnivore) {
+                BiggestCarnivore = animal;
+            }
         }
 
     }

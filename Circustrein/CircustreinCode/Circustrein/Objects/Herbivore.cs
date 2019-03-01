@@ -6,10 +6,24 @@ using System.Threading.Tasks;
 
 namespace Circustrein {
     public class Herbivore : IAnimal {
-        public AnimalSize Size => throw new NotImplementedException();
+        private readonly AnimalSize size;
+        public AnimalSize Size {
+            get { return size; }
+        }
+        public int Weight {
+            get { return (int)Size; }
+        }
 
-        public List<IAnimal> GetHostileAnimals() {
-            throw new NotImplementedException();
+        public Herbivore(AnimalSize size) {
+            this.size = size;
+        }
+
+        public bool IsSafeInWagon(Wagon wagon) {
+            foreach (IAnimal animal in wagon.Animals) {
+                if (animal.Size >= size && animal is Carnivore)
+                    return false;
+            }
+            return true;
         }
     }
 }

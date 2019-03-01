@@ -6,15 +6,22 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Circustrein {
-    class Train {
+    public class Train {
         private List<Wagon> wagons;
         public ReadOnlyCollection<Wagon> Wagons {
             get { return wagons.AsReadOnly(); }
         }
+        public int WagonCount {
+            get { return wagons.Count; }
+        }
+
+        public Train() { }
 
         public void AddWagon(Wagon wagon) {
             wagons.Add(wagon);
         }
+
+
 
 
     }

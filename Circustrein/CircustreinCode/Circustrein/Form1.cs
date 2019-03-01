@@ -17,41 +17,18 @@ namespace Circustrein {
         // Eventhandlers
         private void BtnAddAnimals_Click(object sender, EventArgs e)
         {
-            AnimalSize size = getAnimalSizeFromDropdown();
-            AnimalDiet diet = getAnimalDietFromDropdown();
-            int animalCount = (int)NumAmount.Value;
-            for (int i = 0; i < animalCount; i++)
-                LbAnimals.Items.Add(Builder.CreateAnimal(size, diet));
         }
 
 
-        private AnimalSize getAnimalSizeFromDropdown()
+        /*private AnimalSize getAnimalSizeFromDropdown()
         {
-            switch (CbSize.Text.ToLower())
-            {
-                case "small":
-                    return AnimalSize.Small;
-                case "medium":
-                    return AnimalSize.Medium;
-                case "large":
-                    return AnimalSize.Large;
-                default:
-                    return AnimalSize.Small;
-            }
-        }
+        }*/
 
-        private AnimalDiet getAnimalDietFromDropdown() {
-            switch (CbDiet.Text.ToLower()) {
-                case "carnivore":
-                    return AnimalDiet.Carnivore;
-                case "herbivore":
-                    return AnimalDiet.Herbivore;
-                default:
-                    return AnimalDiet.Herbivore;
-            }
-        }
+        /*private AnimalDiet getAnimalDietFromDropdown() {
+        }*/
 
         private void BtnDivideAnimals_Click(object sender, EventArgs e) {
+
         }
     }
 }

@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Circustrein.AlgorithmLogic {
-    class AnimalDivider {
+namespace Circustrein {
+    public class AnimalDivider {
         private List<IAnimal> animals;
         public Train train { get; private set; } // How to name this property ?
         public ReadOnlyCollection<IAnimal> Animals {
@@ -18,18 +18,32 @@ namespace Circustrein.AlgorithmLogic {
             this.animals = animals;
         }
 
-        public int DivideAnimals() {
-            return 0;
+        public void DivideAnimals() {
+            divideCarnivores();
+            divideHerbivores();
         }
 
-        private IAnimal getLargestAnimal() {
-            return new Carnivore();
+        private void divideCarnivores() {
+            foreach (IAnimal animal in animals) {
+                if (animal is Carnivore) {
+                    train.AddWagon(Builder.CreateWagonWithAnimal(animal));
+                    animals.Remove(animal);
+                }
+            }
         }
 
-        private void divideCarnivores() { }
+        private void divideHerbivores() {
+            foreach (Wagon wagon in train.Wagons) {
+                if(wagon.IsSmallCarnivoreWagon())
+                    fillSmallCarnivoreWagon(wagon);
+            }
+        }
 
-        private void divideHerbivores() { }
+        private void fillSmallCarnivoreWagon(Wagon wagon) {
+        }
 
-        private void fillSmallCarnivoreWagon() { }
+        //private bool doneDividing() {
+        //    return animals.Count > 0;
+        //}
     }
 }

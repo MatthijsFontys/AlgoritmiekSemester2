@@ -4,12 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Circustrein. {
+namespace Circustrein {
     public class Carnivore : IAnimal {
-        public AnimalSize Size => throw new NotImplementedException();
+        private readonly AnimalSize size;
+        public AnimalSize Size {
+            get { return size; }
+        }
 
-        public List<IAnimal> GetHostileAnimals() {
-            throw new NotImplementedException();
+        public Carnivore(AnimalSize size) {
+            this.size = size;
+        }
+
+        public bool IsSafeInWagon(Wagon wagon) {
+            foreach (IAnimal animal in wagon.Animals) {
+                if (animal is Carnivore)
+                    return false;
+            }
+            return true;
         }
     }
 }
