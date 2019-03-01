@@ -44,7 +44,6 @@ namespace CircustreinCode.Test {
                 wagons[0].Animals[0] is Carnivore);
             Assert.IsTrue(wagons[1].Animals[0] is Carnivore);
             Assert.IsTrue(wagons[2].Animals[0] is Herbivore);
-
         }
     }
 }

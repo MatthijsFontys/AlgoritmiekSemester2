@@ -11,6 +11,10 @@ namespace Circustrein {
             get { return size; }
         }
 
+        public int Weight {
+            get { return (int)size; }
+        }
+
         public Carnivore(AnimalSize size) {
             this.size = size;
         }
@@ -21,6 +25,10 @@ namespace Circustrein {
                     return false;
             }
             return true;
+        }
+
+        public override string ToString() {
+            return "C" + Weight;
         }
     }
 }

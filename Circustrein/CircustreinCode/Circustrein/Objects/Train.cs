@@ -15,10 +15,16 @@ namespace Circustrein {
             get { return wagons.Count; }
         }
 
-        public Train() { }
+        public Train() {
+            wagons = new List<Wagon>();
+        }
 
         public void AddWagon(Wagon wagon) {
             wagons.Add(wagon);
+        }
+
+        public void SortWagons() {
+            wagons = AnimalWagonSorter.SortWagonsByCarnivoreSizeDescending(wagons);
         }
 
 

@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 namespace Circustrein {
     public class Wagon {
         private List<IAnimal> animals;
+        private static int count = 0;
+        private int wagonNumber;
 
         public ReadOnlyCollection<IAnimal> Animals {
             get { return animals.AsReadOnly(); }
@@ -18,6 +20,8 @@ namespace Circustrein {
         
 
         public Wagon(int maxCapacity = 10) {
+            count++;
+            wagonNumber = count;
             MaxCapacity = maxCapacity;
             BiggestCarnivore = null;
             CurrentCapacity = 0;
@@ -35,8 +39,14 @@ namespace Circustrein {
                 return false;
         }
 
+        public void AddAnimals(List<IAnimal> animalsToAdd) {
+            foreach (IAnimal animal in animalsToAdd) {
+                AddAnimal(animal);
+            }
+        }
+
         public bool IsSmallCarnivoreWagon() {
-            return (BiggestCarnivore.Size == AnimalSize.Small &&
+            return (BiggestCarnivore != null && BiggestCarnivore.Size == AnimalSize.Small &&
                 CurrentCapacity == (int)AnimalSize.Small);
         }
 
@@ -48,6 +58,10 @@ namespace Circustrein {
             if (animal is Carnivore) {
                 BiggestCarnivore = animal;
             }
+        }
+
+        public override string ToString() {
+            return "Wagon " + wagonNumber;
         }
 
     }

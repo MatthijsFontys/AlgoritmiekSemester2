@@ -20,10 +20,14 @@ namespace Circustrein {
 
         public bool IsSafeInWagon(Wagon wagon) {
             foreach (IAnimal animal in wagon.Animals) {
-                if (animal.Size >= size && animal is Carnivore)
+                if (animal.Weight >= Weight && animal is Carnivore)
                     return false;
             }
             return true;
+        }
+
+        public override string ToString() {
+            return "H" + Weight;
         }
     }
 }
