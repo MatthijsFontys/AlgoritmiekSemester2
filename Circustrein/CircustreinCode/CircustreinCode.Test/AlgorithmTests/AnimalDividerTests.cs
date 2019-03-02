@@ -11,70 +11,80 @@ namespace CircustreinCode.Test.AlgorithmTests {
             divider = new AnimalDivider(Builder.CreateTrain(), animals);
         }
 
-        [TestMethod]
-         public void DivideAnimalsCarnivoresOnly_Succes() {
 
-            int expected = 3;
-            int actual;
-
-            Setup(
-                new List<IAnimal>
-                {
-                    Builder.CreateCarnivore(AnimalSize.Large),
-                    Builder.CreateCarnivore(AnimalSize.Medium),
-                    Builder.CreateCarnivore(AnimalSize.Small),
-                });
-
-            divider.DivideAnimals();
-            actual = divider.train.WagonCount;
-            Assert.AreEqual(expected, actual);       
-        }
-
-        [TestMethod]
-        public void DivideAnimalsCarnivoreAndHerbivore_Succes() {
-
-            int expected = 3;
-            int actual;
-
-            Setup(
-                new List<IAnimal>
-                {
-                    Builder.CreateCarnivore(AnimalSize.Large),
-                    Builder.CreateCarnivore(AnimalSize.Medium),
-                    Builder.CreateHerbivore(AnimalSize.Large),
-                    Builder.CreateCarnivore(AnimalSize.Small),
-                });
-
-            divider.DivideAnimals();
-            actual = divider.train.WagonCount;
-            Assert.AreEqual(expected, actual);
-
-        }
 
         // My edge cases
+
+        /*
+        c1 h3 h3 h3 h5 h1 h1 h1 h1 h1
+        goed = c1 h3 h3 h3 | h5 h1 h1 h1 h1 h1
+        fout = c1 h5 h3 | h3 h3 h1 h1 h1 h1 | h1
+        */
         [TestMethod]
-        public void EdgeCase1() {
+        public void FillSmallCarnivoreWithMediumHerbivoreFirst() {
 
             int expected = 2;
             int actual;
 
             Setup(
-                new List<IAnimal>
-                {
-                    Builder.CreateHerbivore(AnimalSize.Large),
-                    Builder.CreateHerbivore(AnimalSize.Medium),
-                    Builder.CreateHerbivore(AnimalSize.Medium),
-                    Builder.CreateHerbivore(AnimalSize.Medium),
-                    Builder.CreateCarnivore(AnimalSize.Small),
-                    Builder.CreateHerbivore(AnimalSize.Small),
-                    Builder.CreateHerbivore(AnimalSize.Small),
-                    Builder.CreateHerbivore(AnimalSize.Small),
-                    Builder.CreateHerbivore(AnimalSize.Small),
-                    Builder.CreateHerbivore(AnimalSize.Small)
-                });
+                HordeCreator.CreateHorde(
+                    new Horde('h', AnimalSize.Small, 5),
+                    new Horde('h', AnimalSize.Medium, 3),
+                    new Horde('h', AnimalSize.Large, 1),
+                    new Horde('c', AnimalSize.Small, 1))
+            );
 
             divider.DivideAnimals();
-            actual = divider.train.WagonCount;
+            actual = divider.AnimalTrain.Wagons.Count;
+            Assert.AreEqual(expected, actual);
+        }
+
+
+        /*
+         c1 h3 h3 h5 h5 h1 h1 
+        goed = c1 h5 h3 | h5 h3 h1 h1
+        fout = c1 h3 h3 | h5 h5 | h1 h1
+        */
+
+        [TestMethod]
+        public void FillSmallCarnivoreWithBigHerbivoreFirst() {
+            int expected = 2;
+            int actual;
+
+            Setup(
+                HordeCreator.CreateHorde(
+                    new Horde('h', AnimalSize.Small, 2),
+                    new Horde('h', AnimalSize.Medium, 2),
+                    new Horde('h', AnimalSize.Large, 2),
+                    new Horde('c', AnimalSize.Small, 1))
+            );
+
+            divider.DivideAnimals();
+            actual = divider.AnimalTrain.Wagons.Count;
+            Assert.AreEqual(expected, actual);
+        }
+
+        /*
+        (   H1 x10) (H3 X2) H5 C3 C1
+        Goed = C3 H5 | H3 H3 C1 | H1x 10
+        Fout = C3 | C1 H5 H3 | H1 x 10 | H3
+        */
+        [TestMethod]
+        public void FillMediumCarnivoreBeforeSmallCarnivore() {
+            int expected = 3;
+            int actual;
+
+            Setup(
+                HordeCreator.CreateHorde(
+                    new Horde('h', AnimalSize.Small, 10),
+                    new Horde('h', AnimalSize.Medium, 2),
+                    new Horde('h', AnimalSize.Large, 1),
+                    new Horde('c', AnimalSize.Small, 1),
+                    new Horde('c', AnimalSize.Medium, 1))
+            );
+
+            divider.DivideAnimals();
+            actual = divider.AnimalTrain.Wagons.Count;
             Assert.AreEqual(expected, actual);
         }
 
@@ -86,21 +96,14 @@ namespace CircustreinCode.Test.AlgorithmTests {
             int actual;
 
             Setup(
-                new List<IAnimal>
-                {
-                    Builder.CreateHerbivore(AnimalSize.Small),
-                    Builder.CreateHerbivore(AnimalSize.Small),
-                    Builder.CreateHerbivore(AnimalSize.Small),
-                    Builder.CreateHerbivore(AnimalSize.Small),
-                    Builder.CreateHerbivore(AnimalSize.Small),
-                    Builder.CreateHerbivore(AnimalSize.Medium),
-                    Builder.CreateHerbivore(AnimalSize.Medium),
-                    Builder.CreateHerbivore(AnimalSize.Medium),
-                    Builder.CreateHerbivore(AnimalSize.Large),
-                });
+                    HordeCreator.CreateHorde(
+                    new Horde('h', AnimalSize.Small, 5),
+                    new Horde('h', AnimalSize.Medium, 3),
+                    new Horde('h', AnimalSize.Large, 1))
+                );
 
             divider.DivideAnimals();
-            actual = divider.train.WagonCount;
+            actual = divider.AnimalTrain.Wagons.Count;
             Assert.AreEqual(expected, actual);
 
         }
@@ -112,21 +115,15 @@ namespace CircustreinCode.Test.AlgorithmTests {
             int actual;
 
             Setup(
-                new List<IAnimal>
-                {
-                    Builder.CreateHerbivore(AnimalSize.Large),
-                    Builder.CreateHerbivore(AnimalSize.Large),
-                    Builder.CreateHerbivore(AnimalSize.Large),
-                    Builder.CreateCarnivore(AnimalSize.Small),
-                    Builder.CreateCarnivore(AnimalSize.Medium),
-                    Builder.CreateCarnivore(AnimalSize.Medium),
-                    Builder.CreateCarnivore(AnimalSize.Medium),
-                    Builder.CreateCarnivore(AnimalSize.Large),
-                    Builder.CreateCarnivore(AnimalSize.Large),
-                });
+                HordeCreator.CreateHorde(
+                    new Horde('h', AnimalSize.Large, 3),
+                    new Horde('c', AnimalSize.Small, 1),
+                    new Horde('c', AnimalSize.Medium, 3),
+                    new Horde('c', AnimalSize.Large, 2))
+                );
 
             divider.DivideAnimals();
-            actual = divider.train.WagonCount;
+            actual = divider.AnimalTrain.Wagons.Count;
             Assert.AreEqual(expected, actual);
         }
 
@@ -137,36 +134,17 @@ namespace CircustreinCode.Test.AlgorithmTests {
             int actual;
 
             Setup(
-                new List<IAnimal>
-                {
-                    Builder.CreateHerbivore(AnimalSize.Small),
-                    Builder.CreateHerbivore(AnimalSize.Small),
-                    Builder.CreateHerbivore(AnimalSize.Small),
-                    Builder.CreateHerbivore(AnimalSize.Small),
-                    Builder.CreateHerbivore(AnimalSize.Small),
-                    Builder.CreateHerbivore(AnimalSize.Medium),
-                    Builder.CreateHerbivore(AnimalSize.Medium),
-                    Builder.CreateHerbivore(AnimalSize.Medium),
-                    Builder.CreateHerbivore(AnimalSize.Medium),
-                    Builder.CreateHerbivore(AnimalSize.Medium),
-                    Builder.CreateHerbivore(AnimalSize.Large),
-                    Builder.CreateHerbivore(AnimalSize.Large),
-                    Builder.CreateHerbivore(AnimalSize.Large),
-                    Builder.CreateHerbivore(AnimalSize.Large),
-                    Builder.CreateHerbivore(AnimalSize.Large),
-
-                    Builder.CreateHerbivore(AnimalSize.Small),
-                    Builder.CreateHerbivore(AnimalSize.Small),
-
-                    Builder.CreateHerbivore(AnimalSize.Medium),
-                    Builder.CreateHerbivore(AnimalSize.Medium),
-
-                    Builder.CreateCarnivore(AnimalSize.Large),
-                    Builder.CreateCarnivore(AnimalSize.Large),
-                });
+                    HordeCreator.CreateHorde(
+                    new Horde('h', AnimalSize.Small, 5),
+                    new Horde('h', AnimalSize.Medium, 5),
+                    new Horde('h', AnimalSize.Large, 5),
+                    new Horde('c', AnimalSize.Small, 2),
+                    new Horde('c', AnimalSize.Medium, 2),
+                    new Horde('c', AnimalSize.Large, 2))
+                );
 
             divider.DivideAnimals();
-            actual = divider.train.WagonCount;
+            actual = divider.AnimalTrain.Wagons.Count;
             Assert.AreEqual(expected, actual);
         }
 
@@ -177,17 +155,13 @@ namespace CircustreinCode.Test.AlgorithmTests {
             int actual;
 
             Setup(
-                new List<IAnimal>
-                {
-                    Builder.CreateHerbivore(AnimalSize.Medium),
-                    Builder.CreateHerbivore(AnimalSize.Medium),
-                    Builder.CreateHerbivore(AnimalSize.Medium),
-                    Builder.CreateHerbivore(AnimalSize.Large),
-                    Builder.CreateHerbivore(AnimalSize.Large),
-                });
+                HordeCreator.CreateHorde(
+                    new Horde('h', AnimalSize.Medium, 3),
+                    new Horde('h', AnimalSize.Large, 2))
+            );
 
             divider.DivideAnimals();
-            actual = divider.train.WagonCount;
+            actual = divider.AnimalTrain.Wagons.Count;
             Assert.AreEqual(expected, actual);
         }
     }

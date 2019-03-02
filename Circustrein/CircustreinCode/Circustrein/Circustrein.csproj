@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlgorithmLogic\AnimalDivider.cs" />
-    <Compile Include="AlgorithmLogic\AnimalWagonSorter.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Builder.cs" />
     <Compile Include="Form1.cs">
@@ -56,6 +55,8 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="HordeCreation\Horde.cs" />
+    <Compile Include="HordeCreation\HordeCreator.cs" />
     <Compile Include="Objects\Carnivore.cs" />
     <Compile Include="Objects\Herbivore.cs" />
     <Compile Include="Objects\IAnimal.cs" />
