@@ -1,34 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Circustrein {
     public class AnimalDivider {
         private List<IAnimal> animals;
-        public Train train { get; private set; } // How to name this property ?
+        public Train AnimalTrain { get; private set; } // How to name this property ?
         public ReadOnlyCollection<IAnimal> Animals {
             get { return animals.AsReadOnly(); }
         }
 
         public AnimalDivider(Train train, List<IAnimal> animals){
-            this.train = train;
+            this.AnimalTrain = train;
             this.animals = animals;
         }
 
         public void DivideAnimals() {
             divideCarnivores();
-            train.SortWagons();
-            sortAnimals();
+            AnimalTrain.SortWagonsByCarnivoreSizeDescending();
+            SortAnimalsBySizeDescending();
             divideHerbivores();
         }
 
         private void divideCarnivores() {
             for (int i = 0; i < animals.Count; i++) {
                 if (animals[i] is Carnivore) {
-                    train.AddWagon(Builder.CreateWagonWithAnimal(animals[i]));
+                    AnimalTrain.AddWagon(Builder.CreateWagonWithAnimal(animals[i]));
                     animals.RemoveAt(i);
                     i--; // Because the offset of the list changes when removing an element;
                 }
@@ -36,14 +33,14 @@ namespace Circustrein {
         }
 
         private void divideHerbivores() {
-            foreach (Wagon wagon in train.Wagons) {
+            foreach (Wagon wagon in AnimalTrain.Wagons) {
                 if (wagon.IsSmallCarnivoreWagon())
                     fillSmallCarnivoreWagon(wagon);
                 else
                     fillRegularWagon(wagon);
             }
 
-            doneDividing();
+            continueSortingIfNotDone();
         }
 
         private void fillSmallCarnivoreWagon(Wagon wagon) {
@@ -59,15 +56,8 @@ namespace Circustrein {
 
         private void fillRegularWagon(Wagon wagon) {
             for (int i = 0; i < animals.Count; i++) {
-                if (wagon.AddAnimal(animals[i])) {
-                    removeAnimal(animals[i]);
-                    i--;
-                }
+                i = (tryAddAnimalToWagon(animals[i], wagon)) ? i -=1 : i;
             }
-            //foreach (IAnimal animal in animals) {
-            //    wagon.AddAnimal(animal);
-            //    removeAnimal(animal);
-            //}
         }
 
         private List<IAnimal> getThreeMediumHerbivore(List<IAnimal> animals) {
@@ -75,14 +65,13 @@ namespace Circustrein {
             return (toReturn.Count == 3) ? toReturn : null;
         }
 
-        private void sortAnimals() {
-            animals = AnimalWagonSorter.SortAnimalsBySizeDescending(animals);
+        private void SortAnimalsBySizeDescending() {
+            animals = animals.OrderByDescending(x => x.Size).ToList();
         }
 
-        private void doneDividing() {
-            //return animals.Count > 0;
+        private void continueSortingIfNotDone() {
             if (animals.Count > 0) {
-                train.AddWagon(Builder.CreateEmptyWagon());
+                AnimalTrain.AddWagon(Builder.CreateEmptyWagon());
                 divideHerbivores();
             }
         }
@@ -95,6 +84,14 @@ namespace Circustrein {
             foreach (IAnimal animal in animals) {
                 this.animals.Remove(animal);
             }
+        }
+
+        private bool tryAddAnimalToWagon(IAnimal animal, Wagon wagon) {
+            if (wagon.AddAnimal(animal)) {
+                animals.Remove(animal);
+                return true;
+            }
+            return false;
         }
     }
 }

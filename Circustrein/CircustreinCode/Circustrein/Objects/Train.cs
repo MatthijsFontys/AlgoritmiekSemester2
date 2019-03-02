@@ -11,9 +11,6 @@ namespace Circustrein {
         public ReadOnlyCollection<Wagon> Wagons {
             get { return wagons.AsReadOnly(); }
         }
-        public int WagonCount {
-            get { return wagons.Count; }
-        }
 
         public Train() {
             wagons = new List<Wagon>();
@@ -23,12 +20,10 @@ namespace Circustrein {
             wagons.Add(wagon);
         }
 
-        public void SortWagons() {
-            wagons = AnimalWagonSorter.SortWagonsByCarnivoreSizeDescending(wagons);
+        public void SortWagonsByCarnivoreSizeDescending() {
+            List<Wagon> noCarnivoreWagons = wagons.Where(x => x.BiggestCarnivore == null).ToList();
+            wagons = wagons.Where(x => x.BiggestCarnivore != null).OrderByDescending(x => x.BiggestCarnivore.Size).ToList();
+            wagons.AddRange(noCarnivoreWagons);
         }
-
-
-
-
     }
 }

@@ -44,12 +44,12 @@ namespace Circustrein {
         private void BtnDivideAnimals_Click(object sender, EventArgs e) {
             divider = new AnimalDivider(Builder.CreateTrain(), animalsToDivide);
             divider.DivideAnimals();
-            LblWagonCount.Text = divider.train.WagonCount.ToString();
+            LblWagonCount.Text = divider.AnimalTrain.Wagons.Count.ToString();
             fillListBoxWagons();
         }
 
         private void fillListBoxWagons() {
-            foreach (Wagon wagon in divider.train.Wagons) {
+            foreach (Wagon wagon in divider.AnimalTrain.Wagons) {
                 LbWagons.Items.Add(wagon);
             }
         }
