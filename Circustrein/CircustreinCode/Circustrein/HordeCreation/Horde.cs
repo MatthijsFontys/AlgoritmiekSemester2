@@ -16,7 +16,7 @@ namespace Circustrein {
             this.amount = amount;
         }
 
-        public List<IAnimal> GetHorde() {
+        public IEnumerable<IAnimal> GetHorde() {
             List<IAnimal> toReturn = new List<IAnimal>();
             for (int i = 0; i < amount; i++) {
                 if (animalType == AnimalHordeType.carnivore)

@@ -9,7 +9,7 @@ namespace Circustrein {
     public class Wagon {
         private List<IAnimal> animals;
         private static int count = 0;
-        private int wagonNumber;
+        private readonly int wagonNumber;
 
         public ReadOnlyCollection<IAnimal> Animals {
             get { return animals.AsReadOnly(); }

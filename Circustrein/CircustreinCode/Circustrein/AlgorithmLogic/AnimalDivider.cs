@@ -10,9 +10,9 @@ namespace Circustrein {
             get { return animals.AsReadOnly(); }
         }
 
-        public AnimalDivider(Train train, List<IAnimal> animals){
+        public AnimalDivider(Train train, IList<IAnimal> animals){
             this.AnimalTrain = train;
-            this.animals = animals;
+            this.animals = animals.ToList();
         }
 
         public void DivideAnimals() {
@@ -58,7 +58,7 @@ namespace Circustrein {
             }
         }
 
-        private List<IAnimal> GetThreeMediumHerbivore(List<IAnimal> animals) {
+        private List<IAnimal> GetThreeMediumHerbivore(IEnumerable<IAnimal> animals) {
             List<IAnimal> toReturn = animals.Where(x => x is Herbivore && x.Size == AnimalSize.Medium).Take(3).ToList();
             return (toReturn.Count == 3) ? toReturn : null;
         }
