@@ -41,18 +41,6 @@ namespace Circustrein {
                 return false;
         }
 
-        /// <summary>
-        /// Returns true if all animals are added successfully else returns false
-        /// </summary>
-        public bool TryAddAnimals(List<IAnimal> animalsToAdd) {
-            bool toReturn = true;
-            foreach (IAnimal animal in animalsToAdd) {
-                if (!TryAddAnimal(animal))
-                    toReturn = false;
-            }
-            return toReturn;
-        }
-
         public bool IsSmallCarnivoreWagon() {
             return (BiggestCarnivore != null && BiggestCarnivore.Size == AnimalSize.Small &&
                 CurrentCapacity == (int)AnimalSize.Small);
