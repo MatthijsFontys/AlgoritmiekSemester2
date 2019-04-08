@@ -16,22 +16,24 @@ namespace Circustrein {
         }
         public readonly int MaxCapacity;
         public int CurrentCapacity { get; private set; }
-        public IAnimal BiggestCarnivore;
+        public IAnimal BiggestCarnivore {
+            get {
+                return animals.Where(x => x is Carnivore).OrderByDescending(x => x.Size).FirstOrDefault();
+            }
+        }
         
 
         public Wagon(int maxCapacity = 10) {
             count++;
             wagonNumber = count;
             MaxCapacity = maxCapacity;
-            BiggestCarnivore = null;
             CurrentCapacity = 0;
             animals = new List<IAnimal>();
         }
 
-        public bool AddAnimal(IAnimal animal) {
+        public bool TryAddAnimal(IAnimal animal) {
             if (doesAnimalFit(animal) && animal.IsSafeInWagon(this)) {
                 animals.Add(animal);
-                setBiggestCarnivore(animal);
                 CurrentCapacity += animal.Weight;
                 return true;
             }
@@ -39,10 +41,16 @@ namespace Circustrein {
                 return false;
         }
 
-        public void AddAnimals(List<IAnimal> animalsToAdd) {
+        /// <summary>
+        /// Returns true if all animals are added successfully else returns false
+        /// </summary>
+        public bool TryAddAnimals(List<IAnimal> animalsToAdd) {
+            bool toReturn = true;
             foreach (IAnimal animal in animalsToAdd) {
-                AddAnimal(animal);
+                if (!TryAddAnimal(animal))
+                    toReturn = false;
             }
+            return toReturn;
         }
 
         public bool IsSmallCarnivoreWagon() {
@@ -52,12 +60,6 @@ namespace Circustrein {
 
         private bool doesAnimalFit(IAnimal animal) {
             return animal.Weight + CurrentCapacity <= MaxCapacity;
-        }
-
-        private void setBiggestCarnivore(IAnimal animal) {
-            if (animal is Carnivore) {
-                BiggestCarnivore = animal;
-            }
         }
 
         public override string ToString() {

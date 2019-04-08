@@ -28,10 +28,10 @@ namespace CircustreinCode.Test.AlgorithmTests {
 
             Setup(
                 HordeCreator.CreateHorde(
-                    new Horde('h', AnimalSize.Small, 5),
-                    new Horde('h', AnimalSize.Medium, 3),
-                    new Horde('h', AnimalSize.Large, 1),
-                    new Horde('c', AnimalSize.Small, 1))
+                    new Horde(AnimalHordeType.herbivore, AnimalSize.Small, 5),
+                    new Horde(AnimalHordeType.herbivore, AnimalSize.Medium, 3),
+                    new Horde(AnimalHordeType.herbivore, AnimalSize.Large, 1),
+                    new Horde(AnimalHordeType.carnivore, AnimalSize.Small, 1))
             );
 
             divider.DivideAnimals();
@@ -53,10 +53,10 @@ namespace CircustreinCode.Test.AlgorithmTests {
 
             Setup(
                 HordeCreator.CreateHorde(
-                    new Horde('h', AnimalSize.Small, 2),
-                    new Horde('h', AnimalSize.Medium, 2),
-                    new Horde('h', AnimalSize.Large, 2),
-                    new Horde('c', AnimalSize.Small, 1))
+                    new Horde(AnimalHordeType.herbivore, AnimalSize.Small, 2),
+                    new Horde(AnimalHordeType.herbivore, AnimalSize.Medium, 2),
+                    new Horde(AnimalHordeType.herbivore, AnimalSize.Large, 2),
+                    new Horde(AnimalHordeType.carnivore, AnimalSize.Small, 1))
             );
 
             divider.DivideAnimals();
@@ -76,11 +76,11 @@ namespace CircustreinCode.Test.AlgorithmTests {
 
             Setup(
                 HordeCreator.CreateHorde(
-                    new Horde('h', AnimalSize.Small, 10),
-                    new Horde('h', AnimalSize.Medium, 2),
-                    new Horde('h', AnimalSize.Large, 1),
-                    new Horde('c', AnimalSize.Small, 1),
-                    new Horde('c', AnimalSize.Medium, 1))
+                    new Horde(AnimalHordeType.herbivore, AnimalSize.Small, 10),
+                    new Horde(AnimalHordeType.herbivore, AnimalSize.Medium, 2),
+                    new Horde(AnimalHordeType.herbivore, AnimalSize.Large, 1),
+                    new Horde(AnimalHordeType.carnivore, AnimalSize.Small, 1),
+                    new Horde(AnimalHordeType.carnivore, AnimalSize.Medium, 1))
             );
 
             divider.DivideAnimals();
@@ -96,12 +96,11 @@ namespace CircustreinCode.Test.AlgorithmTests {
 
             int expected = 2;
             int actual;
-
             Setup(
                     HordeCreator.CreateHorde(
-                    new Horde('h', AnimalSize.Small, 5),
-                    new Horde('h', AnimalSize.Medium, 3),
-                    new Horde('h', AnimalSize.Large, 1))
+                    new Horde(AnimalHordeType.herbivore, AnimalSize.Small, 5),
+                    new Horde(AnimalHordeType.herbivore, AnimalSize.Medium, 3),
+                    new Horde(AnimalHordeType.herbivore, AnimalSize.Large, 1))
                 );
 
             divider.DivideAnimals();
@@ -119,10 +118,10 @@ namespace CircustreinCode.Test.AlgorithmTests {
 
             Setup(
                 HordeCreator.CreateHorde(
-                    new Horde('h', AnimalSize.Large, 3),
-                    new Horde('c', AnimalSize.Small, 1),
-                    new Horde('c', AnimalSize.Medium, 3),
-                    new Horde('c', AnimalSize.Large, 2))
+                    new Horde(AnimalHordeType.herbivore, AnimalSize.Large, 3),
+                    new Horde(AnimalHordeType.carnivore, AnimalSize.Small, 1),
+                    new Horde(AnimalHordeType.carnivore, AnimalSize.Medium, 3),
+                    new Horde(AnimalHordeType.carnivore, AnimalSize.Large, 2))
                 );
 
             divider.DivideAnimals();
@@ -139,12 +138,12 @@ namespace CircustreinCode.Test.AlgorithmTests {
 
             Setup(
                     HordeCreator.CreateHorde(
-                    new Horde('h', AnimalSize.Small, 5),
-                    new Horde('h', AnimalSize.Medium, 5),
-                    new Horde('h', AnimalSize.Large, 5),
-                    new Horde('c', AnimalSize.Small, 2),
-                    new Horde('c', AnimalSize.Medium, 2),
-                    new Horde('c', AnimalSize.Large, 2))
+                    new Horde(AnimalHordeType.herbivore, AnimalSize.Small, 5),
+                    new Horde(AnimalHordeType.herbivore, AnimalSize.Medium, 5),
+                    new Horde(AnimalHordeType.herbivore, AnimalSize.Large, 5),
+                    new Horde(AnimalHordeType.carnivore, AnimalSize.Small, 2),
+                    new Horde(AnimalHordeType.carnivore, AnimalSize.Medium, 2),
+                    new Horde(AnimalHordeType.carnivore, AnimalSize.Large, 2))
                 );
 
             divider.DivideAnimals();
@@ -161,8 +160,8 @@ namespace CircustreinCode.Test.AlgorithmTests {
 
             Setup(
                 HordeCreator.CreateHorde(
-                    new Horde('h', AnimalSize.Medium, 3),
-                    new Horde('h', AnimalSize.Large, 2))
+                    new Horde(AnimalHordeType.herbivore, AnimalSize.Medium, 3),
+                    new Horde(AnimalHordeType.herbivore, AnimalSize.Large, 2))
             );
 
             divider.DivideAnimals();

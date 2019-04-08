@@ -10,7 +10,6 @@ namespace Circustrein {
             List<IAnimal> toReturn = new List<IAnimal>();
             foreach (Horde horde in hordes) {
                 toReturn.AddRange(horde.GetHorde());
-                Console.WriteLine("Test");
             }
             return toReturn;
         }

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Circustrein {
     public class Horde {
-        private readonly char animalType;
+        private readonly AnimalHordeType animalType;
         private readonly AnimalSize size;
         private readonly int amount;
 
-        public Horde(char animalType, AnimalSize size, int amount) {
+        public Horde(AnimalHordeType animalType, AnimalSize size, int amount) {
             this.animalType = animalType;
             this.size = size;
             this.amount = amount;
@@ -19,7 +19,7 @@ namespace Circustrein {
         public List<IAnimal> GetHorde() {
             List<IAnimal> toReturn = new List<IAnimal>();
             for (int i = 0; i < amount; i++) {
-                if (animalType.ToString().ToLower() == "c")
+                if (animalType == AnimalHordeType.carnivore)
                     toReturn.Add(Factory.CreateCarnivore(size));
                 else
                     toReturn.Add(Factory.CreateHerbivore(size));

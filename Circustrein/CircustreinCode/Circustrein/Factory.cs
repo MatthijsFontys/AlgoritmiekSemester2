@@ -19,7 +19,7 @@ namespace Circustrein {
 
         public static Wagon CreateWagonWithAnimal(IAnimal animal, int maxCapacity = -1) {
             Wagon wagon =  (maxCapacity > 0) ? new Wagon(maxCapacity) : new Wagon();
-            wagon.AddAnimal(animal);
+            wagon.TryAddAnimal(animal);
             return wagon;
         }
 

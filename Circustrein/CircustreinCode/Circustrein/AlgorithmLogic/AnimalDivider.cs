@@ -46,7 +46,7 @@ namespace Circustrein {
         private void FillSmallCarnivoreWagon(Wagon wagon) {
             List<IAnimal> mediumHerbivores = GetThreeMediumHerbivore(animals);
             if (mediumHerbivores != null) {
-                wagon.AddAnimals(mediumHerbivores);
+                wagon.TryAddAnimals(mediumHerbivores);
                 RemoveAnimals(mediumHerbivores);
             }
             else
@@ -55,7 +55,7 @@ namespace Circustrein {
 
         private void FillRegularWagon(Wagon wagon) {
             for (int i = 0; i < animals.Count; i++) {
-                i = (TryAddAnimalsToWagon(animals[i], wagon)) ? i -=1 : i;
+                i = (TryAddAnimalToWagon(animals[i], wagon)) ? i -=1 : i;
             }
         }
 
@@ -84,9 +84,8 @@ namespace Circustrein {
                 this.animals.Remove(animal);
             }
         }
-
-        private bool TryAddAnimalsToWagon(IAnimal animal, Wagon wagon) {
-            if (wagon.AddAnimal(animal)) {
+        private bool TryAddAnimalToWagon(IAnimal animal, Wagon wagon) {
+            if (wagon.TryAddAnimal(animal)) {
                 animals.Remove(animal);
                 return true;
             }
