@@ -32,7 +32,7 @@ namespace Circustrein {
         }
 
         public bool TryAddAnimal(IAnimal animal) {
-            if (doesAnimalFit(animal) && animal.IsSafeInWagon(this)) {
+            if (DoesAnimalFit(animal) && animal.IsSafeInWagon(this)) {
                 animals.Add(animal);
                 CurrentCapacity += animal.Weight;
                 return true;
@@ -58,7 +58,7 @@ namespace Circustrein {
                 CurrentCapacity == (int)AnimalSize.Small);
         }
 
-        private bool doesAnimalFit(IAnimal animal) {
+        private bool DoesAnimalFit(IAnimal animal) {
             return animal.Weight + CurrentCapacity <= MaxCapacity;
         }
 
