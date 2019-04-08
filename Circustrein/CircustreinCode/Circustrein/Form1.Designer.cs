@@ -125,7 +125,7 @@
             // BtnAddAnimals
             // 
             this.BtnAddAnimals.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnAddAnimals.Location = new System.Drawing.Point(450, 33);
+            this.BtnAddAnimals.Location = new System.Drawing.Point(451, 35);
             this.BtnAddAnimals.Name = "BtnAddAnimals";
             this.BtnAddAnimals.Size = new System.Drawing.Size(111, 53);
             this.BtnAddAnimals.TabIndex = 17;

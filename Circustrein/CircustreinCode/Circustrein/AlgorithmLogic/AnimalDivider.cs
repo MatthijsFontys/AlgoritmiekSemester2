@@ -5,7 +5,7 @@ using System.Linq;
 namespace Circustrein {
     public class AnimalDivider {
         private List<IAnimal> animals;
-        public Train AnimalTrain { get; private set; } // How to name this property ?
+        public Train AnimalTrain { get; private set; }
         public ReadOnlyCollection<IAnimal> Animals {
             get { return animals.AsReadOnly(); }
         }
@@ -25,7 +25,7 @@ namespace Circustrein {
         private void divideCarnivores() {
             for (int i = 0; i < animals.Count; i++) {
                 if (animals[i] is Carnivore) {
-                    AnimalTrain.AddWagon(Builder.CreateWagonWithAnimal(animals[i]));
+                    AnimalTrain.AddWagon(Factory.CreateWagonWithAnimal(animals[i]));
                     animals.RemoveAt(i);
                     i--; // Because the offset of the list changes when removing an element;
                 }
@@ -50,8 +50,7 @@ namespace Circustrein {
                 removeAnimals(mediumHerbivores);
             }
             else
-                fillRegularWagon(wagon);
-                
+                fillRegularWagon(wagon);               
         }
 
         private void fillRegularWagon(Wagon wagon) {
@@ -71,7 +70,7 @@ namespace Circustrein {
 
         private void continueSortingIfNotDone() {
             if (animals.Count > 0) {
-                AnimalTrain.AddWagon(Builder.CreateEmptyWagon());
+                AnimalTrain.AddWagon(Factory.CreateEmptyWagon());
                 divideHerbivores();
             }
         }

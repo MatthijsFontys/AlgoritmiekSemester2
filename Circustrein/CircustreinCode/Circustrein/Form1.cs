@@ -32,9 +32,9 @@ namespace Circustrein {
             
             for (int i = 0; i < NumAmount.Value; i++) {
                 if (CbDiet.SelectedItem.ToString().ToLower() == "carnivore")
-                    animalsToDivide.Add(Builder.CreateCarnivore(size));
+                    animalsToDivide.Add(Factory.CreateCarnivore(size));
                 else
-                    animalsToDivide.Add(Builder.CreateHerbivore(size));
+                    animalsToDivide.Add(Factory.CreateHerbivore(size));
 
                 LbAnimals.Items.Add(animalsToDivide[animalsToDivide.Count - 1]);
             }
@@ -42,7 +42,7 @@ namespace Circustrein {
         }
 
         private void BtnDivideAnimals_Click(object sender, EventArgs e) {
-            divider = new AnimalDivider(Builder.CreateTrain(), animalsToDivide);
+            divider = new AnimalDivider(Factory.CreateTrain(), animalsToDivide);
             divider.DivideAnimals();
             LblWagonCount.Text = divider.AnimalTrain.Wagons.Count.ToString();
             fillListBoxWagons();

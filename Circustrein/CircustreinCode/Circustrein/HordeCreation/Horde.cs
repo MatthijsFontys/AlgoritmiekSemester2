@@ -20,9 +20,9 @@ namespace Circustrein {
             List<IAnimal> toReturn = new List<IAnimal>();
             for (int i = 0; i < amount; i++) {
                 if (animalType.ToString().ToLower() == "c")
-                    toReturn.Add(Builder.CreateCarnivore(size));
+                    toReturn.Add(Factory.CreateCarnivore(size));
                 else
-                    toReturn.Add(Builder.CreateHerbivore(size));
+                    toReturn.Add(Factory.CreateHerbivore(size));
             }
             return toReturn;
         }

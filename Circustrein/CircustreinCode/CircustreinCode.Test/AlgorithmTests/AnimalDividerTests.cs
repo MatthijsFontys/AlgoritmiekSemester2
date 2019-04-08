@@ -8,7 +8,7 @@ namespace CircustreinCode.Test.AlgorithmTests {
     public class AnimalDividerTests {
         AnimalDivider divider;
         private void Setup(List<IAnimal> animals) {
-            divider = new AnimalDivider(Builder.CreateTrain(), animals);
+            divider = new AnimalDivider(Factory.CreateTrain(), animals);
         }
 
 
@@ -65,7 +65,7 @@ namespace CircustreinCode.Test.AlgorithmTests {
         }
 
         /*
-        (   H1 x10) (H3 X2) H5 C3 C1
+        (H1 x10) (H3 X2) H5 C3 C1
         Goed = C3 H5 | H3 H3 C1 | H1x 10
         Fout = C3 | C1 H5 H3 | H1 x 10 | H3
         */

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Circustrein {
-    public static class Builder {
+    public static class Factory {
 
         // Objects 
         public static Train CreateTrain() {
