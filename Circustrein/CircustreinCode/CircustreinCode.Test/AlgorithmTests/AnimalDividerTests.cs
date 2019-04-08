@@ -88,9 +88,11 @@ namespace CircustreinCode.Test.AlgorithmTests {
             Assert.AreEqual(expected, actual);
         }
 
-        // JanTestCases
+        // ################ Jan TestCases (slack) ######################
+
+        // Test case 1
         [TestMethod]
-        public void Jan1() {
+        public void HerbivoresOnly2Wagons() {
 
             int expected = 2;
             int actual;
@@ -108,8 +110,9 @@ namespace CircustreinCode.Test.AlgorithmTests {
 
         }
 
+        // Test case 2
         [TestMethod]
-        public void Jan2() {
+        public void BigHerbivoresAndAllCarnivores_6Wagons() {
 
             int expected = 6;
             int actual;
@@ -127,8 +130,9 @@ namespace CircustreinCode.Test.AlgorithmTests {
             Assert.AreEqual(expected, actual);
         }
 
+        // Test case 3
         [TestMethod]
-        public void Jan3() {
+        public void AllHerbivoresTimes5_AllCarnivoresTimes2_8Wagons() {
 
             int expected = 8;
             int actual;
@@ -148,8 +152,9 @@ namespace CircustreinCode.Test.AlgorithmTests {
             Assert.AreEqual(expected, actual);
         }
 
+        // Test case 4
         [TestMethod]
-        public void Jan4() {
+        public void BigAndMediumHerbivores_2Wagons() {
 
             int expected = 2;
             int actual;

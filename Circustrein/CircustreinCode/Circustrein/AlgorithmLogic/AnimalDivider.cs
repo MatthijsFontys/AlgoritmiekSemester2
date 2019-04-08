@@ -16,13 +16,13 @@ namespace Circustrein {
         }
 
         public void DivideAnimals() {
-            divideCarnivores();
+            DivideCarnivores();
             AnimalTrain.SortWagonsByCarnivoreSizeDescending();
             SortAnimalsBySizeDescending();
-            divideHerbivores();
+            DivideHerbivores();
         }
 
-        private void divideCarnivores() {
+        private void DivideCarnivores() {
             for (int i = 0; i < animals.Count; i++) {
                 if (animals[i] is Carnivore) {
                     AnimalTrain.AddWagon(Factory.CreateWagonWithAnimal(animals[i]));
@@ -32,34 +32,34 @@ namespace Circustrein {
             }
         }
 
-        private void divideHerbivores() {
+        private void DivideHerbivores() {
             foreach (Wagon wagon in AnimalTrain.Wagons) {
                 if (wagon.IsSmallCarnivoreWagon())
-                    fillSmallCarnivoreWagon(wagon);
+                    FillSmallCarnivoreWagon(wagon);
                 else
-                    fillRegularWagon(wagon);
+                    FillRegularWagon(wagon);
             }
 
-            continueSortingIfNotDone();
+            ContinueSortingIfNotDone();
         }
 
-        private void fillSmallCarnivoreWagon(Wagon wagon) {
-            List<IAnimal> mediumHerbivores = getThreeMediumHerbivore(animals);
+        private void FillSmallCarnivoreWagon(Wagon wagon) {
+            List<IAnimal> mediumHerbivores = GetThreeMediumHerbivore(animals);
             if (mediumHerbivores != null) {
                 wagon.AddAnimals(mediumHerbivores);
-                removeAnimals(mediumHerbivores);
+                RemoveAnimals(mediumHerbivores);
             }
             else
-                fillRegularWagon(wagon);               
+                FillRegularWagon(wagon);               
         }
 
-        private void fillRegularWagon(Wagon wagon) {
+        private void FillRegularWagon(Wagon wagon) {
             for (int i = 0; i < animals.Count; i++) {
-                i = (tryAddAnimalToWagon(animals[i], wagon)) ? i -=1 : i;
+                i = (TryAddAnimalsToWagon(animals[i], wagon)) ? i -=1 : i;
             }
         }
 
-        private List<IAnimal> getThreeMediumHerbivore(List<IAnimal> animals) {
+        private List<IAnimal> GetThreeMediumHerbivore(List<IAnimal> animals) {
             List<IAnimal> toReturn = animals.Where(x => x is Herbivore && x.Size == AnimalSize.Medium).Take(3).ToList();
             return (toReturn.Count == 3) ? toReturn : null;
         }
@@ -68,24 +68,24 @@ namespace Circustrein {
             animals = animals.OrderByDescending(x => x.Size).ToList();
         }
 
-        private void continueSortingIfNotDone() {
+        private void ContinueSortingIfNotDone() {
             if (animals.Count > 0) {
                 AnimalTrain.AddWagon(Factory.CreateEmptyWagon());
-                divideHerbivores();
+                DivideHerbivores();
             }
         }
 
-        private void removeAnimal(IAnimal animal) {
+        private void RemoveAnimal(IAnimal animal) {
             animals.Remove(animal);
         }
 
-        private void removeAnimals(List<IAnimal> animals) {
+        private void RemoveAnimals(List<IAnimal> animals) {
             foreach (IAnimal animal in animals) {
                 this.animals.Remove(animal);
             }
         }
 
-        private bool tryAddAnimalToWagon(IAnimal animal, Wagon wagon) {
+        private bool TryAddAnimalsToWagon(IAnimal animal, Wagon wagon) {
             if (wagon.AddAnimal(animal)) {
                 animals.Remove(animal);
                 return true;
