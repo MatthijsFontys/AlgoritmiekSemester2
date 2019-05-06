@@ -4,10 +4,12 @@ using System.Text;
 
 namespace Logic {
     public class RegularContainer : IContainer {
-        public int Z { get; private set; }
+        public int Z { get; set; }
         public double Weight { get; private set; }
         public bool Validate(Staple staple) {
-            throw new NotImplementedException();
+            if (Z == 1 && staple.GetTotalWeight() - Weight > 120)
+                return false;
+            return true;
         }
     }
 }

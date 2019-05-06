@@ -19,8 +19,27 @@ namespace Logic {
         public int X { get; private set; }
         public int Y { get; private set; }
 
-        public void AddContainer(IContainer container) {
+        public Staple(int x, int y) {
+            X = x;
+            Y = y;
+        }
 
+        public bool TryAddContainer(IContainer container) {
+            container.Z = containers.Count + 1;
+            containers.Add(container);
+            if (container.Validate(this)){
+                return true;
+            }
+            containers.Remove(container);
+            return false;
+        }
+
+        public bool Validate(int highestY) {
+            foreach (IContainer container in containers) {
+                if (container.Validate(this, highestY) == false)
+                    return false;
+            }
+            return true;
         }
     }
 }

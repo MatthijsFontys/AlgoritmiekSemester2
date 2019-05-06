@@ -3,6 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Logic {
-    interface ILoadStrategy {
+    interface ILoadStrategy {   
     }
 }

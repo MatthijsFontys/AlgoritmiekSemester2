@@ -20,15 +20,26 @@ namespace Logic {
             Name = sideName;
         }
 
-        public void AddContainer(IContainer container, int x, int y) {
-
+        public bool TryAddContainer(IContainer container, int x, int y) {
+            Staple stapleToFind = staples.First(s => s.X == x && s.Y == y);
+            if (stapleToFind == null) {
+                Staple newStaple = new Staple(x, y);
+                staples.Add(newStaple);
+                return  newStaple.TryAddContainer(container);
+            }
+            else
+                 return stapleToFind.TryAddContainer(container);
         }
 
         public double GetTotalWeight() {
             return staples.Sum(x => x.GetTotalWeight());
         }
         public bool Validate() {
-            return false;
+            foreach (Staple staple in staples) {
+                if (staple.Validate() == false)
+                    return false;
+            }
+            return true;
         }
     }
 }
