@@ -18,7 +18,7 @@ namespace Logic {
 
         public bool Validate() {
             foreach (Side side in sides) {
-                if (side.Validate(Length) == false)
+                if (side.Validate() == false)
                     return false;
             }
             if (GetWeightDifferenceInPercent() > 20)
@@ -38,9 +38,9 @@ namespace Logic {
 
         public bool TryAddContainer(IContainer container, int x, int y) {
             if (x <= Width / 2)
-                return GetSide(SideName.Left).TryAddContainer(container, x, y, Length);
+                return GetSide(SideName.Left).TryAddContainer(container, x, y);
             else
-                return GetSide(SideName.Right).TryAddContainer(container, x, y, Length);
+                return GetSide(SideName.Right).TryAddContainer(container, x, y);
         }
 
         private Side GetSide(SideName sideName) {
@@ -55,7 +55,7 @@ namespace Logic {
             }
             sideWidth /= 2;
             sides.Add(new Side(sideWidth, Length, SideName.Left));
-            sides.Add(new Side(sideWidth, Length, SideName.Right))
+            sides.Add(new Side(sideWidth, Length, SideName.Right));
         }
     }
 }

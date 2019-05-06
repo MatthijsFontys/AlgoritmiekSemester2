@@ -25,19 +25,19 @@ namespace Logic {
             Y = y;
         }
 
-        public bool TryAddContainer(IContainer container, int highestY) {
+        public bool TryAddContainer(IContainer container) {
             container.Z = containers.Count + 1;
             containers.Add(container);
-            if (container.Validate(this, highestY)){
+            if (container.Validate(this)){
                 return true;
             }
             containers.Remove(container);
             return false;
         }
 
-        public bool Validate(int highestY) {
+        public bool Validate() {
             foreach (IContainer container in containers) {
-                if (container.Validate(this, highestY) == false)
+                if (container.Validate(this) == false)
                     return false;
             }
             return true;

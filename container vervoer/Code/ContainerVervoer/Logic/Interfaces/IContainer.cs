@@ -6,7 +6,7 @@ namespace Logic {
     public interface IContainer {
         int Z { get; set; }
         double Weight {get; }
-        bool Validate(Staple staple, int highestY);
+        bool Validate(Staple staple);
 
     }
 }

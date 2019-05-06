@@ -7,7 +7,7 @@ namespace Logic {
     public class ValuableContainer : IContainer {
         public int Z { get; set; }
         public double Weight { get; private set; }
-        public bool Validate(Staple staple, int highestY) {
+        public bool Validate(Staple staple) {
             if (staple.Containers.Max(x => x.Z) == Z)
                 return true;
             return false;

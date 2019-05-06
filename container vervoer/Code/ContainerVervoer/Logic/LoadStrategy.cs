@@ -15,7 +15,7 @@ namespace Logic {
         }
 
         private IContainer GetHeaviestContainer() {
-
+            throw new NotImplementedException();
         }
 
         private void ReserveValuableSpots() {
