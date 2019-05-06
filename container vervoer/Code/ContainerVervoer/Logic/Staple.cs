@@ -18,16 +18,17 @@ namespace Logic {
         }
         public int X { get; private set; }
         public int Y { get; private set; }
+        public bool Max { get; internal set; }
 
         public Staple(int x, int y) {
             X = x;
             Y = y;
         }
 
-        public bool TryAddContainer(IContainer container) {
+        public bool TryAddContainer(IContainer container, int highestY) {
             container.Z = containers.Count + 1;
             containers.Add(container);
-            if (container.Validate(this)){
+            if (container.Validate(this, highestY)){
                 return true;
             }
             containers.Remove(container);
