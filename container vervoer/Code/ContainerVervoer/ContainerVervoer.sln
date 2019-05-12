@@ -4,8 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContainerVervoer", "ContainerVervoer\ContainerVervoer.csproj", "{1235B457-88D0-4B75-815D-47FCF5B4904E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{820E2F5E-4B20-4832-AEF3-C31E0655EE7B} = {820E2F5E-4B20-4832-AEF3-C31E0655EE7B}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic", "Logic\Logic.csproj", "{820E2F5E-4B20-4832-AEF3-C31E0655EE7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic", "Logic\Logic.csproj", "{820E2F5E-4B20-4832-AEF3-C31E0655EE7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
