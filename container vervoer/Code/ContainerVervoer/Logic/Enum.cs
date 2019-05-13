@@ -13,5 +13,11 @@ namespace Logic {
         Middle,
         Right
     }
+
+    public enum ContainerType {
+        regular,
+        cooled,
+        valuable
+    }
 }
     

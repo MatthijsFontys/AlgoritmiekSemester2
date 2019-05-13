@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 
 namespace Logic {
-    interface ILoadStrategy {
-        void DivideContainers(IQueryable<IContainer> containers);
-
+    public interface ILoadStrategy {
+        void DivideContainers(List<IShipContainer> containers, Ship ship);
     }
 }

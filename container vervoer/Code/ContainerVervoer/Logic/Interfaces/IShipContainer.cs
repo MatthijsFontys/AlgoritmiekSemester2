@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Logic {
-    public interface IContainer {
+    public interface IShipContainer {
         int Z { get; set; }
         double Weight {get; }
         bool Validate(Staple staple);

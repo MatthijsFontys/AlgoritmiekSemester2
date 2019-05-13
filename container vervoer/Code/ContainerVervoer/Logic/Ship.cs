@@ -13,6 +13,7 @@ namespace Logic {
         public Ship(int width, int length) {
             Width = width;
             Length = length;
+            sides = new List<Side>();
             CreateSides();
         }
 
@@ -36,26 +37,28 @@ namespace Logic {
             return weightDifference / totalWeight * 100;
         }
 
-        public bool TryAddContainer(IContainer container, int x, int y) {
+        public bool TryAddContainer(IShipContainer container, int x, int y) {
             if (x <= Width / 2)
                 return GetSide(SideName.Left).TryAddContainer(container, x, y);
             else
                 return GetSide(SideName.Right).TryAddContainer(container, x, y);
         }
 
-        private Side GetSide(SideName sideName) {
+        public Side GetSide(SideName sideName) {
             return sides.FirstOrDefault(x => x.Name == sideName);
         }
+
 
         private void CreateSides() {
             int sideWidth = Width;
             if (Width % 2 != 0) {
                 sideWidth -= 1;
-                sides.Add(new Side(1, Length, SideName.Middle));
+                int startX = Convert.ToInt32(Math.Ceiling((double)Length / 2));
+                sides.Add(new Side(1, Length, SideName.Middle, startX));
             }
             sideWidth /= 2;
-            sides.Add(new Side(sideWidth, Length, SideName.Left));
-            sides.Add(new Side(sideWidth, Length, SideName.Right));
+            sides.Add(new Side(sideWidth, Length, SideName.Left, 1));
+            sides.Add(new Side(sideWidth, Length, SideName.Right, Width - sideWidth + 1));
         }
     }
 }

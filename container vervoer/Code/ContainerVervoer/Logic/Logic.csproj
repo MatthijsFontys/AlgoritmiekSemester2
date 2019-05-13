@@ -4,4 +4,10 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="FailedAttempts\**" />
+    <EmbeddedResource Remove="FailedAttempts\**" />
+    <None Remove="FailedAttempts\**" />
+  </ItemGroup>
+
 </Project>

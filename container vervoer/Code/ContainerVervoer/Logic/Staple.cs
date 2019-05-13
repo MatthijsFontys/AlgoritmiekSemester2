@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Logic {
     public class Staple {
-        private List<IContainer> containers;
+        private List<IShipContainer> containers;
         private List<ReservationState> reservationStates;
-        public IReadOnlyCollection<IContainer> Containers {
+        public IReadOnlyCollection<IShipContainer> Containers {
             get { return containers.AsReadOnly(); }
         }
         public IReadOnlyCollection<ReservationState> ReservationStates {
@@ -18,14 +18,14 @@ namespace Logic {
         }
         public int X { get; private set; }
         public int Y { get; private set; }
-        public bool Max { get; internal set; }
 
         public Staple(int x, int y) {
             X = x;
             Y = y;
+            reservationStates = new List<ReservationState>();
         }
 
-        public bool TryAddContainer(IContainer container) {
+        public bool TryAddContainer(IShipContainer container) {
             container.Z = containers.Count + 1;
             containers.Add(container);
             if (container.Validate(this)){
@@ -35,8 +35,12 @@ namespace Logic {
             return false;
         }
 
+        public void AddReservation(ReservationState reservation) {
+            reservationStates.Add(reservation);
+        }
+
         public bool Validate() {
-            foreach (IContainer container in containers) {
+            foreach (IShipContainer container in containers) {
                 if (container.Validate(this) == false)
                     return false;
             }
