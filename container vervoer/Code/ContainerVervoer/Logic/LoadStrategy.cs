@@ -35,11 +35,14 @@ namespace Logic {
             int xIncrement = 1;
             int x = 1;
             if (side.Name == SideName.Right) {
-                x = ship.Length;
+                x = ship.Width;
                 xIncrement = -1;
             }
             int y = 1;
             for (int i = 0; i < valuableCount; i++) {
+                    if (x < side.StartX || x >= side.StartX + side.Width) {
+                    throw new IndexOutOfRangeException("Can't divide all the valuables on this side");
+                }
                 side.GetStapleWithCoordinates(x, y).AddReservation(ReservationState.Valueable);
                 if (y + 1 <= side.Length)
                     y++;
@@ -47,9 +50,7 @@ namespace Logic {
                     y = 1;
                     x += xIncrement;
                 }
-                if (x < side.StartX || x >= side.StartX + side.Width) {
-                    throw new IndexOutOfRangeException("Can't divide all the valuables on this side");
-                }
+
             }
         }
 

@@ -37,6 +37,7 @@ namespace Logic {
         }
 
         public Staple GetStapleWithCoordinates(int x, int y) {
+            Console.WriteLine(this);
             Staple toReturn = staples.FirstOrDefault(s => s.X == x && s.Y == y);
             return toReturn == null ? CreateNewStapleIfValid(x, y) : toReturn;
         }

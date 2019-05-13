@@ -40,12 +40,15 @@
             this.BtnDivideContainers = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.BtnGoToResult = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.PnlResult = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.NumShipWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumShipLength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumContainerWeight)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // LbStartContainers
@@ -210,11 +213,12 @@
             this.tabControl1.Location = new System.Drawing.Point(24, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(776, 435);
+            this.tabControl1.Size = new System.Drawing.Size(776, 635);
             this.tabControl1.TabIndex = 15;
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.BtnGoToResult);
             this.tabPage1.Controls.Add(this.CbContainerType);
             this.tabPage1.Controls.Add(this.BtnDivideContainers);
             this.tabPage1.Controls.Add(this.LbStartContainers);
@@ -233,35 +237,56 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(768, 406);
+            this.tabPage1.Size = new System.Drawing.Size(768, 606);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // BtnGoToResult
+            // 
+            this.BtnGoToResult.Location = new System.Drawing.Point(246, 295);
+            this.BtnGoToResult.Name = "BtnGoToResult";
+            this.BtnGoToResult.Size = new System.Drawing.Size(100, 40);
+            this.BtnGoToResult.TabIndex = 15;
+            this.BtnGoToResult.Text = "Result";
+            this.BtnGoToResult.UseVisualStyleBackColor = true;
+            this.BtnGoToResult.Click += new System.EventHandler(this.BtnGoToResult_Click);
+            // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.PnlResult);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(192, 71);
+            this.tabPage2.Size = new System.Drawing.Size(768, 606);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // PnlResult
+            // 
+            this.PnlResult.Location = new System.Drawing.Point(91, 19);
+            this.PnlResult.Name = "PnlResult";
+            this.PnlResult.Size = new System.Drawing.Size(619, 572);
+            this.PnlResult.TabIndex = 0;
+            this.PnlResult.Paint += new System.Windows.Forms.PaintEventHandler(this.PnlResult_Paint);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(812, 450);
+            this.ClientSize = new System.Drawing.Size(837, 650);
             this.Controls.Add(this.tabControl1);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Resize += new System.EventHandler(this.Form1_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.NumShipWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumShipLength)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumContainerWeight)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -286,6 +311,8 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.Button BtnGoToResult;
+        private System.Windows.Forms.Panel PnlResult;
     }
 }
 
