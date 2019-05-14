@@ -12,7 +12,7 @@ namespace Logic {
         public int Z { get;  set; }
         public double Weight { get; private set; }
         public bool Validate(Staple staple) {
-            if (Z == 1 && staple.GetTotalWeight() - Weight > 120 || staple.Y != manditoryYPosition)
+            if ((staple.GetTotalWeight() > 120) || staple.Y != manditoryYPosition)
                 return false;
             return true;
         }

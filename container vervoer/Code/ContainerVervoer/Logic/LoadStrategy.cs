@@ -21,6 +21,7 @@ namespace Logic {
                 ReserveValuableSpotsForSide(side);
                 ReserveCooledSpotsForSide(side);
             }
+          PlaceCooled();
         }
 
         private void DivideWeightBetweenSides() {
@@ -40,7 +41,7 @@ namespace Logic {
             }
             int y = 1;
             for (int i = 0; i < valuableCount; i++) {
-                    if (x < side.StartX || x >= side.StartX + side.Width) {
+                if (x < side.StartX || x >= side.StartX + side.Width) {
                     throw new IndexOutOfRangeException("Can't divide all the valuables on this side");
                 }
                 side.GetStapleWithCoordinates(x, y).AddReservation(ReservationState.Valueable);
@@ -59,7 +60,107 @@ namespace Logic {
                 side.GetStapleWithCoordinates(i + side.StartX, side.Length).AddReservation(ReservationState.Cooled);
         }
 
+        private void PlaceCooled() {
+            foreach (Side side in ship.Sides) {
+                SideAlgorihmHelper helper = GetHelperFromSide(side);
+                int startX = side.Length;
+                int xIncrement = -1;
+                if (side.Name == SideName.Right) {
+                    startX++;
+                    xIncrement *= -1;
+                }
+                List<Staple> cooledStaples = side.Staples.Where(x => x.ReservationStates.Contains(ReservationState.Cooled)).ToList();
+                foreach (Staple staple in cooledStaples) {
+                    if (staple.Containers.Count == 0) {
+                        SortContainersByWeightDescending(helper.NotOrderedContainers);
+                        IShipContainer heaviestCooled = helper.NotOrderedContainers.FirstOrDefault(c => c is CooledContainer);
+                        if (heaviestCooled == null || staple.ReservationStates.Contains(ReservationState.Valueable))
+                            break;
+                        staple.TryAddContainer(heaviestCooled);
+                        helper.NotOrderedContainers.Remove(heaviestCooled);
+                    }
+                    for (int i = 0; i < helper.NotOrderedContainers.Count; i++) {
+                        SortContainersByWeight(helper.NotOrderedContainers);
+                        IShipContainer lightestCooled = helper.NotOrderedContainers.First();
+                        if (staple.TryAddContainer(helper.NotOrderedContainers[i])) {
+                            helper.NotOrderedContainers.RemoveAt(i);
+                            i--;
+                        }
+                        else
+                            break;
+                    }
+                }
+
+            }
+        }
+
+
+        private void PlaceCooledAndValuable() {
+            foreach (Side side in ship.Sides) {
+                SideAlgorihmHelper helper = GetHelperFromSide(side);
+                int startX = side.Length;
+                int xIncrement = -1;
+                if (side.Name == SideName.Right) {
+                    startX++;
+                    xIncrement *= -1;
+                }
+                List<Staple> cooledStaples = side.Staples.Where(x => x.ReservationStates.Contains(ReservationState.Cooled)).ToList();
+                foreach (Staple staple in cooledStaples) {
+                    if (staple.Containers.Count == 0) {
+                        SortContainersByWeightDescending(helper.NotOrderedContainers);
+                        IShipContainer heaviestCooled = helper.NotOrderedContainers.FirstOrDefault(c => c is CooledContainer);
+                        if (heaviestCooled == null || staple.ReservationStates.Contains(ReservationState.Valueable))
+                            break;
+                        staple.TryAddContainer(heaviestCooled);
+                        helper.NotOrderedContainers.Remove(heaviestCooled);
+                    }
+                    for (int i = 0; i < helper.NotOrderedContainers.Count; i++) {
+                        SortContainersByWeight(helper.NotOrderedContainers);
+                        IShipContainer lightestCooled = helper.NotOrderedContainers.First();
+                        if (staple.TryAddContainer(helper.NotOrderedContainers[i])) {
+                            helper.NotOrderedContainers.RemoveAt(i);
+                            i--;
+                        }
+                        else
+                            break;
+                    }
+                }
+
+            }
+            /*
+             min height
+             highest first
+             pick number of cooled lightest first until min height + lightest valueable 
+            */
+        }
+
+        private int GetMinimumValuableHeight(Staple staple) {
+            return (staple.X > ship.Length - staple.X) ? ship.Length - staple.X : staple.X;
+        }
+
+        private bool TryPlaceContainer(IShipContainer container, int x, int y, SideAlgorihmHelper helper) {
+            if (ship.TryAddContainer(container, x, y)) {
+                helper.NotOrderedContainers.Remove(container);
+                return true;
+            }
+            return false;
+        }
+
+        private SideAlgorihmHelper GetHelperFromSide(Side side) {
+            return sideHelpers.First(x => x.Name == side.Name);
+        }
+
+
         #region helpers 
+        private void InitHelpers() {
+            sideHelpers = new List<SideAlgorihmHelper>();
+            foreach (Side side in ship.Sides) {
+                sideHelpers.Add(new SideAlgorihmHelper
+                {
+                    Name = side.Name
+                });
+            }
+        }
         private SideAlgorihmHelper GetLightestSide() {
             SideAlgorihmHelper lightestSide = null;
             foreach (SideAlgorihmHelper side in sideHelpers) {
@@ -72,12 +173,14 @@ namespace Logic {
         private void SortContainersByWeight(List<IShipContainer> containers) {
             containers = containers.OrderBy(x => x.Weight).ToList();
         }
+        private void SortContainersByWeightDescending(List<IShipContainer> containers) {
+            containers = containers.OrderByDescending(x => x.Weight).ToList();
+        }
 
         private void SortContainersByType() {
             containers = containers.OrderBy(x => x is ValuableContainer).
                 ThenBy(x => x is CooledContainer).ToList();
         }
-
 
         private IShipContainer GetHeaviestContainer(List<IShipContainer> containers) {
             double maxWeight = containers.Max(x => x.Weight);
@@ -93,15 +196,7 @@ namespace Logic {
         }
         #endregion
 
-        private void InitHelpers() {
-            sideHelpers = new List<SideAlgorihmHelper>();
-            foreach (Side side in ship.Sides) {
-                sideHelpers.Add(new SideAlgorihmHelper
-                {
-                    Name = side.Name
-                });
-            }
-        }
+
 
 
 

@@ -14,7 +14,8 @@ namespace Logic {
             get { return reservationStates.AsReadOnly(); }
         }
         public double GetTotalWeight() {
-            return containers.Sum(x => x.Weight);
+            double weight =  containers.Sum(x => x.Weight);
+            return weight - containers.FirstOrDefault(x => x.Z == 1).Weight;
         }
         public int X { get; private set; }
         public int Y { get; private set; }
@@ -22,6 +23,7 @@ namespace Logic {
         public Staple(int x, int y) {
             X = x;
             Y = y;
+            containers = new List<IShipContainer>();
             reservationStates = new List<ReservationState>();
         }
 

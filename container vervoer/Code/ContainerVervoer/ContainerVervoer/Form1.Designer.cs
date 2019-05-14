@@ -43,6 +43,8 @@
             this.BtnGoToResult = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.PnlResult = new System.Windows.Forms.Panel();
+            this.BtnLayerDown = new System.Windows.Forms.Button();
+            this.BtnLayerUp = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.NumShipWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumShipLength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumContainerWeight)).BeginInit();
@@ -210,7 +212,7 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(24, 3);
+            this.tabControl1.Location = new System.Drawing.Point(105, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(776, 635);
@@ -254,6 +256,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.BtnLayerDown);
             this.tabPage2.Controls.Add(this.PnlResult);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
@@ -265,17 +268,37 @@
             // 
             // PnlResult
             // 
-            this.PnlResult.Location = new System.Drawing.Point(91, 19);
+            this.PnlResult.Location = new System.Drawing.Point(85, 28);
             this.PnlResult.Name = "PnlResult";
-            this.PnlResult.Size = new System.Drawing.Size(619, 572);
+            this.PnlResult.Size = new System.Drawing.Size(601, 572);
             this.PnlResult.TabIndex = 0;
-            this.PnlResult.Paint += new System.Windows.Forms.PaintEventHandler(this.PnlResult_Paint);
+            // 
+            // BtnLayerDown
+            // 
+            this.BtnLayerDown.Location = new System.Drawing.Point(26, 273);
+            this.BtnLayerDown.Name = "BtnLayerDown";
+            this.BtnLayerDown.Size = new System.Drawing.Size(53, 43);
+            this.BtnLayerDown.TabIndex = 1;
+            this.BtnLayerDown.Text = "<==";
+            this.BtnLayerDown.UseVisualStyleBackColor = true;
+            this.BtnLayerDown.Click += new System.EventHandler(this.BtnLayerDown_Click);
+            // 
+            // BtnLayerUp
+            // 
+            this.BtnLayerUp.Location = new System.Drawing.Point(852, 301);
+            this.BtnLayerUp.Name = "BtnLayerUp";
+            this.BtnLayerUp.Size = new System.Drawing.Size(53, 43);
+            this.BtnLayerUp.TabIndex = 2;
+            this.BtnLayerUp.Text = "==>";
+            this.BtnLayerUp.UseVisualStyleBackColor = true;
+            this.BtnLayerUp.Click += new System.EventHandler(this.BtnLayerUp_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(837, 650);
+            this.ClientSize = new System.Drawing.Size(1003, 735);
+            this.Controls.Add(this.BtnLayerUp);
             this.Controls.Add(this.tabControl1);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -313,6 +336,8 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Button BtnGoToResult;
         private System.Windows.Forms.Panel PnlResult;
+        private System.Windows.Forms.Button BtnLayerUp;
+        private System.Windows.Forms.Button BtnLayerDown;
     }
 }
 
