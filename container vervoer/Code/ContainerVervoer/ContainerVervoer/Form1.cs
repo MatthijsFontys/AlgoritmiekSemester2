@@ -20,6 +20,7 @@ namespace ContainerVervoer {
             CbContainerType.Items.Add(ContainerType.cooled);
             CbContainerType.Items.Add(ContainerType.valuable);
             CbContainerType.SelectedIndex = 0;
+            LblLayerCount.Text = "Layer: " + layer;
             //PnlResult.Size = this.ClientSize;
             SetTabControl();
         }
@@ -135,15 +136,19 @@ namespace ContainerVervoer {
         }
 
         private void BtnLayerDown_Click(object sender, EventArgs e) {
-            PnlResult.Controls.Clear();
-            layer--;
-            CreateSquares(PnlResult, layer);
+            if (layer > 1) {
+                PnlResult.Controls.Clear();
+                layer--;
+                CreateSquares(PnlResult, layer);
+                LblLayerCount.Text = "Layer: " + layer;
+            }
         }
 
         private void BtnLayerUp_Click(object sender, EventArgs e) {
             PnlResult.Controls.Clear();
             layer++;
             CreateSquares(PnlResult, layer);
+            LblLayerCount.Text = "Layer: " + layer;
         }
     }
 }

@@ -45,6 +45,7 @@
             this.PnlResult = new System.Windows.Forms.Panel();
             this.BtnLayerDown = new System.Windows.Forms.Button();
             this.BtnLayerUp = new System.Windows.Forms.Button();
+            this.LblLayerCount = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NumShipWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumShipLength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumContainerWeight)).BeginInit();
@@ -256,6 +257,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.LblLayerCount);
             this.tabPage2.Controls.Add(this.BtnLayerDown);
             this.tabPage2.Controls.Add(this.PnlResult);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
@@ -270,7 +272,7 @@
             // 
             this.PnlResult.Location = new System.Drawing.Point(85, 28);
             this.PnlResult.Name = "PnlResult";
-            this.PnlResult.Size = new System.Drawing.Size(601, 572);
+            this.PnlResult.Size = new System.Drawing.Size(601, 499);
             this.PnlResult.TabIndex = 0;
             // 
             // BtnLayerDown
@@ -293,6 +295,16 @@
             this.BtnLayerUp.UseVisualStyleBackColor = true;
             this.BtnLayerUp.Click += new System.EventHandler(this.BtnLayerUp_Click);
             // 
+            // LblLayerCount
+            // 
+            this.LblLayerCount.AutoSize = true;
+            this.LblLayerCount.Font = new System.Drawing.Font("Arial Narrow", 22.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblLayerCount.Location = new System.Drawing.Point(342, 559);
+            this.LblLayerCount.Name = "LblLayerCount";
+            this.LblLayerCount.Size = new System.Drawing.Size(115, 44);
+            this.LblLayerCount.TabIndex = 0;
+            this.LblLayerCount.Text = "Layer: ";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -310,6 +322,7 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -338,6 +351,7 @@
         private System.Windows.Forms.Panel PnlResult;
         private System.Windows.Forms.Button BtnLayerUp;
         private System.Windows.Forms.Button BtnLayerDown;
+        private System.Windows.Forms.Label LblLayerCount;
     }
 }
 

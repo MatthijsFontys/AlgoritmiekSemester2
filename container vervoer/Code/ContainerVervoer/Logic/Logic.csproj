@@ -10,4 +10,8 @@
     <None Remove="FailedAttempts\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Interfaces\IBruteForce.cs" />
+  </ItemGroup>
+
 </Project>

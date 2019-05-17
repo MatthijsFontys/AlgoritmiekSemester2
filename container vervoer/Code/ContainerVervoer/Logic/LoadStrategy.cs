@@ -104,25 +104,28 @@ namespace Logic {
                     startX++;
                     xIncrement *= -1;
                 }
-                List<Staple> cooledStaples = side.Staples.Where(x => x.ReservationStates.Contains(ReservationState.Cooled)).ToList();
-                foreach (Staple staple in cooledStaples) {
+                List<Staple> cooledAndValuableStapels = side.Staples.Where(x => x.ReservationStates.Contains(ReservationState.Cooled) && 
+                 x.ReservationStates.Contains(ReservationState.Valueable)).ToList();
+                foreach (Staple staple in cooledAndValuableStapels) {
                     if (staple.Containers.Count == 0) {
-                        SortContainersByWeightDescending(helper.NotOrderedContainers);
-                        IShipContainer heaviestCooled = helper.NotOrderedContainers.FirstOrDefault(c => c is CooledContainer);
-                        if (heaviestCooled == null || staple.ReservationStates.Contains(ReservationState.Valueable))
-                            break;
+                        IShipContainer heaviestCooled =  GetHeaviestContainer(helper.NotOrderedContainers.Where(c => c is CooledContainer).ToList());
                         staple.TryAddContainer(heaviestCooled);
                         helper.NotOrderedContainers.Remove(heaviestCooled);
                     }
-                    for (int i = 0; i < helper.NotOrderedContainers.Count; i++) {
-                        SortContainersByWeight(helper.NotOrderedContainers);
-                        IShipContainer lightestCooled = helper.NotOrderedContainers.First();
-                        if (staple.TryAddContainer(helper.NotOrderedContainers[i])) {
-                            helper.NotOrderedContainers.RemoveAt(i);
-                            i--;
+                    while (staple.Containers.Count < GetMinimumValuableHeight(staple)) {
+                        int containersLeftToStaple = GetMinimumValuableHeight(staple) - staple.Containers.Count();
+                        IShipContainer lightestValuable = helper.AvailableValueables.FirstOrDefault(c => c.Weight == helper.AvailableValueables.Min(x => x.Weight));
+                        if (helper.NotOrderedContainers.Where(c => c is CooledContainer).Take(containersLeftToStaple).Sum(c => c.Weight) <= lightestValuable.Weight) {
+                            foreach (IShipContainer container in helper.NotOrderedContainers.Where(c => c is CooledContainer).Take(containersLeftToStaple)) {
+                                staple.TryAddContainer(container);
+                                helper.NotOrderedContainers.Remove(container);
+                            }
                         }
-                        else
-                            break;
+                        else {
+                            IShipContainer lightestContainer = helper.NotOrderedContainers.OrderBy(c => c.Weight).First();
+                            staple.TryAddContainer(lightestContainer);
+                            helper.NotOrderedContainers.Remove(lightestContainer);
+                        }
                     }
                 }
 
@@ -135,7 +138,7 @@ namespace Logic {
         }
 
         private int GetMinimumValuableHeight(Staple staple) {
-            return (staple.X > ship.Length - staple.X) ? ship.Length - staple.X : staple.X;
+            return (staple.X > ship.Length - staple.X) ? ship.Length - staple.X : staple.X; 
         }
 
         private bool TryPlaceContainer(IShipContainer container, int x, int y, SideAlgorihmHelper helper) {
