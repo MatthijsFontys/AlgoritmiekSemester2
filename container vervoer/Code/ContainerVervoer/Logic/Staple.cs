@@ -6,17 +6,18 @@ using System.Text;
 namespace Logic {
     public class Staple {
         private List<IShipContainer> containers;
-        private List<ReservationState> reservationStates;
         public IReadOnlyCollection<IShipContainer> Containers {
             get { return containers.AsReadOnly(); }
         }
-        public IReadOnlyCollection<ReservationState> ReservationStates {
-            get { return reservationStates.AsReadOnly(); }
-        }
+
         public double GetTotalWeight() {
-            double weight =  containers.Sum(x => x.Weight);
-            return weight - containers.FirstOrDefault(x => x.Z == 1).Weight;
+            if (containers.Any(x => x.Z == 1)) {
+                double weight = containers.Sum(x => x.Weight);
+                return weight - containers.FirstOrDefault(x => x.Z == 1).Weight;
+            }
+            return 0;
         }
+
         public int X { get; private set; }
         public int Y { get; private set; }
 
@@ -24,10 +25,11 @@ namespace Logic {
             X = x;
             Y = y;
             containers = new List<IShipContainer>();
-            reservationStates = new List<ReservationState>();
         }
 
         public bool TryAddContainer(IShipContainer container) {
+            if (container == null)
+                return false;
             container.Z = containers.Count + 1;
             containers.Add(container);
             if (container.Validate(this)){
@@ -35,10 +37,6 @@ namespace Logic {
             }
             containers.Remove(container);
             return false;
-        }
-
-        public void AddReservation(ReservationState reservation) {
-            reservationStates.Add(reservation);
         }
 
         public bool Validate() {

@@ -6,9 +6,13 @@ using System.Text;
 namespace Logic {
     public class Side {
         private List<Staple> staples;
+        private List<IShipContainer> unplacedContainers;
         public readonly SideName Name;
         public IReadOnlyCollection<Staple> Staples {
             get { return staples.AsReadOnly(); }
+        }
+        public IReadOnlyCollection<IShipContainer> UnplacedContainers {
+            get { return unplacedContainers.AsReadOnly(); }
         }
         public int Width { get; private set; }
         public int Length { get; private set; }
@@ -21,26 +25,35 @@ namespace Logic {
             Name = sideName;
             StartX = startX;
             staples = new List<Staple>();
+            unplacedContainers = new List<IShipContainer>();
+            InitStaples();
+        }
+
+        public void OrderStaplesByWeight() {
+            staples = staples.OrderBy(s => s.GetTotalWeight()).ToList();
         }
 
         public bool TryAddContainer(IShipContainer container, int x, int y) {
-            Staple stapleToFind = staples.First(s => s.X == x && s.Y == y);
-            if (stapleToFind == null) {
-                return CreateNewStapleIfValid(x, y).TryAddContainer(container);
+            Staple stapleAtXY = staples.FirstOrDefault(s => s.X == x && s.Y == y);
+            if (stapleAtXY == null)
+                stapleAtXY = CreateNewStapleIfValid(x, y);
+            if (stapleAtXY.TryAddContainer(container)) {
+                unplacedContainers.Remove(container);
+                return true;
             }
-            else
-                return stapleToFind.TryAddContainer(container);
+            return false;
         }
 
         public double GetTotalWeight() {
             return staples.Sum(x => x.GetTotalWeight());
         }
 
-        public Staple GetStapleWithCoordinates(int x, int y) {
+        public Staple GetStapleFromCoordinates(int x, int y) {
             Console.WriteLine(this);
             Staple toReturn = staples.FirstOrDefault(s => s.X == x && s.Y == y);
             return toReturn == null ? CreateNewStapleIfValid(x, y) : toReturn;
         }
+
         public bool Validate() {
             foreach (Staple staple in staples) {
                 if (staple.Validate() == false)
@@ -59,5 +72,16 @@ namespace Logic {
             throw new ArgumentException("Invalid coordinates");
         }
 
+        public void AddToUnplacedContainers(IShipContainer shipContainer) {
+            unplacedContainers.Add(shipContainer);
+        }
+
+        private void InitStaples() {
+            for (int y = 1; y <= Length; y++) {
+                for (int x = StartX; x < StartX + Width; x++) {
+                    CreateNewStapleIfValid(x, y);
+                }
+            }
+        }
     }
 }

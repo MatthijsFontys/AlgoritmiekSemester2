@@ -64,9 +64,10 @@ namespace ContainerVervoer {
                 int sideLength = PnlResult.Width / ship.Width - 5;
                 for (int y = side.Length; y >= 1; y--) {
                     for (int x = side.StartX; x < side.Width + side.StartX; x++) {
+                        Staple staple = side.GetStapleFromCoordinates(x, y);
                         sideLength = sideLength > 100 ? 100 : sideLength;
                         Button tempBtn = new Button();
-                        tempBtn.BackColor = GetBoxColor(side.GetStapleWithCoordinates(x, y), layer);
+                        tempBtn.BackColor = GetBoxColor(staple, layer);
                         tempBtn.Left = (x /*- side.StartX*/) * (sideLength + 6);
                         tempBtn.Top = (side.Length - y) * (sideLength + 6);
                         tempBtn.Width = sideLength;
@@ -74,6 +75,8 @@ namespace ContainerVervoer {
                         tempBtn.TabStop = false;
                         tempBtn.FlatStyle = FlatStyle.Flat;
                         tempBtn.FlatAppearance.BorderSize = 0;
+                        tempBtn.Text = GetText(staple);
+                        tempBtn.Font = new Font("Arial", Convert.ToInt32(sideLength * 0.3), FontStyle.Bold);
                         panel.Controls.Add(tempBtn);
                     }
 
@@ -113,11 +116,18 @@ namespace ContainerVervoer {
                 return Color.LightGoldenrodYellow;
             if (container is CooledContainer)
                 return Color.CornflowerBlue;
-            else
+            if (container is RegularContainer)
                 return Color.Silver;
+            else
+                return Color.SandyBrown;
         }
 
-
+        private string GetText(Staple staple) {
+            if (staple.Containers.FirstOrDefault(c => c.Z == layer) != null)
+                return Math.Floor(staple.Containers.FirstOrDefault(c => c.Z == layer).Weight).ToString();
+            else
+                return "";
+        }
 
         private void BtnGoToResult_Click(object sender, EventArgs e) {
             tabControl1.SelectedIndex = 1;

@@ -28,8 +28,8 @@ namespace Logic {
         }
 
         public double GetWeightDifferenceInPercent() {
-            Side left = GetSide(SideName.Left);
-            Side right = GetSide(SideName.Right);
+            Side left = GetSideByName(SideName.left);
+            Side right = GetSideByName(SideName.right);
             double totalWeight = sides.Sum(x => x.GetTotalWeight());
             double weightDifference = left.GetTotalWeight() - right.GetTotalWeight();
             if (weightDifference < 0)
@@ -39,26 +39,29 @@ namespace Logic {
 
         public bool TryAddContainer(IShipContainer container, int x, int y) {
             if (x <= Width / 2)
-                return GetSide(SideName.Left).TryAddContainer(container, x, y);
+                return GetSideByName(SideName.left).TryAddContainer(container, x, y);
             else
-                return GetSide(SideName.Right).TryAddContainer(container, x, y);
+                return GetSideByName(SideName.right).TryAddContainer(container, x, y);
         }
 
-        public Side GetSide(SideName sideName) {
+        public Side GetSideByName(SideName sideName) {
             return sides.FirstOrDefault(x => x.Name == sideName);
         }
 
+        public Side GetLightestSide() {
+            return sides.OrderBy(s => s.UnplacedContainers.Sum(c => c.Weight)).First();
+        }
 
         private void CreateSides() {
             int sideWidth = Width;
             if (Width % 2 != 0) {
                 sideWidth -= 1;
                 int startX = Convert.ToInt32(Math.Ceiling((double)Length / 2));
-                sides.Add(new Side(1, Length, SideName.Middle, startX));
+                sides.Add(new Side(1, Length, SideName.middle, startX));
             }
             sideWidth /= 2;
-            sides.Add(new Side(sideWidth, Length, SideName.Left, 1));
-            sides.Add(new Side(sideWidth, Length, SideName.Right, Width - sideWidth + 1));
+            sides.Add(new Side(sideWidth, Length, SideName.left, 1));
+            sides.Add(new Side(sideWidth, Length, SideName.right, Width - sideWidth + 1));
         }
     }
 }
