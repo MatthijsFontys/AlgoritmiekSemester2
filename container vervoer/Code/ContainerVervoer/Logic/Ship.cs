@@ -28,28 +28,26 @@ namespace Logic {
         }
 
         public double GetWeightDifferenceInPercent() {
-            Side left = GetSideByName(SideName.left);
-            Side right = GetSideByName(SideName.right);
             double totalWeight = sides.Sum(x => x.GetTotalWeight());
-            double weightDifference = left.GetTotalWeight() - right.GetTotalWeight();
+            double weightDifference = sides[0].GetTotalWeight() - sides[1].GetTotalWeight();
             if (weightDifference < 0)
                 weightDifference *= -1;
             return weightDifference / totalWeight * 100;
         }
 
         public bool TryAddContainer(IShipContainer container, int x, int y) {
-            if (x <= Width / 2)
-                return GetSideByName(SideName.left).TryAddContainer(container, x, y);
-            else
-                return GetSideByName(SideName.right).TryAddContainer(container, x, y);
-        }
-
-        public Side GetSideByName(SideName sideName) {
-            return sides.FirstOrDefault(x => x.Name == sideName);
+            if (container == null)
+                return false;
+            return GetSideByCoordinates(x, y).TryAddContainer(container, x, y);
         }
 
         public Side GetLightestSide() {
             return sides.OrderBy(s => s.UnplacedContainers.Sum(c => c.Weight)).First();
+        }
+
+
+        private Side GetSideByCoordinates(int x, int y) {
+            return sides.FirstOrDefault(s => s.StartX <= x && x <= s.StartX + s.Width - 1);
         }
 
         private void CreateSides() {
@@ -57,11 +55,11 @@ namespace Logic {
             if (Width % 2 != 0) {
                 sideWidth -= 1;
                 int startX = Convert.ToInt32(Math.Ceiling((double)Length / 2));
-                sides.Add(new Side(1, Length, SideName.middle, startX));
+                sides.Add(new Side(1, Length, startX));
             }
             sideWidth /= 2;
-            sides.Add(new Side(sideWidth, Length, SideName.left, 1));
-            sides.Add(new Side(sideWidth, Length, SideName.right, Width - sideWidth + 1));
+            sides.Add(new Side(sideWidth, Length, 1));
+            sides.Add(new Side(sideWidth, Length, Width - sideWidth + 1));
         }
     }
 }

@@ -7,7 +7,6 @@ namespace Logic {
     public class Side {
         private List<Staple> staples;
         private List<IShipContainer> unplacedContainers;
-        public readonly SideName Name;
         public IReadOnlyCollection<Staple> Staples {
             get { return staples.AsReadOnly(); }
         }
@@ -18,11 +17,9 @@ namespace Logic {
         public int Length { get; private set; }
         public int StartX { get; private set; }
 
-
-        public Side(int width, int length, SideName sideName, int startX = 0) {
+        public Side(int width, int length, int startX = 0) {
             Width = width;
             Length = length;
-            Name = sideName;
             StartX = startX;
             staples = new List<Staple>();
             unplacedContainers = new List<IShipContainer>();
@@ -49,9 +46,13 @@ namespace Logic {
         }
 
         public Staple GetStapleFromCoordinates(int x, int y) {
-            Console.WriteLine(this);
             Staple toReturn = staples.FirstOrDefault(s => s.X == x && s.Y == y);
             return toReturn == null ? CreateNewStapleIfValid(x, y) : toReturn;
+        }
+
+        public Staple GetLightestStaple() {
+            return staples.OrderBy(s => s.GetTotalWeight())
+                .ThenBy(s => s.Containers.Count()).FirstOrDefault();
         }
 
         public bool Validate() {
@@ -68,6 +69,7 @@ namespace Logic {
                 staples.Add(newStaple);
                 return newStaple;
             }
+            Console.WriteLine($"Start X {StartX}");
             Console.WriteLine($"X:{x} Y:{y}");
             throw new ArgumentException("Invalid coordinates");
         }
@@ -78,9 +80,8 @@ namespace Logic {
 
         private void InitStaples() {
             for (int y = 1; y <= Length; y++) {
-                for (int x = StartX; x < StartX + Width; x++) {
+                for (int x = StartX; x < StartX + Width; x++)
                     CreateNewStapleIfValid(x, y);
-                }
             }
         }
     }

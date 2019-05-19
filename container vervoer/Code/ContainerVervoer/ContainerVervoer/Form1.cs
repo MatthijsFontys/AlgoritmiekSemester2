@@ -61,9 +61,10 @@ namespace ContainerVervoer {
 
         private void CreateSquares(Panel panel, int layer = 1) {
             foreach (Side side in ship.Sides) {
-                int sideLength = PnlResult.Width / ship.Width - 5;
+                int longestSide = (ship.Width > ship.Length) ? ship.Width : ship.Length;
+                int sideLength = PnlResult.Width / longestSide - 5;
                 for (int y = side.Length; y >= 1; y--) {
-                    for (int x = side.StartX; x < side.Width + side.StartX; x++) {
+                    for (int x = side.StartX; x < side.StartX + side.Width; x++) {
                         Staple staple = side.GetStapleFromCoordinates(x, y);
                         sideLength = sideLength > 100 ? 100 : sideLength;
                         Button tempBtn = new Button();
@@ -76,7 +77,8 @@ namespace ContainerVervoer {
                         tempBtn.FlatStyle = FlatStyle.Flat;
                         tempBtn.FlatAppearance.BorderSize = 0;
                         tempBtn.Text = GetText(staple);
-                        tempBtn.Font = new Font("Arial", Convert.ToInt32(sideLength * 0.3), FontStyle.Bold);
+                        int fontSize = (Convert.ToInt32(sideLength * 0.3) < 5) ? 5 : Convert.ToInt32(sideLength * 0.3);
+                        tempBtn.Font = new Font("Arial", fontSize, FontStyle.Bold);
                         panel.Controls.Add(tempBtn);
                     }
 
@@ -97,6 +99,14 @@ namespace ContainerVervoer {
                 }
 
             }
+        }
+
+        private void SetControlPositions() {
+            PnlResult.AutoSize = true;
+            //PnlResult.Height = PnlResult.Parent.ClientSize.Height - 100;
+            PnlResult.Left = PnlResult.ClientSize.Width / 2 - PnlResult.Width / 2;
+            PnlInfo.Top = PnlInfo.Parent.Height - PnlInfo.Height;
+            PnlInfo.Left = PnlResult.ClientSize.Width / 2 - PnlInfo.Width / 2;
         }
 
         /*  private Color GetBoxColor(Staple staple) {
@@ -134,7 +144,8 @@ namespace ContainerVervoer {
         }
 
         private void Form1_Resize(object sender, EventArgs e) {
-            PnlResult.Size = this.ClientSize;
+            tabControl1.Width = this.ClientSize.Width;
+            SetControlPositions();
         }
 
         private void PnlResult_Paint(object sender, PaintEventArgs e) {

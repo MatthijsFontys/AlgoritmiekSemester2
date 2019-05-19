@@ -42,16 +42,18 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.BtnGoToResult = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.PnlResult = new System.Windows.Forms.Panel();
-            this.BtnLayerDown = new System.Windows.Forms.Button();
-            this.BtnLayerUp = new System.Windows.Forms.Button();
             this.LblLayerCount = new System.Windows.Forms.Label();
+            this.BtnLayerDown = new System.Windows.Forms.Button();
+            this.PnlResult = new System.Windows.Forms.Panel();
+            this.BtnLayerUp = new System.Windows.Forms.Button();
+            this.PnlInfo = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.NumShipWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumShipLength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumContainerWeight)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.PnlInfo.SuspendLayout();
             this.SuspendLayout();
             // 
             // LbStartContainers
@@ -82,6 +84,11 @@
             this.NumShipWidth.Name = "NumShipWidth";
             this.NumShipWidth.Size = new System.Drawing.Size(96, 22);
             this.NumShipWidth.TabIndex = 2;
+            this.NumShipWidth.Value = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
             // 
             // NumShipLength
             // 
@@ -89,6 +96,11 @@
             this.NumShipLength.Name = "NumShipLength";
             this.NumShipLength.Size = new System.Drawing.Size(96, 22);
             this.NumShipLength.TabIndex = 3;
+            this.NumShipLength.Value = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
             // 
             // LbLeftSide
             // 
@@ -135,7 +147,7 @@
             65536});
             this.NumContainerWeight.Location = new System.Drawing.Point(171, 158);
             this.NumContainerWeight.Maximum = new decimal(new int[] {
-            30,
+            120,
             0,
             0,
             0});
@@ -148,7 +160,7 @@
             this.NumContainerWeight.Size = new System.Drawing.Size(96, 22);
             this.NumContainerWeight.TabIndex = 8;
             this.NumContainerWeight.Value = new decimal(new int[] {
-            4,
+            30,
             0,
             0,
             0});
@@ -257,8 +269,7 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.LblLayerCount);
-            this.tabPage2.Controls.Add(this.BtnLayerDown);
+            this.tabPage2.Controls.Add(this.PnlInfo);
             this.tabPage2.Controls.Add(this.PnlResult);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
@@ -268,16 +279,19 @@
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // PnlResult
+            // LblLayerCount
             // 
-            this.PnlResult.Location = new System.Drawing.Point(85, 28);
-            this.PnlResult.Name = "PnlResult";
-            this.PnlResult.Size = new System.Drawing.Size(601, 499);
-            this.PnlResult.TabIndex = 0;
+            this.LblLayerCount.AutoSize = true;
+            this.LblLayerCount.Font = new System.Drawing.Font("Arial Narrow", 22.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblLayerCount.Location = new System.Drawing.Point(75, 3);
+            this.LblLayerCount.Name = "LblLayerCount";
+            this.LblLayerCount.Size = new System.Drawing.Size(115, 44);
+            this.LblLayerCount.TabIndex = 0;
+            this.LblLayerCount.Text = "Layer: ";
             // 
             // BtnLayerDown
             // 
-            this.BtnLayerDown.Location = new System.Drawing.Point(26, 273);
+            this.BtnLayerDown.Location = new System.Drawing.Point(0, 4);
             this.BtnLayerDown.Name = "BtnLayerDown";
             this.BtnLayerDown.Size = new System.Drawing.Size(53, 43);
             this.BtnLayerDown.TabIndex = 1;
@@ -285,9 +299,16 @@
             this.BtnLayerDown.UseVisualStyleBackColor = true;
             this.BtnLayerDown.Click += new System.EventHandler(this.BtnLayerDown_Click);
             // 
+            // PnlResult
+            // 
+            this.PnlResult.Location = new System.Drawing.Point(85, 28);
+            this.PnlResult.Name = "PnlResult";
+            this.PnlResult.Size = new System.Drawing.Size(601, 499);
+            this.PnlResult.TabIndex = 0;
+            // 
             // BtnLayerUp
             // 
-            this.BtnLayerUp.Location = new System.Drawing.Point(852, 301);
+            this.BtnLayerUp.Location = new System.Drawing.Point(239, 4);
             this.BtnLayerUp.Name = "BtnLayerUp";
             this.BtnLayerUp.Size = new System.Drawing.Size(53, 43);
             this.BtnLayerUp.TabIndex = 2;
@@ -295,22 +316,21 @@
             this.BtnLayerUp.UseVisualStyleBackColor = true;
             this.BtnLayerUp.Click += new System.EventHandler(this.BtnLayerUp_Click);
             // 
-            // LblLayerCount
+            // PnlInfo
             // 
-            this.LblLayerCount.AutoSize = true;
-            this.LblLayerCount.Font = new System.Drawing.Font("Arial Narrow", 22.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LblLayerCount.Location = new System.Drawing.Point(342, 559);
-            this.LblLayerCount.Name = "LblLayerCount";
-            this.LblLayerCount.Size = new System.Drawing.Size(115, 44);
-            this.LblLayerCount.TabIndex = 0;
-            this.LblLayerCount.Text = "Layer: ";
+            this.PnlInfo.Controls.Add(this.LblLayerCount);
+            this.PnlInfo.Controls.Add(this.BtnLayerDown);
+            this.PnlInfo.Controls.Add(this.BtnLayerUp);
+            this.PnlInfo.Location = new System.Drawing.Point(255, 533);
+            this.PnlInfo.Name = "PnlInfo";
+            this.PnlInfo.Size = new System.Drawing.Size(312, 58);
+            this.PnlInfo.TabIndex = 0;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1003, 735);
-            this.Controls.Add(this.BtnLayerUp);
             this.Controls.Add(this.tabControl1);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -322,7 +342,8 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
+            this.PnlInfo.ResumeLayout(false);
+            this.PnlInfo.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -349,9 +370,10 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Button BtnGoToResult;
         private System.Windows.Forms.Panel PnlResult;
-        private System.Windows.Forms.Button BtnLayerUp;
         private System.Windows.Forms.Button BtnLayerDown;
         private System.Windows.Forms.Label LblLayerCount;
+        private System.Windows.Forms.Button BtnLayerUp;
+        private System.Windows.Forms.Panel PnlInfo;
     }
 }
 

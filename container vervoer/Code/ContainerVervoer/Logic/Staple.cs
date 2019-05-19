@@ -11,12 +11,13 @@ namespace Logic {
         }
 
         public double GetTotalWeight() {
-            if (containers.Any(x => x.Z == 1)) {
+            if (containers.Count > 0) {
                 double weight = containers.Sum(x => x.Weight);
                 return weight - containers.FirstOrDefault(x => x.Z == 1).Weight;
             }
             return 0;
         }
+
 
         public int X { get; private set; }
         public int Y { get; private set; }
@@ -30,12 +31,13 @@ namespace Logic {
         public bool TryAddContainer(IShipContainer container) {
             if (container == null)
                 return false;
-            container.Z = containers.Count + 1;
             containers.Add(container);
-            if (container.Validate(this)){
+            OptimizeStapleOrder();
+            if (container.Validate(this)) {
                 return true;
             }
             containers.Remove(container);
+            UpdateContainersZPosition();
             return false;
         }
 
@@ -46,5 +48,17 @@ namespace Logic {
             }
             return true;
         }
+
+        private void UpdateContainersZPosition() {
+            for (int i = 0; i < containers.Count; i++)
+                containers[i].SetZ(this, i + 1);
+        }
+
+        private void OptimizeStapleOrder() {
+            containers = containers.OrderBy(c => c.GetOptimizedZ(this)).ToList();
+            UpdateContainersZPosition();
+        }
+
+
     }
 }
