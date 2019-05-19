@@ -12,36 +12,39 @@ using Logic;
 namespace ContainerVervoer {
     public partial class Form1 : Form {
         private int layer;
+        private int highestZ;
         private Ship ship;
         public Form1() {
             InitializeComponent();
             layer = 1;
+            highestZ = 1;
             CbContainerType.Items.Add(ContainerType.regular);
             CbContainerType.Items.Add(ContainerType.cooled);
             CbContainerType.Items.Add(ContainerType.valuable);
             CbContainerType.SelectedIndex = 0;
             LblLayerCount.Text = "Layer: " + layer;
-            //PnlResult.Size = this.ClientSize;
-            SetTabControl();
+            SetControlPositions();
         }
 
         private void BtnAddContainer_Click(object sender, EventArgs e) {
             double weight = (double)NumContainerWeight.Value;
-            if((ContainerType)CbContainerType.SelectedItem == ContainerType.cooled)
-                LbStartContainers.Items.Add(new CooledContainer((int)NumShipLength.Value, weight));
-            else if((ContainerType)CbContainerType.SelectedItem == ContainerType.regular)
-                LbStartContainers.Items.Add(new RegularContainer(weight));
-            else
-                LbStartContainers.Items.Add(new ValuableContainer(weight));
+            for (int i = 0; i < NumContainerAmount.Value; i++) {
+                if ((ContainerType)CbContainerType.SelectedItem == ContainerType.cooled)
+                    LbStartContainers.Items.Add(new CooledContainer((int)NumShipLength.Value, weight));
+                else if ((ContainerType)CbContainerType.SelectedItem == ContainerType.regular)
+                    LbStartContainers.Items.Add(new RegularContainer(weight));
+                else
+                    LbStartContainers.Items.Add(new ValuableContainer(weight));
+            }
 
         }
 
         private void BtnDivideContainers_Click(object sender, EventArgs e) {
+            Reset();
             ILoadStrategy loader = new LoadStrategy();
             ship = new Ship((int)NumShipWidth.Value, (int)NumShipLength.Value);
             loader.DivideContainers(GetContainersFromLb(), ship);
             CreateSquares(PnlResult, layer);
-            //CreateSquares(ship.GetSide(SideName.Right), PnlResultRight);
         }
 
         private List<IShipContainer> GetContainersFromLb() {
@@ -51,18 +54,10 @@ namespace ContainerVervoer {
             return toReturn;
         }
 
-        private void SetTabControl() {
-            tabControl1.ItemSize = new Size(0, 1);
-            tabControl1.Size = this.ClientSize;
-            tabControl1.Location = new Point(0, -1);
-            tabControl1.Appearance = TabAppearance.FlatButtons;
-            tabControl1.SizeMode = TabSizeMode.Fixed;
-        }
-
         private void CreateSquares(Panel panel, int layer = 1) {
             foreach (Side side in ship.Sides) {
                 int longestSide = (ship.Width > ship.Length) ? ship.Width : ship.Length;
-                int sideLength = PnlResult.Width / longestSide - 5;
+                int sideLength = 600 / longestSide - 5;
                 for (int y = side.Length; y >= 1; y--) {
                     for (int x = side.StartX; x < side.StartX + side.Width; x++) {
                         Staple staple = side.GetStapleFromCoordinates(x, y);
@@ -81,44 +76,38 @@ namespace ContainerVervoer {
                         tempBtn.Font = new Font("Arial", fontSize, FontStyle.Bold);
                         panel.Controls.Add(tempBtn);
                     }
-
-                  /*  if (side.Name == SideName.Left) {
-                        Button tempBtn = new Button();
-                        tempBtn.BackColor = Color.Red;
-                        tempBtn.Left = (side.Width + 1) * (sideLength + 6) - 6;
-                        tempBtn.Top = -10;
-                        tempBtn.Width = 5;
-                        tempBtn.Height = panel.ClientSize.Height;
-                        tempBtn.TabStop = false;
-                        tempBtn.FlatStyle = FlatStyle.Flat;
-                        tempBtn.FlatAppearance.BorderSize = 0;
-                        tempBtn.BringToFront();
-                        panel.Controls.Add(tempBtn);
-
-                    }*/
                 }
-
+                int highestZInSide = side.Staples.Max(s => s.Containers.Count);
+                if (highestZInSide > highestZ)
+                    highestZ = highestZInSide;
             }
         }
 
         private void SetControlPositions() {
-            PnlResult.AutoSize = true;
-            //PnlResult.Height = PnlResult.Parent.ClientSize.Height - 100;
-            PnlResult.Left = PnlResult.ClientSize.Width / 2 - PnlResult.Width / 2;
-            PnlInfo.Top = PnlInfo.Parent.Height - PnlInfo.Height;
-            PnlInfo.Left = PnlResult.ClientSize.Width / 2 - PnlInfo.Width / 2;
-        }
+            // Left
+            PnlLeft.Left = 0;
+            PnlLeft.Width = Convert.ToInt32(this.ClientSize.Width * .4);
+            PnlLeft.Height = this.ClientSize.Height;
+            PnlLeft.Top = 0;
 
-        /*  private Color GetBoxColor(Staple staple) {
-              if (staple.ReservationStates.Contains(ReservationState.Cooled) && staple.ReservationStates.Contains(ReservationState.Valueable))
-                  return Color.Orange;
-              if (staple.ReservationStates.Contains(ReservationState.Cooled))
-                  return Color.CornflowerBlue;
-              if (staple.ReservationStates.Contains(ReservationState.Valueable))
-                  return Color.LightGoldenrodYellow;
-              else
-                  return Color.Silver;
-          } */
+            // Right
+            PnlRight.Left = PnlLeft.Width;
+            PnlRight.Width = Convert.ToInt32(this.ClientSize.Width * .6);
+            PnlRight.Height = this.ClientSize.Height;
+            PnlRight.Top = 0;
+
+            // Right content
+            PnlResult.Left = 0;
+            PnlResult.Width = PnlResult.Parent.ClientSize.Width;
+            PnlResult.Top = 0;
+            PnlResult.Height = Convert.ToInt32(PnlResult.Parent.Height * .9);
+
+            PnlInfo.Left = PnlInfo.Parent.Width / 2 - PnlInfo.Width / 2;
+            PnlInfo.Top = PnlResult.ClientSize.Height - 100;
+            PnlInfo.Height = Convert.ToInt32(PnlResult.Parent.Height * .1);
+
+
+        }
 
         private Color GetBoxColor(Staple staple, int layer = 1) {
             IShipContainer container = staple.Containers.FirstOrDefault(c => c.Z == layer);
@@ -139,21 +128,8 @@ namespace ContainerVervoer {
                 return "";
         }
 
-        private void BtnGoToResult_Click(object sender, EventArgs e) {
-            tabControl1.SelectedIndex = 1;
-        }
-
         private void Form1_Resize(object sender, EventArgs e) {
-            tabControl1.Width = this.ClientSize.Width;
             SetControlPositions();
-        }
-
-        private void PnlResult_Paint(object sender, PaintEventArgs e) {
-            //Graphics g = e.Graphics;
-            //Pen pen = new Pen(Color.Red, 5);
-            //Panel currentSender = sender as Panel;
-            //float middle = currentSender.ClientSize.Width / 2;
-            //g.DrawLine(pen, middle, 0, middle, currentSender.Height);
         }
 
         private void BtnLayerDown_Click(object sender, EventArgs e) {
@@ -166,10 +142,32 @@ namespace ContainerVervoer {
         }
 
         private void BtnLayerUp_Click(object sender, EventArgs e) {
+            if (layer < highestZ) {
+                PnlResult.Controls.Clear();
+                layer++;
+                CreateSquares(PnlResult, layer);
+                LblLayerCount.Text = "Layer: " + layer;
+            }
+        }
+
+        private void Reset() {
             PnlResult.Controls.Clear();
-            layer++;
-            CreateSquares(PnlResult, layer);
+            layer = 1;
             LblLayerCount.Text = "Layer: " + layer;
+        }
+
+        private void BtnClear_Click(object sender, EventArgs e) {
+            LbStartContainers.Items.Clear();
+        }
+
+        private void BtnRemoveContainer_Click(object sender, EventArgs e) {
+            try {
+                int selectedIndex = LbStartContainers.SelectedIndex;
+                LbStartContainers.Items.RemoveAt(selectedIndex);
+            }
+            catch (Exception) {
+                MessageBox.Show("Select an item before removing");
+            }
         }
     }
 }

@@ -27,8 +27,6 @@
             this.CbContainerType = new System.Windows.Forms.ComboBox();
             this.NumShipWidth = new System.Windows.Forms.NumericUpDown();
             this.NumShipLength = new System.Windows.Forms.NumericUpDown();
-            this.LbLeftSide = new System.Windows.Forms.ListBox();
-            this.LbRightSide = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.NumContainerWeight = new System.Windows.Forms.NumericUpDown();
@@ -38,37 +36,39 @@
             this.label6 = new System.Windows.Forms.Label();
             this.BtnAddContainer = new System.Windows.Forms.Button();
             this.BtnDivideContainers = new System.Windows.Forms.Button();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.BtnGoToResult = new System.Windows.Forms.Button();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.PnlInfo = new System.Windows.Forms.Panel();
             this.LblLayerCount = new System.Windows.Forms.Label();
             this.BtnLayerDown = new System.Windows.Forms.Button();
-            this.PnlResult = new System.Windows.Forms.Panel();
             this.BtnLayerUp = new System.Windows.Forms.Button();
-            this.PnlInfo = new System.Windows.Forms.Panel();
+            this.PnlResult = new System.Windows.Forms.Panel();
+            this.BtnRemoveContainer = new System.Windows.Forms.Button();
+            this.PnlLeft = new System.Windows.Forms.Panel();
+            this.PnlRight = new System.Windows.Forms.Panel();
+            this.NumContainerAmount = new System.Windows.Forms.NumericUpDown();
+            this.label7 = new System.Windows.Forms.Label();
+            this.BtnClear = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.NumShipWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumShipLength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumContainerWeight)).BeginInit();
-            this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
             this.PnlInfo.SuspendLayout();
+            this.PnlLeft.SuspendLayout();
+            this.PnlRight.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NumContainerAmount)).BeginInit();
             this.SuspendLayout();
             // 
             // LbStartContainers
             // 
             this.LbStartContainers.FormattingEnabled = true;
             this.LbStartContainers.ItemHeight = 16;
-            this.LbStartContainers.Location = new System.Drawing.Point(18, 124);
+            this.LbStartContainers.Location = new System.Drawing.Point(20, 37);
             this.LbStartContainers.Name = "LbStartContainers";
-            this.LbStartContainers.Size = new System.Drawing.Size(119, 244);
+            this.LbStartContainers.Size = new System.Drawing.Size(119, 356);
             this.LbStartContainers.TabIndex = 0;
             // 
             // CbContainerType
             // 
             this.CbContainerType.FormattingEnabled = true;
-            this.CbContainerType.Location = new System.Drawing.Point(291, 156);
+            this.CbContainerType.Location = new System.Drawing.Point(279, 190);
             this.CbContainerType.Name = "CbContainerType";
             this.CbContainerType.Size = new System.Drawing.Size(121, 24);
             this.CbContainerType.TabIndex = 1;
@@ -80,7 +80,7 @@
             0,
             0,
             0});
-            this.NumShipWidth.Location = new System.Drawing.Point(189, 57);
+            this.NumShipWidth.Location = new System.Drawing.Point(172, 82);
             this.NumShipWidth.Name = "NumShipWidth";
             this.NumShipWidth.Size = new System.Drawing.Size(96, 22);
             this.NumShipWidth.TabIndex = 2;
@@ -92,7 +92,7 @@
             // 
             // NumShipLength
             // 
-            this.NumShipLength.Location = new System.Drawing.Point(291, 57);
+            this.NumShipLength.Location = new System.Drawing.Point(274, 82);
             this.NumShipLength.Name = "NumShipLength";
             this.NumShipLength.Size = new System.Drawing.Size(96, 22);
             this.NumShipLength.TabIndex = 3;
@@ -102,28 +102,10 @@
             0,
             0});
             // 
-            // LbLeftSide
-            // 
-            this.LbLeftSide.FormattingEnabled = true;
-            this.LbLeftSide.ItemHeight = 16;
-            this.LbLeftSide.Location = new System.Drawing.Point(446, 124);
-            this.LbLeftSide.Name = "LbLeftSide";
-            this.LbLeftSide.Size = new System.Drawing.Size(119, 244);
-            this.LbLeftSide.TabIndex = 4;
-            // 
-            // LbRightSide
-            // 
-            this.LbRightSide.FormattingEnabled = true;
-            this.LbRightSide.ItemHeight = 16;
-            this.LbRightSide.Location = new System.Drawing.Point(602, 124);
-            this.LbRightSide.Name = "LbRightSide";
-            this.LbRightSide.Size = new System.Drawing.Size(119, 244);
-            this.LbRightSide.TabIndex = 5;
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(203, 34);
+            this.label1.Location = new System.Drawing.Point(186, 59);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(44, 17);
             this.label1.TabIndex = 6;
@@ -132,7 +114,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(313, 34);
+            this.label2.Location = new System.Drawing.Point(296, 59);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(52, 17);
             this.label2.TabIndex = 7;
@@ -145,7 +127,7 @@
             0,
             0,
             65536});
-            this.NumContainerWeight.Location = new System.Drawing.Point(171, 158);
+            this.NumContainerWeight.Location = new System.Drawing.Point(159, 192);
             this.NumContainerWeight.Maximum = new decimal(new int[] {
             120,
             0,
@@ -168,25 +150,27 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(263, 2);
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(246, 40);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(36, 17);
+            this.label3.Size = new System.Drawing.Size(40, 17);
             this.label3.TabIndex = 9;
             this.label3.Text = "Ship";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(252, 110);
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(230, 149);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(69, 17);
+            this.label4.Size = new System.Drawing.Size(78, 17);
             this.label4.TabIndex = 10;
             this.label4.Text = "Container";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(186, 138);
+            this.label5.Location = new System.Drawing.Point(174, 172);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(52, 17);
             this.label5.TabIndex = 11;
@@ -195,7 +179,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(334, 138);
+            this.label6.Location = new System.Drawing.Point(322, 172);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(40, 17);
             this.label6.TabIndex = 12;
@@ -203,9 +187,9 @@
             // 
             // BtnAddContainer
             // 
-            this.BtnAddContainer.Location = new System.Drawing.Point(189, 218);
+            this.BtnAddContainer.Location = new System.Drawing.Point(174, 347);
             this.BtnAddContainer.Name = "BtnAddContainer";
-            this.BtnAddContainer.Size = new System.Drawing.Size(75, 23);
+            this.BtnAddContainer.Size = new System.Drawing.Size(95, 46);
             this.BtnAddContainer.TabIndex = 13;
             this.BtnAddContainer.Text = "Add";
             this.BtnAddContainer.UseVisualStyleBackColor = true;
@@ -213,71 +197,23 @@
             // 
             // BtnDivideContainers
             // 
-            this.BtnDivideContainers.Location = new System.Drawing.Point(316, 218);
+            this.BtnDivideContainers.Location = new System.Drawing.Point(299, 347);
             this.BtnDivideContainers.Name = "BtnDivideContainers";
-            this.BtnDivideContainers.Size = new System.Drawing.Size(75, 23);
+            this.BtnDivideContainers.Size = new System.Drawing.Size(95, 46);
             this.BtnDivideContainers.TabIndex = 14;
-            this.BtnDivideContainers.Text = "Divide";
+            this.BtnDivideContainers.Text = "Start";
             this.BtnDivideContainers.UseVisualStyleBackColor = true;
             this.BtnDivideContainers.Click += new System.EventHandler(this.BtnDivideContainers_Click);
             // 
-            // tabControl1
+            // PnlInfo
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(105, 3);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(776, 635);
-            this.tabControl1.TabIndex = 15;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.BtnGoToResult);
-            this.tabPage1.Controls.Add(this.CbContainerType);
-            this.tabPage1.Controls.Add(this.BtnDivideContainers);
-            this.tabPage1.Controls.Add(this.LbStartContainers);
-            this.tabPage1.Controls.Add(this.BtnAddContainer);
-            this.tabPage1.Controls.Add(this.NumShipWidth);
-            this.tabPage1.Controls.Add(this.label6);
-            this.tabPage1.Controls.Add(this.NumShipLength);
-            this.tabPage1.Controls.Add(this.label5);
-            this.tabPage1.Controls.Add(this.LbLeftSide);
-            this.tabPage1.Controls.Add(this.label4);
-            this.tabPage1.Controls.Add(this.LbRightSide);
-            this.tabPage1.Controls.Add(this.label3);
-            this.tabPage1.Controls.Add(this.label1);
-            this.tabPage1.Controls.Add(this.NumContainerWeight);
-            this.tabPage1.Controls.Add(this.label2);
-            this.tabPage1.Location = new System.Drawing.Point(4, 25);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(768, 606);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // BtnGoToResult
-            // 
-            this.BtnGoToResult.Location = new System.Drawing.Point(246, 295);
-            this.BtnGoToResult.Name = "BtnGoToResult";
-            this.BtnGoToResult.Size = new System.Drawing.Size(100, 40);
-            this.BtnGoToResult.TabIndex = 15;
-            this.BtnGoToResult.Text = "Result";
-            this.BtnGoToResult.UseVisualStyleBackColor = true;
-            this.BtnGoToResult.Click += new System.EventHandler(this.BtnGoToResult_Click);
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.PnlInfo);
-            this.tabPage2.Controls.Add(this.PnlResult);
-            this.tabPage2.Location = new System.Drawing.Point(4, 25);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(768, 606);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.PnlInfo.Controls.Add(this.LblLayerCount);
+            this.PnlInfo.Controls.Add(this.BtnLayerDown);
+            this.PnlInfo.Controls.Add(this.BtnLayerUp);
+            this.PnlInfo.Location = new System.Drawing.Point(144, 593);
+            this.PnlInfo.Name = "PnlInfo";
+            this.PnlInfo.Size = new System.Drawing.Size(312, 58);
+            this.PnlInfo.TabIndex = 0;
             // 
             // LblLayerCount
             // 
@@ -299,13 +235,6 @@
             this.BtnLayerDown.UseVisualStyleBackColor = true;
             this.BtnLayerDown.Click += new System.EventHandler(this.BtnLayerDown_Click);
             // 
-            // PnlResult
-            // 
-            this.PnlResult.Location = new System.Drawing.Point(85, 28);
-            this.PnlResult.Name = "PnlResult";
-            this.PnlResult.Size = new System.Drawing.Size(601, 499);
-            this.PnlResult.TabIndex = 0;
-            // 
             // BtnLayerUp
             // 
             this.BtnLayerUp.Location = new System.Drawing.Point(239, 4);
@@ -316,34 +245,121 @@
             this.BtnLayerUp.UseVisualStyleBackColor = true;
             this.BtnLayerUp.Click += new System.EventHandler(this.BtnLayerUp_Click);
             // 
-            // PnlInfo
+            // PnlResult
             // 
-            this.PnlInfo.Controls.Add(this.LblLayerCount);
-            this.PnlInfo.Controls.Add(this.BtnLayerDown);
-            this.PnlInfo.Controls.Add(this.BtnLayerUp);
-            this.PnlInfo.Location = new System.Drawing.Point(255, 533);
-            this.PnlInfo.Name = "PnlInfo";
-            this.PnlInfo.Size = new System.Drawing.Size(312, 58);
-            this.PnlInfo.TabIndex = 0;
+            this.PnlResult.Location = new System.Drawing.Point(91, 40);
+            this.PnlResult.Name = "PnlResult";
+            this.PnlResult.Size = new System.Drawing.Size(601, 499);
+            this.PnlResult.TabIndex = 0;
+            // 
+            // BtnRemoveContainer
+            // 
+            this.BtnRemoveContainer.Location = new System.Drawing.Point(29, 409);
+            this.BtnRemoveContainer.Name = "BtnRemoveContainer";
+            this.BtnRemoveContainer.Size = new System.Drawing.Size(100, 40);
+            this.BtnRemoveContainer.TabIndex = 16;
+            this.BtnRemoveContainer.Text = "Remove";
+            this.BtnRemoveContainer.UseVisualStyleBackColor = true;
+            this.BtnRemoveContainer.Click += new System.EventHandler(this.BtnRemoveContainer_Click);
+            // 
+            // PnlLeft
+            // 
+            this.PnlLeft.Controls.Add(this.BtnClear);
+            this.PnlLeft.Controls.Add(this.label7);
+            this.PnlLeft.Controls.Add(this.NumContainerAmount);
+            this.PnlLeft.Controls.Add(this.label1);
+            this.PnlLeft.Controls.Add(this.BtnRemoveContainer);
+            this.PnlLeft.Controls.Add(this.label2);
+            this.PnlLeft.Controls.Add(this.NumContainerWeight);
+            this.PnlLeft.Controls.Add(this.CbContainerType);
+            this.PnlLeft.Controls.Add(this.label3);
+            this.PnlLeft.Controls.Add(this.BtnDivideContainers);
+            this.PnlLeft.Controls.Add(this.label4);
+            this.PnlLeft.Controls.Add(this.LbStartContainers);
+            this.PnlLeft.Controls.Add(this.label5);
+            this.PnlLeft.Controls.Add(this.BtnAddContainer);
+            this.PnlLeft.Controls.Add(this.NumShipLength);
+            this.PnlLeft.Controls.Add(this.NumShipWidth);
+            this.PnlLeft.Controls.Add(this.label6);
+            this.PnlLeft.Location = new System.Drawing.Point(12, 12);
+            this.PnlLeft.Name = "PnlLeft";
+            this.PnlLeft.Size = new System.Drawing.Size(415, 539);
+            this.PnlLeft.TabIndex = 17;
+            // 
+            // PnlRight
+            // 
+            this.PnlRight.Controls.Add(this.PnlInfo);
+            this.PnlRight.Controls.Add(this.PnlResult);
+            this.PnlRight.Location = new System.Drawing.Point(433, 32);
+            this.PnlRight.Name = "PnlRight";
+            this.PnlRight.Size = new System.Drawing.Size(684, 691);
+            this.PnlRight.TabIndex = 18;
+            // 
+            // NumContainerAmount
+            // 
+            this.NumContainerAmount.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.NumContainerAmount.Location = new System.Drawing.Point(212, 248);
+            this.NumContainerAmount.Maximum = new decimal(new int[] {
+            999,
+            0,
+            0,
+            0});
+            this.NumContainerAmount.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.NumContainerAmount.Name = "NumContainerAmount";
+            this.NumContainerAmount.Size = new System.Drawing.Size(96, 22);
+            this.NumContainerAmount.TabIndex = 17;
+            this.NumContainerAmount.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(233, 228);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(56, 17);
+            this.label7.TabIndex = 18;
+            this.label7.Text = "Amount";
+            // 
+            // BtnClear
+            // 
+            this.BtnClear.Location = new System.Drawing.Point(29, 455);
+            this.BtnClear.Name = "BtnClear";
+            this.BtnClear.Size = new System.Drawing.Size(100, 40);
+            this.BtnClear.TabIndex = 19;
+            this.BtnClear.Text = "Clear";
+            this.BtnClear.UseVisualStyleBackColor = true;
+            this.BtnClear.Click += new System.EventHandler(this.BtnClear_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1003, 735);
-            this.Controls.Add(this.tabControl1);
+            this.ClientSize = new System.Drawing.Size(1109, 735);
+            this.Controls.Add(this.PnlRight);
+            this.Controls.Add(this.PnlLeft);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Resize += new System.EventHandler(this.Form1_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.NumShipWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumShipLength)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumContainerWeight)).EndInit();
-            this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
             this.PnlInfo.ResumeLayout(false);
             this.PnlInfo.PerformLayout();
+            this.PnlLeft.ResumeLayout(false);
+            this.PnlLeft.PerformLayout();
+            this.PnlRight.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NumContainerAmount)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -354,8 +370,6 @@
         private System.Windows.Forms.ComboBox CbContainerType;
         private System.Windows.Forms.NumericUpDown NumShipWidth;
         private System.Windows.Forms.NumericUpDown NumShipLength;
-        private System.Windows.Forms.ListBox LbLeftSide;
-        private System.Windows.Forms.ListBox LbRightSide;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown NumContainerWeight;
@@ -365,15 +379,17 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button BtnAddContainer;
         private System.Windows.Forms.Button BtnDivideContainers;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.Button BtnGoToResult;
         private System.Windows.Forms.Panel PnlResult;
         private System.Windows.Forms.Button BtnLayerDown;
         private System.Windows.Forms.Label LblLayerCount;
         private System.Windows.Forms.Button BtnLayerUp;
         private System.Windows.Forms.Panel PnlInfo;
+        private System.Windows.Forms.Button BtnRemoveContainer;
+        private System.Windows.Forms.Panel PnlLeft;
+        private System.Windows.Forms.Panel PnlRight;
+        private System.Windows.Forms.Button BtnClear;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.NumericUpDown NumContainerAmount;
     }
 }
 
