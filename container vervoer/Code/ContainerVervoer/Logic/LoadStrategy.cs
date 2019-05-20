@@ -7,9 +7,9 @@ namespace Logic {
     public class LoadStrategy : ILoadStrategy {
 
         private Ship ship;
-        private List<IShipContainer> containers;
+        private List<IContainer> containers;
 
-        public void DivideContainers(List<IShipContainer> containers, Ship ship) {
+        public void DivideContainers(List<IContainer> containers, Ship ship) {
             this.ship = ship;
             this.containers = containers;
             DivideWeightBetweenSides();
@@ -18,26 +18,29 @@ namespace Logic {
                 PlaceValuableForSide(side);
                 PlaceRegualarForSide(side);
             }
+
+            if (!ship.Validate())
+                throw new Exception("Ship is not valid");
         }
 
         // Step 1
         private void DivideWeightBetweenSides() {
             SortContainersByTypeThenByWeightDescending(containers);
-            foreach (IShipContainer container in containers)
+            foreach (IContainer container in containers)
                 ship.GetLightestSide().AddToUnplacedContainers(container);
         }
 
         // Step 2
         private void PlaceCooledForSide(Side side) {
             for (int n = side.Width -1 ; n >= 0; n--) {
-                Staple staple = side.GetStapleFromCoordinates(GetXPosNSpotsFromEdge(n, side), side.Length);
+                Stack staple = side.GetStapleFromCoordinates(GetXPosNSpotsFromEdge(n, side), side.Length);
                 FillCooledStaple(side.UnplacedContainers, side, staple.X, staple.Y);
             }
         }
 
         //step 2.5
-        private void FillCooledStaple(IEnumerable<IShipContainer> containers, Side side, int x, int y) {
-            Staple staple = side.GetStapleFromCoordinates(x, y);
+        private void FillCooledStaple(IEnumerable<IContainer> containers, Side side, int x, int y) {
+            Stack staple = side.GetStapleFromCoordinates(x, y);
             if (staple.Containers.Count == 0)
                 ship.TryAddContainer(GetHeaviestContainerFromType<CooledContainer>(containers), x, y);
             while (ship.TryAddContainer(GetLightestContainerFromType<CooledContainer>(containers), x, y));
@@ -47,10 +50,10 @@ namespace Logic {
         private void PlaceValuableForSide(Side side) {
             int n = 0;
             int y = 1;
-            List<IShipContainer> valuableContainers = GetContainersFromType<ValuableContainer>(side.UnplacedContainers);
-            foreach (IShipContainer container in valuableContainers) {
+            List<IContainer> valuableContainers = GetContainersFromType<ValuableContainer>(side.UnplacedContainers);
+            foreach (IContainer container in valuableContainers) {
                 int x = GetXPosNSpotsFromEdge(n, side);
-                Staple staple = side.GetStapleFromCoordinates(x, y);
+                Stack staple = side.GetStapleFromCoordinates(x, y);
                 FillValuableStapleToMinHeight(side.UnplacedContainers, side, x, y);
                 if (y + 1 > ship.Length) {
                     n++;
@@ -62,9 +65,9 @@ namespace Logic {
         }
 
         // Step 3.5
-        private void FillValuableStapleToMinHeight(IEnumerable<IShipContainer> containers, Side side, int x, int y) {
-            Staple staple = side.GetStapleFromCoordinates(x, y);
-            IShipContainer valuableContainer = GetLightestContainerFromType<ValuableContainer>(containers);
+        private void FillValuableStapleToMinHeight(IEnumerable<IContainer> containers, Side side, int x, int y) {
+            Stack staple = side.GetStapleFromCoordinates(x, y);
+            IContainer valuableContainer = GetLightestContainerFromType<ValuableContainer>(containers);
             ship.TryAddContainer(valuableContainer, x, y);
             while (staple.Containers.Count() < GetMinimumValuableHeight(staple)) {
                 if (staple.Containers.Count() == 1) {
@@ -78,9 +81,9 @@ namespace Logic {
 
         // Step 4
         private void PlaceRegualarForSide(Side side) {
-            IEnumerable<IShipContainer> regularContainers = GetContainersFromType<RegularContainer>(side.UnplacedContainers);
+            IEnumerable<IContainer> regularContainers = GetContainersFromType<RegularContainer>(side.UnplacedContainers);
             regularContainers = SortContainersByTypeThenByWeightDescending(regularContainers);
-            foreach (IShipContainer container in regularContainers) {
+            foreach (IContainer container in regularContainers) {
                 AddContainerToLightestStaple(container, side);
             }
             if (side.UnplacedContainers.Count > 0)
@@ -88,9 +91,9 @@ namespace Logic {
         }
 
         // Step 4.5
-        private void AddContainerToLightestStaple(IShipContainer container, Side side) {
+        private void AddContainerToLightestStaple(IContainer container, Side side) {
             side.OrderStaplesByWeight();
-            foreach (Staple staple in side.Staples) {
+            foreach (Stack staple in side.Stacks) {
                 if (ship.TryAddContainer(container, staple.X, staple.Y))
                     break;
             }
@@ -108,14 +111,14 @@ namespace Logic {
                 return ship.Width - n; // right
         }
 
-        private int GetMinimumValuableHeight(Staple staple) {
+        private int GetMinimumValuableHeight(Stack staple) {
             if (staple.X > ship.Width / 2)
                 return ship.Width - staple.X + 1; // closer to right edge
             else
                 return staple.X; // closer to left edge
         }
 
-        private IEnumerable<IShipContainer> SortContainersByTypeThenByWeightDescending(IEnumerable<IShipContainer> containers) {
+        private IEnumerable<IContainer> SortContainersByTypeThenByWeightDescending(IEnumerable<IContainer> containers) {
            return containers.OrderBy(x => x is ValuableContainer)
                 .ThenBy(x => x is CooledContainer)
                 .ThenByDescending(c => c.Weight).ToList();
@@ -123,19 +126,19 @@ namespace Logic {
         #endregion
 
         #region generic
-        private IShipContainer GetHeaviestContainerFromType<T>(IEnumerable<IShipContainer> containers) where T : IShipContainer {
-            List<IShipContainer> containersOfType = containers.Where(c => c is T).ToList();
+        private IContainer GetHeaviestContainerFromType<T>(IEnumerable<IContainer> containers) where T : IContainer {
+            List<IContainer> containersOfType = containers.Where(c => c is T).ToList();
             double maxWeight = (containersOfType.Count() > 0) ? containersOfType.Max(c => c.Weight) : -1;
                 return containersOfType.FirstOrDefault(x => x.Weight == maxWeight);
         }
 
-        private IShipContainer GetLightestContainerFromType<T>(IEnumerable<IShipContainer> containers) where T : IShipContainer {
-            List<IShipContainer> containersOfType = containers.Where(c => c is T).ToList();
+        private IContainer GetLightestContainerFromType<T>(IEnumerable<IContainer> containers) where T : IContainer {
+            List<IContainer> containersOfType = containers.Where(c => c is T).ToList();
             double minWeight = (containersOfType.Count() > 0) ? containersOfType.Min(c => c.Weight) : -1;
             return containersOfType.FirstOrDefault(x => x.Weight == minWeight);
         }
 
-        private List<IShipContainer> GetContainersFromType<T>(IEnumerable<IShipContainer> containers) where T : IShipContainer {
+        private List<IContainer> GetContainersFromType<T>(IEnumerable<IContainer> containers) where T : IContainer {
             return containers.Where(c => c is T).ToList();
         }
         #endregion

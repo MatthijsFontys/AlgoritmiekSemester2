@@ -11,13 +11,19 @@ using Logic;
 
 namespace ContainerVervoer {
     public partial class Form1 : Form {
+        private int coolCount;
+        private int regularCount;
+        private int valuableCount;
         private int layer;
-        private int highestZ;
+        private int highestZ; 
         private Ship ship;
         public Form1() {
             InitializeComponent();
             layer = 1;
             highestZ = 1;
+            coolCount = 0;
+            regularCount = 0;
+            valuableCount = 0;
             CbContainerType.Items.Add(ContainerType.regular);
             CbContainerType.Items.Add(ContainerType.cooled);
             CbContainerType.Items.Add(ContainerType.valuable);
@@ -28,29 +34,39 @@ namespace ContainerVervoer {
 
         private void BtnAddContainer_Click(object sender, EventArgs e) {
             double weight = (double)NumContainerWeight.Value;
-            for (int i = 0; i < NumContainerAmount.Value; i++) {
-                if ((ContainerType)CbContainerType.SelectedItem == ContainerType.cooled)
+            int amount = Convert.ToInt32(NumContainerAmount.Value);
+            for (int i = 0; i < amount ; i++) {
+                if ((ContainerType)CbContainerType.SelectedItem == ContainerType.cooled) {
                     LbStartContainers.Items.Add(new CooledContainer((int)NumShipLength.Value, weight));
-                else if ((ContainerType)CbContainerType.SelectedItem == ContainerType.regular)
+                    coolCount ++;
+                }
+                else if ((ContainerType)CbContainerType.SelectedItem == ContainerType.regular) {
                     LbStartContainers.Items.Add(new RegularContainer(weight));
-                else
+                    regularCount ++;
+                }
+                else {
                     LbStartContainers.Items.Add(new ValuableContainer(weight));
+                    valuableCount ++;
+                }
             }
-
+            SetCountLabels();
         }
 
         private void BtnDivideContainers_Click(object sender, EventArgs e) {
             Reset();
+            SetCounts();
+            SetCountLabels();
             ILoadStrategy loader = new LoadStrategy();
             ship = new Ship((int)NumShipWidth.Value, (int)NumShipLength.Value);
             loader.DivideContainers(GetContainersFromLb(), ship);
             CreateSquares(PnlResult, layer);
+            lblWeightDifference.Text = Math.Round(ship.GetWeightDifferenceInPercent(), 2) + " %";
         }
 
-        private List<IShipContainer> GetContainersFromLb() {
-            List<IShipContainer> toReturn = new List<IShipContainer>();
+        private List<Logic.IContainer> GetContainersFromLb() {
+            List<Logic.IContainer> toReturn = new List<Logic.IContainer>();
             foreach (var item in LbStartContainers.Items)
-                toReturn.Add(item as IShipContainer);
+                toReturn.Add(item as Logic.IContainer);
             return toReturn;
         }
 
@@ -60,11 +76,11 @@ namespace ContainerVervoer {
                 int sideLength = 600 / longestSide - 5;
                 for (int y = side.Length; y >= 1; y--) {
                     for (int x = side.StartX; x < side.StartX + side.Width; x++) {
-                        Staple staple = side.GetStapleFromCoordinates(x, y);
+                        Stack staple = side.GetStapleFromCoordinates(x, y);
                         sideLength = sideLength > 100 ? 100 : sideLength;
                         Button tempBtn = new Button();
                         tempBtn.BackColor = GetBoxColor(staple, layer);
-                        tempBtn.Left = (x /*- side.StartX*/) * (sideLength + 6);
+                        tempBtn.Left = x * (sideLength + 6);
                         tempBtn.Top = (side.Length - y) * (sideLength + 6);
                         tempBtn.Width = sideLength;
                         tempBtn.Height = sideLength;
@@ -77,9 +93,10 @@ namespace ContainerVervoer {
                         panel.Controls.Add(tempBtn);
                     }
                 }
-                int highestZInSide = side.Staples.Max(s => s.Containers.Count);
+                int highestZInSide = side.Stacks.Max(s => s.Containers.Count);
                 if (highestZInSide > highestZ)
                     highestZ = highestZInSide;
+                ToggleButtonsIfNeeded();
             }
         }
 
@@ -97,7 +114,8 @@ namespace ContainerVervoer {
             PnlRight.Top = 0;
 
             // Right content
-            PnlResult.Left = 0;
+            PnlLegend.Left = 0;
+            PnlResult.Left = PnlLegend.Width;
             PnlResult.Width = PnlResult.Parent.ClientSize.Width;
             PnlResult.Top = 0;
             PnlResult.Height = Convert.ToInt32(PnlResult.Parent.Height * .9);
@@ -105,12 +123,10 @@ namespace ContainerVervoer {
             PnlInfo.Left = PnlInfo.Parent.Width / 2 - PnlInfo.Width / 2;
             PnlInfo.Top = PnlResult.ClientSize.Height - 100;
             PnlInfo.Height = Convert.ToInt32(PnlResult.Parent.Height * .1);
-
-
         }
 
-        private Color GetBoxColor(Staple staple, int layer = 1) {
-            IShipContainer container = staple.Containers.FirstOrDefault(c => c.Z == layer);
+        private Color GetBoxColor(Stack staple, int layer = 1) {
+            Logic.IContainer container = staple.Containers.FirstOrDefault(c => c.Z == layer);
             if (container is ValuableContainer)
                 return Color.LightGoldenrodYellow;
             if (container is CooledContainer)
@@ -121,7 +137,7 @@ namespace ContainerVervoer {
                 return Color.SandyBrown;
         }
 
-        private string GetText(Staple staple) {
+        private string GetText(Stack staple) {
             if (staple.Containers.FirstOrDefault(c => c.Z == layer) != null)
                 return Math.Floor(staple.Containers.FirstOrDefault(c => c.Z == layer).Weight).ToString();
             else
@@ -136,6 +152,7 @@ namespace ContainerVervoer {
             if (layer > 1) {
                 PnlResult.Controls.Clear();
                 layer--;
+                ToggleButtonsIfNeeded();
                 CreateSquares(PnlResult, layer);
                 LblLayerCount.Text = "Layer: " + layer;
             }
@@ -145,6 +162,7 @@ namespace ContainerVervoer {
             if (layer < highestZ) {
                 PnlResult.Controls.Clear();
                 layer++;
+                ToggleButtonsIfNeeded();
                 CreateSquares(PnlResult, layer);
                 LblLayerCount.Text = "Layer: " + layer;
             }
@@ -153,7 +171,27 @@ namespace ContainerVervoer {
         private void Reset() {
             PnlResult.Controls.Clear();
             layer = 1;
+            ResetLabels();
+        }
+
+        private void SetCounts() {
+            regularCount = 0;
+            valuableCount = 0;
+            coolCount = 0;
+            foreach (var item in LbStartContainers.Items) {
+                if (item is RegularContainer)
+                    regularCount++;
+                if (item is CooledContainer)
+                    coolCount++;
+                else
+                    valuableCount++;
+            }
+        }
+
+        private void ResetLabels() {
             LblLayerCount.Text = "Layer: " + layer;
+            SetCountLabels();
+            lblWeightDifference.Text = " 0 %";
         }
 
         private void BtnClear_Click(object sender, EventArgs e) {
@@ -168,6 +206,24 @@ namespace ContainerVervoer {
             catch (Exception) {
                 MessageBox.Show("Select an item before removing");
             }
+        }
+
+        private void SetCountLabels() {
+            LblCoolCount.Text = coolCount.ToString();
+            LblRegularCount.Text = regularCount.ToString();
+            LblValuableCount.Text = valuableCount.ToString();
+        }
+
+        private void ToggleButtonsIfNeeded() {
+            if (layer == 1)
+                BtnLayerDown.Enabled = false;
+            else
+                BtnLayerDown.Enabled = true;
+            if (layer == highestZ)
+                BtnLayerUp.Enabled = false;
+            else
+                BtnLayerUp.Enabled = true;
+
         }
     }
 }

@@ -5,6 +5,6 @@ using System.Text;
 
 namespace Logic {
     public interface ILoadStrategy {
-        void DivideContainers(List<IShipContainer> containers, Ship ship);
+        void DivideContainers(List<IContainer> containers, Ship ship);
     }
 }

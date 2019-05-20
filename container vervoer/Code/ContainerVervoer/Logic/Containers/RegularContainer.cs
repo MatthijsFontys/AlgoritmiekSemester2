@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 namespace Logic {
-    public class RegularContainer : IShipContainer {
+    public class RegularContainer : IContainer {
         public int Z { get; private set; }
         public double Weight { get; private set; }
 
@@ -15,19 +15,19 @@ namespace Logic {
         public override string ToString() {
             return "Regular " + Math.Round(Weight, 2);
         }
-        public bool Validate(Staple staple) {
-            if (staple.GetTotalWeight() > 120)
-                return false;
+        public bool Validate(Stack staple) {
+            if (!staple.Containers.Contains(this))
+                throw new ArgumentException("Staple needs to contain the target container", "staple");
             return true;
         }
 
-        public int GetOptimizedZ(Staple staple) {
+        public int GetOptimizedZ(Stack staple) {
             if (staple.Containers.Max(c => c.Weight) == Weight)
                 return 1;
             return staple.Containers.Count();
         }
 
-        public void SetZ(Staple staple, int z) {
+        public void SetZ(Stack staple, int z) {
             if (z > 0 && z < 30 && z <= staple.Containers.Count + 1)
                 Z = z;
         }

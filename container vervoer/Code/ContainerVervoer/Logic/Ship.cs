@@ -18,12 +18,13 @@ namespace Logic {
         }
 
         public bool Validate() {
+            if (GetWeightDifferenceInPercent() > 20)
+                throw new Exception("Side weight could not be balanced");
+                //return false;
             foreach (Side side in sides) {
                 if (side.Validate() == false)
                     return false;
             }
-            if (GetWeightDifferenceInPercent() > 20)
-                return false;
             return true;
         }
 
@@ -32,10 +33,12 @@ namespace Logic {
             double weightDifference = sides[0].GetTotalWeight() - sides[1].GetTotalWeight();
             if (weightDifference < 0)
                 weightDifference *= -1;
+            if (weightDifference == 0)
+                return 0;
             return weightDifference / totalWeight * 100;
         }
 
-        public bool TryAddContainer(IShipContainer container, int x, int y) {
+        public bool TryAddContainer(IContainer container, int x, int y) {
             if (container == null)
                 return false;
             return GetSideByCoordinates(x, y).TryAddContainer(container, x, y);

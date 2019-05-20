@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 
 namespace Logic {
-    public class Staple {
-        private List<IShipContainer> containers;
-        public IReadOnlyCollection<IShipContainer> Containers {
+    public class Stack {
+        private List<IContainer> containers;
+        public IReadOnlyCollection<IContainer> Containers {
             get { return containers.AsReadOnly(); }
         }
 
@@ -22,18 +22,18 @@ namespace Logic {
         public int X { get; private set; }
         public int Y { get; private set; }
 
-        public Staple(int x, int y) {
+        public Stack(int x, int y) {
             X = x;
             Y = y;
-            containers = new List<IShipContainer>();
+            containers = new List<IContainer>();
         }
 
-        public bool TryAddContainer(IShipContainer container) {
+        public bool TryAddContainer(IContainer container) {
             if (container == null)
                 return false;
             containers.Add(container);
-            OptimizeStapleOrder();
-            if (container.Validate(this)) {
+            OptimizeStackOrder();
+            if (Validate()) {
                 return true;
             }
             containers.Remove(container);
@@ -42,7 +42,9 @@ namespace Logic {
         }
 
         public bool Validate() {
-            foreach (IShipContainer container in containers) {
+            if (GetTotalWeight() > 120)
+                return false;
+            foreach (IContainer container in containers) {
                 if (container.Validate(this) == false)
                     return false;
             }
@@ -54,7 +56,7 @@ namespace Logic {
                 containers[i].SetZ(this, i + 1);
         }
 
-        private void OptimizeStapleOrder() {
+        private void OptimizeStackOrder() {
             containers = containers.OrderBy(c => c.GetOptimizedZ(this)).ToList();
             UpdateContainersZPosition();
         }
