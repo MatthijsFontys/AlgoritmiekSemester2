@@ -54,11 +54,15 @@ namespace Logic {
             return toReturn == null ? CreateNewStapleIfValid(x, y) : toReturn;
         }
 
-        public Stack GetLightestStaple() {
-            return stacks
-                .OrderBy(s => s.GetTotalWeight())
-                .ThenBy(s => s.Containers.Count())
-                .FirstOrDefault();
+        //public Stack GetLightestStack() {
+        //    return stacks
+        //        .OrderBy(s => s.GetTotalWeight())
+        //        .ThenBy(s => s.Containers.Count())
+        //        .FirstOrDefault();
+        //}
+
+        public void AddToUnplacedContainers(IContainer shipContainer) {
+            unplacedContainers.Add(shipContainer);
         }
 
         public bool Validate() {
@@ -78,10 +82,6 @@ namespace Logic {
             Console.WriteLine($"Start X {StartX}");
             Console.WriteLine($"X:{x} Y:{y}");
             throw new ArgumentException("Invalid coordinates");
-        }
-
-        public void AddToUnplacedContainers(IContainer shipContainer) {
-            unplacedContainers.Add(shipContainer);
         }
 
         private void InitStaples() {

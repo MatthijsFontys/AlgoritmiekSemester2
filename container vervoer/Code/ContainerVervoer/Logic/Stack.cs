@@ -6,6 +6,8 @@ using System.Text;
 namespace Logic {
     public class Stack {
         private List<IContainer> containers;
+        public int X { get; private set; }
+        public int Y { get; private set; }
         public IReadOnlyCollection<IContainer> Containers {
             get { return containers.AsReadOnly(); }
         }
@@ -17,10 +19,6 @@ namespace Logic {
             }
             return 0;
         }
-
-
-        public int X { get; private set; }
-        public int Y { get; private set; }
 
         public Stack(int x, int y) {
             X = x;
