@@ -23,7 +23,7 @@ namespace Logic {
             StartX = startX;
             stacks = new List<Stack>();
             unplacedContainers = new List<IContainer>();
-            InitStaples();
+            InitStacks();
         }
 
         public void OrderStaplesByWeight() {
@@ -54,13 +54,6 @@ namespace Logic {
             return toReturn == null ? CreateNewStapleIfValid(x, y) : toReturn;
         }
 
-        //public Stack GetLightestStack() {
-        //    return stacks
-        //        .OrderBy(s => s.GetTotalWeight())
-        //        .ThenBy(s => s.Containers.Count())
-        //        .FirstOrDefault();
-        //}
-
         public void AddToUnplacedContainers(IContainer shipContainer) {
             unplacedContainers.Add(shipContainer);
         }
@@ -84,7 +77,7 @@ namespace Logic {
             throw new ArgumentException("Invalid coordinates");
         }
 
-        private void InitStaples() {
+        private void InitStacks() {
             for (int y = 1; y <= Length; y++) {
                 for (int x = StartX; x < StartX + Width; x++)
                     CreateNewStapleIfValid(x, y);
