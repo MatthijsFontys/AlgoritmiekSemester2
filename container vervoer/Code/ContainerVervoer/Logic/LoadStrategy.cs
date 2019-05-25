@@ -33,8 +33,8 @@ namespace Logic {
         // Step 2
         private void PlaceCooledForSide(Side side) {
             for (int n = side.Width -1 ; n >= 0; n--) {
-                Stack staple = side.GetStapleFromCoordinates(GetXPosNSpotsFromEdge(n, side), side.Length);
-                FillCooledStaple(side.UnplacedContainers, side, staple.X, staple.Y);
+                Stack stack = side.GetStapleFromCoordinates(GetXPositionNSpotsFromEdge(n, side), side.Length);
+                FillCooledStaple(side.UnplacedContainers, side, stack.X, stack.Y);
             }
         }
 
@@ -52,7 +52,7 @@ namespace Logic {
             int y = 1;
             List<IContainer> valuableContainers = GetContainersFromType<ValuableContainer>(side.UnplacedContainers);
             foreach (IContainer container in valuableContainers) {
-                int x = GetXPosNSpotsFromEdge(n, side);
+                int x = GetXPositionNSpotsFromEdge(n, side);
                 Stack staple = side.GetStapleFromCoordinates(x, y);
                 FillValuableStapleToMinHeight(side.UnplacedContainers, side, x, y);
                 if (y + 1 > ship.Length) {
@@ -103,12 +103,12 @@ namespace Logic {
         /// <summary>
         /// Because the start X position is different for each side
         /// </summary>
-        /// <param name="n">Number of spots from the edge</param>
-        private int GetXPosNSpotsFromEdge(int n, Side side) {
+        private int GetXPositionNSpotsFromEdge(int n, Side side) {
             if (n + 1 >= side.StartX) // left
                 return n + 1;
-            else
-                return ship.Width - n; // right
+            else if (side.StartX == Math.Floor((double)ship.Width / 2) + 1 && ship.Sides.Count() > 2)
+                return side.StartX - n; // middle
+            return ship.Width - n; // right
         }
 
         private int GetMinimumValuableHeight(Stack staple) {

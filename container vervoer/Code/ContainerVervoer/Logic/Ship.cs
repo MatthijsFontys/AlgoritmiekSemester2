@@ -20,7 +20,6 @@ namespace Logic {
         public bool Validate() {
             if (GetWeightDifferenceInPercent() > 20)
                 throw new Exception("Side weight could not be balanced");
-                //return false;
             foreach (Side side in sides) {
                 if (side.Validate() == false)
                     return false;

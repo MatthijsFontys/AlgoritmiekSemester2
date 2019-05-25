@@ -58,12 +58,12 @@ namespace ContainerVervoer {
             SetCountLabels();
             ILoadStrategy loader = new LoadStrategy();
             ship = new Ship((int)NumShipWidth.Value, (int)NumShipLength.Value);
-            loader.DivideContainers(GetContainersFromLb(), ship);
+            loader.DivideContainers(GetContainersFromListBox(), ship);
             CreateSquares(PnlResult, layer);
             lblWeightDifference.Text = Math.Round(ship.GetWeightDifferenceInPercent(), 2) + " %";
         }
 
-        private List<Logic.IContainer> GetContainersFromLb() {
+        private List<Logic.IContainer> GetContainersFromListBox() {
             List<Logic.IContainer> toReturn = new List<Logic.IContainer>();
             foreach (var item in LbStartContainers.Items)
                 toReturn.Add(item as Logic.IContainer);
