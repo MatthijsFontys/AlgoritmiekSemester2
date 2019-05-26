@@ -15,7 +15,7 @@ namespace Logic {
         public bool Validate(Stack staple) {
             if (!staple.Containers.Contains(this))
                 throw new ArgumentException("Staple needs to contain the target container", "staple");
-            return staple.Containers.Max(x => x.Z) == Z && staple.GetTotalWeight() <= 120 &&
+            return staple.Containers.Max(x => x.Z) == Z &&
                     staple.Containers.Count(c => c is ValuableContainer) == 1;
         }
 

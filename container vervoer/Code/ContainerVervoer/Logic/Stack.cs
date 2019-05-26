@@ -13,11 +13,15 @@ namespace Logic {
         }
 
         public double GetTotalWeight() {
-            if (containers.Count > 0) {
-                double weight = containers.Sum(x => x.Weight);
-                return weight - containers.FirstOrDefault(x => x.Z == 1).Weight;
-            }
+            if (containers.Count > 0)
+                return containers.Sum(x => x.Weight);
             return 0;
+        }
+
+        private bool IsWeightValid() {
+            if (containers.Count == 0)
+                return true;
+            return GetTotalWeight() - containers.First(c => c.Z == 1).Weight <= 120;
         }
 
         public Stack(int x, int y) {
@@ -40,7 +44,7 @@ namespace Logic {
         }
 
         public bool Validate() {
-            if (GetTotalWeight() > 120)
+            if (! IsWeightValid())
                 return false;
             foreach (IContainer container in containers) {
                 if (container.Validate(this) == false)

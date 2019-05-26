@@ -76,7 +76,7 @@ namespace ContainerVervoer {
                 int sideLength = 600 / longestSide - 5;
                 for (int y = side.Length; y >= 1; y--) {
                     for (int x = side.StartX; x < side.StartX + side.Width; x++) {
-                        Stack staple = side.GetStapleFromCoordinates(x, y);
+                        Stack staple = side.GetStackFromCoordinates(x, y);
                         sideLength = sideLength > 100 ? 100 : sideLength;
                         Button tempBtn = new Button();
                         tempBtn.BackColor = GetBoxColor(staple, layer);

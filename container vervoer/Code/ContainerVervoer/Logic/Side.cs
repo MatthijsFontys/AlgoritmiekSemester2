@@ -35,7 +35,7 @@ namespace Logic {
         public bool TryAddContainer(IContainer container, int x, int y) {
             Stack stapleAtXY = stacks.FirstOrDefault(s => s.X == x && s.Y == y);
             if (stapleAtXY == null)
-                stapleAtXY = CreateNewStapleIfValid(x, y);
+                stapleAtXY = CreateNewStackIfValid(x, y);
             if (stapleAtXY.TryAddContainer(container)) {
                 unplacedContainers.Remove(container);
                 return true;
@@ -48,10 +48,10 @@ namespace Logic {
                 .Sum(x => x.GetTotalWeight());
         }
 
-        public Stack GetStapleFromCoordinates(int x, int y) {
+        public Stack GetStackFromCoordinates(int x, int y) {
             Stack toReturn = stacks
                 .FirstOrDefault(s => s.X == x && s.Y == y);
-            return toReturn == null ? CreateNewStapleIfValid(x, y) : toReturn;
+            return toReturn == null ? CreateNewStackIfValid(x, y) : toReturn;
         }
 
         public void AddToUnplacedContainers(IContainer shipContainer) {
@@ -66,21 +66,19 @@ namespace Logic {
             return true;
         }
 
-        private Stack CreateNewStapleIfValid(int x, int y) {
+        private Stack CreateNewStackIfValid(int x, int y) {
             if (x >= StartX && x < StartX + Width && y > 0 && y <= Length) {
                 Stack newStaple = new Stack(x, y);
                 stacks.Add(newStaple);
                 return newStaple;
             }
-            Console.WriteLine($"Start X {StartX}");
-            Console.WriteLine($"X:{x} Y:{y}");
             throw new ArgumentException("Invalid coordinates");
         }
 
         private void InitStacks() {
             for (int y = 1; y <= Length; y++) {
                 for (int x = StartX; x < StartX + Width; x++)
-                    CreateNewStapleIfValid(x, y);
+                    CreateNewStackIfValid(x, y);
             }
         }
     }

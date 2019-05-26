@@ -28,8 +28,9 @@ namespace Logic {
         }
 
         public double GetWeightDifferenceInPercent() {
-            double totalWeight = sides.Sum(x => x.GetTotalWeight());
-            double weightDifference = sides[0].GetTotalWeight() - sides[1].GetTotalWeight();
+            double totalWeight = sides.Sum(s => s.GetTotalWeight());
+            sides = sides.OrderBy(s => s.StartX).ToList();
+            double weightDifference =  sides[0].GetTotalWeight() - sides[sides.Count - 1].GetTotalWeight();
             if (weightDifference < 0)
                 weightDifference *= -1;
             if (weightDifference == 0)
@@ -44,7 +45,11 @@ namespace Logic {
         }
 
         public Side GetLightestSide() {
-            return sides.OrderBy(s => s.UnplacedContainers.Sum(c => c.Weight)).First();
+            if(sides.Count == 2)
+                return sides.OrderBy(s => s.UnplacedContainers.Sum(c => c.Weight)).First();
+            return sides.
+                  OrderBy(s => s.UnplacedContainers.Sum(c => c.Weight)).
+                  Where(s => s.StartX != (double)Width / 2 + .5).First();
         }
 
 
@@ -56,7 +61,7 @@ namespace Logic {
             int sideWidth = Width;
             if (Width % 2 != 0) {
                 sideWidth -= 1;
-                int startX = Convert.ToInt32(Math.Ceiling((double)Length / 2));
+                int startX = Convert.ToInt32(Math.Ceiling((double)Width / 2));
                 sides.Add(new Side(1, Length, startX));
             }
             sideWidth /= 2;
