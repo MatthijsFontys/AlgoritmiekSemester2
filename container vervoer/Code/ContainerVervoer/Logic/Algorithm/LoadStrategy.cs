@@ -23,23 +23,18 @@ namespace Logic {
                 throw new Exception("Ship is not valid");
         }
 
-        // Step 1
         private void DivideWeightBetweenSides() {
             WeightDivider wd = new WeightDivider(ship, containers);
             wd.DivideStart();
             FillMiddleIfExists();
             wd.DivideRest();
-
-            //SortContainersByTypeThenByWeightDescending(containers);
-            //foreach (IContainer container in containers)
-            //    ship.GetLightestSide().AddToUnplacedContainers(container);
         }
 
         private void FillMiddleIfExists() {
             if (ship.Sides.Count == 3) {
                 int middleStartX = Convert.ToInt32(Math.Ceiling((double)ship.Width / 2));
                 Side middle = ship.Sides.First(s => s.StartX == middleStartX);
-                SortContainersByMedian(containers);
+                containers = SortContainersByMedian(containers);
                 for (int i = 0; i < containers.Count; i++) {
                     if (AddContainerToLightestStaple(containers[i], middle)) {
                         containers.Remove(containers[i]);
@@ -49,16 +44,18 @@ namespace Logic {
             }
         }
 
-        private void SortContainersByMedian(List<IContainer> containers) {
+        private List<IContainer> SortContainersByMedian(List<IContainer> containers) {
             List<IContainer> sorted = new List<IContainer>();
-            containers.OrderBy(c => c.Weight);
-            for (int i = 0; i < containers.Count; i+=2) {
-                sorted.Add(containers[i]);
+            containers = containers.OrderBy(c => c.Weight).ToList();
+            double loopAmount = Math.Ceiling((double)containers.Count / 2);
+            for (int i = 0; i < loopAmount; i ++) {
+                sorted.Add(this.containers[i]);
                 int indexFromEnd = containers.Count - 1 - i;
-                if (i != indexFromEnd) // The middle has not been reached
-                    sorted.Add(containers[indexFromEnd]);
+                if (i == indexFromEnd)
+                    break;
+                sorted.Add(this.containers[indexFromEnd]);
             }
-            containers = sorted;
+            return sorted;
         }
 
         // Step 2
