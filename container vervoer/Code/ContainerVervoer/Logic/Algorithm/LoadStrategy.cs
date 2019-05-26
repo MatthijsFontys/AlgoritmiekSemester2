@@ -46,14 +46,14 @@ namespace Logic {
 
         private List<IContainer> SortContainersByMedian(List<IContainer> containers) {
             List<IContainer> sorted = new List<IContainer>();
-            containers = containers.OrderBy(c => c.Weight).ToList();
             double loopAmount = Math.Ceiling((double)containers.Count / 2);
+            containers = containers.OrderBy(c => c.Weight).ToList();
             for (int i = 0; i < loopAmount; i ++) {
-                sorted.Add(this.containers[i]);
+                sorted.Add(containers[i]);
                 int indexFromEnd = containers.Count - 1 - i;
                 if (i == indexFromEnd)
                     break;
-                sorted.Add(this.containers[indexFromEnd]);
+                sorted.Add(containers[indexFromEnd]);
             }
             return sorted;
         }
