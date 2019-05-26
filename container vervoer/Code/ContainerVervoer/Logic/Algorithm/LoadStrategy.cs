@@ -25,9 +25,9 @@ namespace Logic {
 
         private void DivideWeightBetweenSides() {
             WeightDivider wd = new WeightDivider(ship);
-            wd.DivideStart(containers);
+            wd.DivideManditoryPositions(containers);
             FillMiddleIfExists();
-            wd.DivideRest(containers);
+            wd.DivideLeftovers(containers);
         }
 
         private void FillMiddleIfExists() {

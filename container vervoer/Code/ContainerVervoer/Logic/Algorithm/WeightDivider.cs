@@ -12,13 +12,13 @@ namespace Logic {
             this.ship = ship;
         }
 
-        public void DivideStart(List<IContainer> containers) {
+        public void DivideManditoryPositions(List<IContainer> containers) {
             DivideContainerType<ValuableContainer>(containers);
             AddMinimumContainers(containers);
             DivideContainerType<CooledContainer>(containers);
         }
 
-        public void DivideRest(List<IContainer> containers) {
+        public void DivideLeftovers(List<IContainer> containers) {
             DivideContainerType<RegularContainer>(containers);
         }
 
