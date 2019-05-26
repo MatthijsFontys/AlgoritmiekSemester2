@@ -7,28 +7,26 @@ namespace Logic {
     class WeightDivider {
 
         private Ship ship;
-        private List<IContainer> containers;
 
-        public WeightDivider(Ship ship, List<IContainer> containers) {
+        public WeightDivider(Ship ship) {
             this.ship = ship;
-            this.containers = containers;
         }
 
-        public void DivideStart() {
-            DivideContainerType<ValuableContainer>();
-            AddMinimumContainers();
-            DivideContainerType<CooledContainer>();
+        public void DivideStart(List<IContainer> containers) {
+            DivideContainerType<ValuableContainer>(containers);
+            AddMinimumContainers(containers);
+            DivideContainerType<CooledContainer>(containers);
         }
 
-        public void DivideRest() {
-            DivideContainerType<RegularContainer>();
+        public void DivideRest(List<IContainer> containers) {
+            DivideContainerType<RegularContainer>(containers);
         }
 
 
-        private void DivideContainerType<T>() where T : IContainer {
-            List<IContainer> containers = ContainerHelper.GetContainersFromType<T>(this.containers);
+        private void DivideContainerType<T>(List<IContainer> containersToDivide) where T : IContainer {
+            List<IContainer> containers = ContainerHelper.GetContainersFromType<T>(containersToDivide);
             foreach (IContainer container in containers)
-                AddToUnplacedContainers(ship.GetLightestSide(), container);
+                AddToUnplacedContainers(ship.GetLightestSide(), container, containersToDivide);
         }
 
 
@@ -40,14 +38,14 @@ namespace Logic {
             return true;
         }
 
-        private void AddMinimumContainers() {
+        private void AddMinimumContainers(List<IContainer> containers) {
             while (!DoSidesHaveMinimumContainers()) {
                 foreach (Side side in ship.Sides) {
                     if (side.UnplacedContainers.Count < GetMinimumContainersForSide(side)) {
                         IContainer container = ContainerHelper.GetLightestContainerFromType<RegularContainer>(containers);
                         if (container == null)
                             container = ContainerHelper.GetLightestContainerFromType<CooledContainer>(containers);
-                        AddToUnplacedContainers(side, container);
+                        AddToUnplacedContainers(side, container, containers);
                     }
                 }
             }
@@ -65,7 +63,7 @@ namespace Logic {
         }
 
 
-        private void AddToUnplacedContainers(Side side, IContainer container) {
+        private void AddToUnplacedContainers(Side side, IContainer container, List<IContainer> containers) {
             side.AddToUnplacedContainers(container);
             if (!containers.Remove(container))
                 throw new ArgumentException("Container is not in container list", "container");

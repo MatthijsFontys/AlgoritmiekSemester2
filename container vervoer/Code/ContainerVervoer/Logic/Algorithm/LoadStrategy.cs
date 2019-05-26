@@ -24,10 +24,10 @@ namespace Logic {
         }
 
         private void DivideWeightBetweenSides() {
-            WeightDivider wd = new WeightDivider(ship, containers);
-            wd.DivideStart();
+            WeightDivider wd = new WeightDivider(ship);
+            wd.DivideStart(containers);
             FillMiddleIfExists();
-            wd.DivideRest();
+            wd.DivideRest(containers);
         }
 
         private void FillMiddleIfExists() {
@@ -58,7 +58,6 @@ namespace Logic {
             return sorted;
         }
 
-        // Step 2
         private void PlaceCooledForSide(Side side) {
             for (int n = side.Width -1 ; n >= 0; n--) {
                 Stack stack = side.GetStackFromCoordinates(GetXPositionNSpotsFromEdge(n, side), side.Length);
@@ -66,7 +65,6 @@ namespace Logic {
             }
         }
 
-        //step 2.5
         private void FillCooledStaple(IEnumerable<IContainer> containers, Side side, int x, int y) {
             Stack staple = side.GetStackFromCoordinates(x, y);
             if (staple.Containers.Count == 0)
@@ -74,7 +72,6 @@ namespace Logic {
             while (ship.TryAddContainer(GetLightestContainerFromType<CooledContainer>(containers), x, y));
         }
 
-        // Step 3
         private void PlaceValuableForSide(Side side) {
             int n = 0;
             int y = ship.Length;
@@ -92,7 +89,6 @@ namespace Logic {
             }
         }
 
-        // Step 3.5
         private void FillValuableStapleToMinHeight(IEnumerable<IContainer> containers, Side side, int x, int y) {
             Stack staple = side.GetStackFromCoordinates(x, y);
             IContainer valuableContainer = GetLightestContainerFromType<ValuableContainer>(containers);
@@ -108,7 +104,6 @@ namespace Logic {
             }
         }
 
-        // Step 4
         private void PlaceRegularForSide(Side side) {
             IEnumerable<IContainer> regularContainers = GetContainersFromType<RegularContainer>(side.UnplacedContainers);
             regularContainers = SortContainersByTypeThenByWeightDescending(regularContainers);
@@ -119,7 +114,6 @@ namespace Logic {
                 throw new Exception("Can't place all containers on the ship");
         }
 
-        // Step 4.5
         private bool AddContainerToLightestStaple(IContainer container, Side side) {
             side.OrderStaplesByWeight();
             foreach (Stack staple in side.Stacks) {
