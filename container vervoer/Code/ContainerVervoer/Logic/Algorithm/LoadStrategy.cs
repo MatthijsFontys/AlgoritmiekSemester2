@@ -68,14 +68,14 @@ namespace Logic {
         private void FillCooledStaple(IEnumerable<IContainer> containers, Side side, int x, int y) {
             Stack staple = side.GetStackFromCoordinates(x, y);
             if (staple.Containers.Count == 0)
-                ship.TryAddContainer(GetHeaviestContainerFromType<CooledContainer>(containers), x, y);
-            while (ship.TryAddContainer(GetLightestContainerFromType<CooledContainer>(containers), x, y));
+                ship.TryAddContainer(ContainerHelper.GetHeaviestContainerFromType<CooledContainer>(containers), x, y);
+            while (ship.TryAddContainer(ContainerHelper.GetLightestContainerFromType<CooledContainer>(containers), x, y));
         }
 
         private void PlaceValuableForSide(Side side) {
             int n = 0;
             int y = ship.Length;
-            List<IContainer> valuableContainers = GetContainersFromType<ValuableContainer>(side.UnplacedContainers);
+            List<IContainer> valuableContainers = ContainerHelper.GetContainersFromType<ValuableContainer>(side.UnplacedContainers);
             foreach (IContainer container in valuableContainers) {
                 int x = GetXPositionNSpotsFromEdge(n, side);
                 Stack staple = side.GetStackFromCoordinates(x, y);
@@ -91,7 +91,7 @@ namespace Logic {
 
         private void FillValuableStapleToMinHeight(IEnumerable<IContainer> containers, Side side, int x, int y) {
             Stack staple = side.GetStackFromCoordinates(x, y);
-            IContainer valuableContainer = GetLightestContainerFromType<ValuableContainer>(containers);
+            IContainer valuableContainer = ContainerHelper.GetLightestContainerFromType<ValuableContainer>(containers);
             ship.TryAddContainer(valuableContainer, x, y);
             while (staple.Containers.Count() < GetMinimumValuableHeight(staple)) {
                 if (staple.Containers.Count() == 1) {
@@ -105,8 +105,8 @@ namespace Logic {
         }
 
         private void PlaceRegularForSide(Side side) {
-            IEnumerable<IContainer> regularContainers = GetContainersFromType<RegularContainer>(side.UnplacedContainers);
-            regularContainers = SortContainersByTypeThenByWeightDescending(regularContainers);
+            IEnumerable<IContainer> regularContainers = ContainerHelper.GetContainersFromType<RegularContainer>(side.UnplacedContainers);
+            regularContainers = ContainerHelper.SortContainersByTypeThenByWeightDescending(regularContainers);
             foreach (IContainer container in regularContainers) {
                 AddContainerToLightestStaple(container, side);
             }
@@ -124,6 +124,8 @@ namespace Logic {
         }
 
         #region helpers
+        //Todo set these in side class
+
         /// <summary>
         /// Because the start X position is different for each side
         /// </summary>
@@ -142,30 +144,8 @@ namespace Logic {
                 return staple.X; // closer to left edge
         }
 
-        private IEnumerable<IContainer> SortContainersByTypeThenByWeightDescending(IEnumerable<IContainer> containers) {
-           return containers.OrderBy(x => x is ValuableContainer)
-                .ThenBy(x => x is CooledContainer)
-                .ThenByDescending(c => c.Weight).ToList();
-        }
         #endregion
 
-        #region generic
-        private IContainer GetHeaviestContainerFromType<T>(IEnumerable<IContainer> containers) where T : IContainer {
-            List<IContainer> containersOfType = containers.Where(c => c is T).ToList();
-            double maxWeight = (containersOfType.Count() > 0) ? containersOfType.Max(c => c.Weight) : -1;
-                return containersOfType.FirstOrDefault(x => x.Weight == maxWeight);
-        }
-
-        private IContainer GetLightestContainerFromType<T>(IEnumerable<IContainer> containers) where T : IContainer {
-            List<IContainer> containersOfType = containers.Where(c => c is T).ToList();
-            double minWeight = (containersOfType.Count() > 0) ? containersOfType.Min(c => c.Weight) : -1;
-            return containersOfType.FirstOrDefault(x => x.Weight == minWeight);
-        }
-
-        private List<IContainer> GetContainersFromType<T>(IEnumerable<IContainer> containers) where T : IContainer {
-            return containers.Where(c => c is T).ToList();
-        }
-        #endregion
 
     }
 }

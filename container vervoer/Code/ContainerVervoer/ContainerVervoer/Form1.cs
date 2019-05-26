@@ -183,7 +183,7 @@ namespace ContainerVervoer {
                     regularCount++;
                 if (item is CooledContainer)
                     coolCount++;
-                else
+                if(item is ValuableContainer)
                     valuableCount++;
             }
         }

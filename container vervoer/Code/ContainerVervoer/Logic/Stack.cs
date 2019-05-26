@@ -18,12 +18,6 @@ namespace Logic {
             return 0;
         }
 
-        private bool IsWeightValid() {
-            if (containers.Count == 0)
-                return true;
-            return GetTotalWeight() - containers.First(c => c.Z == 1).Weight <= 120;
-        }
-
         public Stack(int x, int y) {
             X = x;
             Y = y;
@@ -63,6 +57,10 @@ namespace Logic {
             UpdateContainersZPosition();
         }
 
-
+        private bool IsWeightValid() {
+            if (containers.Count == 0)
+                return true;
+            return GetTotalWeight() - containers.First(c => c.Z == 1).Weight <= 120;
+        }
     }
 }

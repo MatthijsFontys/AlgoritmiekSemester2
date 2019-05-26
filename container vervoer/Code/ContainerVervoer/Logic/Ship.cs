@@ -10,6 +10,7 @@ namespace Logic {
         public IReadOnlyCollection<Side> Sides{
             get{ return sides.AsReadOnly() ;}
         }
+
         public Ship(int width, int length) {
             Width = width;
             Length = length;
