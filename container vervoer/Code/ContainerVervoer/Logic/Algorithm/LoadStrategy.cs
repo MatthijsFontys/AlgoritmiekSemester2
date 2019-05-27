@@ -30,11 +30,18 @@ namespace Logic {
             wd.DivideLeftovers(containers);
         }
 
+        private void PrepareContainersForMiddle() {
+            List<IContainer> cooledContainers = SortContainersByMedian(ContainerHelper.GetContainersFromType<CooledContainer>(containers));
+            List<IContainer> regularContainers = SortContainersByMedian(ContainerHelper.GetContainersFromType<RegularContainer>(containers));
+            cooledContainers.AddRange(regularContainers);
+            containers = cooledContainers;
+        }
+
         private void FillMiddleIfExists() {
             if (ship.Sides.Count == 3) {
                 int middleStartX = Convert.ToInt32(Math.Ceiling((double)ship.Width / 2));
                 Side middle = ship.Sides.First(s => s.StartX == middleStartX);
-                containers = SortContainersByMedian(containers);
+                PrepareContainersForMiddle();
                 for (int i = 0; i < containers.Count; i++) {
                     if (AddContainerToLightestStaple(containers[i], middle)) {
                         containers.Remove(containers[i]);

@@ -15,20 +15,18 @@ namespace Logic {
         public void DivideManditoryPositions(List<IContainer> containers) {
             DivideContainerType<ValuableContainer>(containers);
             AddMinimumContainers(containers);
-            DivideContainerType<CooledContainer>(containers);
         }
 
         public void DivideLeftovers(List<IContainer> containers) {
+            DivideContainerType<CooledContainer>(containers);
             DivideContainerType<RegularContainer>(containers);
         }
-
 
         private void DivideContainerType<T>(List<IContainer> containersToDivide) where T : IContainer {
             List<IContainer> containers = ContainerHelper.GetContainersFromType<T>(containersToDivide);
             foreach (IContainer container in containers)
                 AddToUnplacedContainers(ship.GetLightestSide(), container, containersToDivide);
         }
-
 
         private bool DoSidesHaveMinimumContainers() {
             foreach (Side side in ship.Sides) {
@@ -61,7 +59,6 @@ namespace Logic {
             }
             return Convert.ToInt32(Math.Ceiling(minimumContainers)) + valuableCount;
         }
-
 
         private void AddToUnplacedContainers(Side side, IContainer container, List<IContainer> containers) {
             side.AddToUnplacedContainers(container);
