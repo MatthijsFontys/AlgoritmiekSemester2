@@ -186,6 +186,7 @@ namespace ContainerVervoer {
                 if(item is ValuableContainer)
                     valuableCount++;
             }
+            SetCountLabels();
         }
 
         private void ResetLabels() {
@@ -196,6 +197,8 @@ namespace ContainerVervoer {
 
         private void BtnClear_Click(object sender, EventArgs e) {
             LbStartContainers.Items.Clear();
+            ResetLabels();
+            SetCounts();
         }
 
         private void BtnRemoveContainer_Click(object sender, EventArgs e) {
