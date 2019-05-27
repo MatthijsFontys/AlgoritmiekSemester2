@@ -150,7 +150,6 @@ namespace Logic {
             else
                 return staple.X; // closer to left edge
         }
-
         #endregion
 
 
