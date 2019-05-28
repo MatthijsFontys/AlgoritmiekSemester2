@@ -224,7 +224,6 @@ namespace ContainerVervoer {
                 BtnLayerUp.Enabled = false;
             else
                 BtnLayerUp.Enabled = true;
-
         }
     }
 }

@@ -42,7 +42,7 @@ namespace Logic {
         public bool TryAddContainer(IContainer container, int x, int y) {
             if (container == null)
                 return false;
-            return GetSideByCoordinates(x, y).TryAddContainer(container, x, y);
+            return GetSideByCoordinatesIfExists(x, y).TryAddContainer(container, x, y);
         }
 
         public Side GetLightestSide() {
@@ -54,8 +54,12 @@ namespace Logic {
         }
 
 
-        private Side GetSideByCoordinates(int x, int y) {
-            return sides.FirstOrDefault(s => s.StartX <= x && x <= s.StartX + s.Width - 1);
+        private Side GetSideByCoordinatesIfExists(int x, int y) {
+            if (x > Width || x < 1)
+                throw new ArgumentOutOfRangeException("Invalid coordinates", "x");
+            if(y > Length || y < 1)
+                throw new ArgumentOutOfRangeException("Invalid coordinates", "y");
+            return sides.First(s => s.StartX <= x && x <= s.StartX + s.Width - 1);
         }
 
         private void CreateSides() {

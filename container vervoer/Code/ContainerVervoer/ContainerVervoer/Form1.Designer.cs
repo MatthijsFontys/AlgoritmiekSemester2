@@ -99,12 +99,12 @@
             // 
             // NumShipWidth
             // 
-            this.NumShipWidth.Increment = new decimal(new int[] {
+            this.NumShipWidth.Location = new System.Drawing.Point(172, 82);
+            this.NumShipWidth.Minimum = new decimal(new int[] {
             2,
             0,
             0,
             0});
-            this.NumShipWidth.Location = new System.Drawing.Point(172, 82);
             this.NumShipWidth.Name = "NumShipWidth";
             this.NumShipWidth.Size = new System.Drawing.Size(96, 22);
             this.NumShipWidth.TabIndex = 2;
@@ -117,6 +117,11 @@
             // NumShipLength
             // 
             this.NumShipLength.Location = new System.Drawing.Point(274, 82);
+            this.NumShipLength.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
             this.NumShipLength.Name = "NumShipLength";
             this.NumShipLength.Size = new System.Drawing.Size(96, 22);
             this.NumShipLength.TabIndex = 3;
@@ -146,11 +151,6 @@
             // 
             // NumContainerWeight
             // 
-            this.NumContainerWeight.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
             this.NumContainerWeight.Location = new System.Drawing.Point(159, 192);
             this.NumContainerWeight.Maximum = new decimal(new int[] {
             120,
