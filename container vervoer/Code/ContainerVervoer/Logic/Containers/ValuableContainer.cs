@@ -1,7 +1,5 @@
-﻿    using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
 
 namespace Logic {
     public class ValuableContainer : IContainer {
@@ -23,12 +21,14 @@ namespace Logic {
             return "Valuable " + Math.Round(Weight, 2);
         }
 
-        public int GetOptimizedZ(Stack staple) {
-            return staple.Containers.Count() + 1;
+        public int GetOptimizedZ(Stack stack) {
+            return stack.Containers.Count();
         }
 
-        public void SetZ(Stack staple, int z) {
-            if (z > 0 && z < 30 && z <= staple.Containers.Count + 1)
+        public void SetZ(Stack stack, int z) {
+            if(! stack.Containers.Contains(this))
+                throw new ArgumentException("The container needs to be in the stack", "staple");
+            if (z == stack.Containers.Count)
                 Z = z;
         }
     }

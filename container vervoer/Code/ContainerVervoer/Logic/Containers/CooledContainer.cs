@@ -23,20 +23,18 @@ namespace Logic {
             return "Cooled " + Math.Round(Weight, 2);  
         }
 
-        public int GetOptimizedZ(Stack staple) {
-            if (staple.Containers.Max(c => c.Weight) == Weight)
+        public int GetOptimizedZ(Stack stack) {
+            if (stack.Containers.Max(c => c.Weight) == Weight)
                 return 1;
-            return staple.Containers.Count();
+            return stack.Containers.Count() - 1;
         }
 
-        public void SetZ(Stack staple, int z) {
-            if (z > 0 && z < 30 && z <= staple.Containers.Count + 1) {
-                if (staple.Containers.Contains(this))
+        public void SetZ(Stack stack, int z) {
+            if (!stack.Containers.Contains(this))
+                throw new ArgumentException("The container needs to be in the stack", "stack");
+            if (z > 0 && z < 30 && z <= stack.Containers.Count) {
                     Z = z;
-                else throw new ArgumentException("The container needs to be in the staple", "staple");
             }
-            else
-                throw new ArgumentException("Invalid Z position", "z");
         }
     }
 }
