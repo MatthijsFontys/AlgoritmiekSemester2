@@ -65,6 +65,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShipTests.cs" />
     <Compile Include="SideTests.cs" />
+    <Compile Include="StackTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
