@@ -17,7 +17,7 @@ namespace Logic {
         public int Length { get; private set; }
         public int StartX { get; private set; }
 
-        public Side(int width, int length, int startX = 0) {
+        public Side(int width, int length, int startX) {
             Width = width;
             Length = length;
             StartX = startX;
@@ -26,17 +26,17 @@ namespace Logic {
             InitStacks();
         }
 
-        public void OrderStaplesByWeight() {
+        public void OrderStacksByWeight() {
             stacks = stacks
                 .OrderBy(s => s.GetTotalWeight())
                 .ToList();
         }
 
         public bool TryAddContainer(IContainer container, int x, int y) {
-            Stack stapleAtXY = stacks.FirstOrDefault(s => s.X == x && s.Y == y);
-            if (stapleAtXY == null)
-                stapleAtXY = CreateNewStackIfValid(x, y);
-            if (stapleAtXY.TryAddContainer(container)) {
+            Stack stackAtXY = GetStackFromCoordinates(x, y);
+            if (stackAtXY == null)
+                stackAtXY = CreateNewStackIfValid(x, y);
+            if (stackAtXY.TryAddContainer(container)) {
                 unplacedContainers.Remove(container);
                 return true;
             }

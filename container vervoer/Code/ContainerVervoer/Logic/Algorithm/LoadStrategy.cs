@@ -43,7 +43,7 @@ namespace Logic {
                 Side middle = ship.Sides.First(s => s.StartX == middleStartX);
                 PrepareContainersForMiddle();
                 for (int i = 0; i < containers.Count; i++) {
-                    if (AddContainerToLightestStaple(containers[i], middle)) {
+                    if (TryAddContainerToLightestStaple(containers[i], middle)) {
                         containers.Remove(containers[i]);
                         i--;
                     }
@@ -115,16 +115,16 @@ namespace Logic {
             IEnumerable<IContainer> regularContainers = ContainerHelper.GetContainersFromType<RegularContainer>(side.UnplacedContainers);
             regularContainers = ContainerHelper.SortContainersByTypeThenByWeightDescending(regularContainers);
             foreach (IContainer container in regularContainers) {
-                AddContainerToLightestStaple(container, side);
+                TryAddContainerToLightestStaple(container, side);
             }
             if (side.UnplacedContainers.Count > 0)
                 throw new Exception("Can't place all containers on the ship");
         }
 
-        private bool AddContainerToLightestStaple(IContainer container, Side side) {
-            side.OrderStaplesByWeight();
-            foreach (Stack staple in side.Stacks) {
-                if (ship.TryAddContainer(container, staple.X, staple.Y))
+        private bool TryAddContainerToLightestStaple(IContainer container, Side side) {
+            side.OrderStacksByWeight();
+            foreach (Stack stack in side.Stacks) {
+                if (ship.TryAddContainer(container, stack.X, stack.Y))
                     return true;
             }
             return false;

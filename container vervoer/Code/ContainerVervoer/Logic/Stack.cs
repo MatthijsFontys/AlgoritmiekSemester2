@@ -60,6 +60,8 @@ namespace Logic {
         private bool IsWeightValid() {
             if (containers.Count == 0)
                 return true;
+            if (containers.FirstOrDefault(c => c.Z == 1) == null)
+                ;
             return GetTotalWeight() - containers.First(c => c.Z == 1).Weight <= 120;
         }
     }
