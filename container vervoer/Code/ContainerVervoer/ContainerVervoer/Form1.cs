@@ -202,13 +202,11 @@ namespace ContainerVervoer {
         }
 
         private void BtnRemoveContainer_Click(object sender, EventArgs e) {
-            try {
-                int selectedIndex = LbStartContainers.SelectedIndex;
-                LbStartContainers.Items.RemoveAt(selectedIndex);
-            }
-            catch (Exception) {
+            var selectedItem = LbStartContainers.SelectedItem;
+            if (selectedItem != null)
+                LbStartContainers.Items.Remove(selectedItem);
+            else
                 MessageBox.Show("Select an item before removing");
-            }
         }
 
         private void SetCountLabels() {

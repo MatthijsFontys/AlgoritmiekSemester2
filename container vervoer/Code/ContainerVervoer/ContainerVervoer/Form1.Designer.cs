@@ -56,6 +56,7 @@
             this.NumContainerAmount = new System.Windows.Forms.NumericUpDown();
             this.PnlRight = new System.Windows.Forms.Panel();
             this.PnlLegend = new System.Windows.Forms.Panel();
+            this.label17 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
@@ -65,7 +66,6 @@
             this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NumShipWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumShipLength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumContainerWeight)).BeginInit();
@@ -471,6 +471,16 @@
             this.PnlLegend.Size = new System.Drawing.Size(154, 613);
             this.PnlLegend.TabIndex = 1;
             // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.Location = new System.Drawing.Point(79, 13);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(72, 17);
+            this.label17.TabIndex = 37;
+            this.label17.Text = "Front -->";
+            // 
             // label16
             // 
             this.label16.AutoSize = true;
@@ -557,16 +567,6 @@
             this.label12.TabIndex = 28;
             this.label12.Text = "Legend";
             // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.Location = new System.Drawing.Point(79, 13);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(72, 17);
-            this.label17.TabIndex = 37;
-            this.label17.Text = "Front -->";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -575,7 +575,7 @@
             this.Controls.Add(this.PnlRight);
             this.Controls.Add(this.PnlLeft);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Container vervoer";
             this.Resize += new System.EventHandler(this.Form1_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.NumShipWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumShipLength)).EndInit();
