@@ -13,7 +13,7 @@ namespace Logic {
             this.ship = ship;
             this.containers = containers;
             DivideWeightBetweenSides();
-            foreach (Side side in ship.Sides) {
+                foreach (Side side in ship.Sides) {
                 PlaceValuableForSide(side);
                 PlaceCooledForSide(side);
                 PlaceRegularForSide(side);

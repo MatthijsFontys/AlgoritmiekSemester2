@@ -33,7 +33,8 @@ namespace Logic {
             foreach (IContainer container in containers) {
                 Side bestValuableSide = ship.Sides
                     .Where(s => s.UnplacedContainers.Count(c => c is ValuableContainer) < s.Width * s.Length)
-                    .OrderBy(s => s.UnplacedContainers.Sum(c => c.Weight))
+                    .OrderByDescending(s => s.Width * s.Length) // Put middle in last place
+                    .ThenBy(s => s.UnplacedContainers.Sum(c => c.Weight))
                     .First();
                 AddToUnplacedContainers(bestValuableSide, container, containersToDivide);
             }
