@@ -34,7 +34,7 @@ namespace Logic {
             double weightDifference =  sides[0].GetTotalWeight() - sides[sides.Count - 1].GetTotalWeight();
             if (weightDifference < 0)
                 weightDifference *= -1;
-            if (weightDifference == 0)
+            if (totalWeight == 0)
                 return 0;
             return weightDifference / totalWeight * 100;
         }

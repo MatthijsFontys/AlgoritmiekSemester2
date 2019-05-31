@@ -43,6 +43,10 @@
             this.PnlResult = new System.Windows.Forms.Panel();
             this.BtnRemoveContainer = new System.Windows.Forms.Button();
             this.PnlLeft = new System.Windows.Forms.Panel();
+            this.BtnCopyUnityString = new System.Windows.Forms.Button();
+            this.label18 = new System.Windows.Forms.Label();
+            this.TbUnityString = new System.Windows.Forms.TextBox();
+            this.BtnConfig = new System.Windows.Forms.Button();
             this.LblRegularCount = new System.Windows.Forms.Label();
             this.LblValuableCount = new System.Windows.Forms.Label();
             this.LblCoolCount = new System.Windows.Forms.Label();
@@ -288,6 +292,10 @@
             // 
             // PnlLeft
             // 
+            this.PnlLeft.Controls.Add(this.BtnCopyUnityString);
+            this.PnlLeft.Controls.Add(this.label18);
+            this.PnlLeft.Controls.Add(this.TbUnityString);
+            this.PnlLeft.Controls.Add(this.BtnConfig);
             this.PnlLeft.Controls.Add(this.LblRegularCount);
             this.PnlLeft.Controls.Add(this.LblValuableCount);
             this.PnlLeft.Controls.Add(this.LblCoolCount);
@@ -317,6 +325,44 @@
             this.PnlLeft.Name = "PnlLeft";
             this.PnlLeft.Size = new System.Drawing.Size(415, 711);
             this.PnlLeft.TabIndex = 17;
+            // 
+            // BtnCopyUnityString
+            // 
+            this.BtnCopyUnityString.Location = new System.Drawing.Point(323, 652);
+            this.BtnCopyUnityString.Name = "BtnCopyUnityString";
+            this.BtnCopyUnityString.Size = new System.Drawing.Size(74, 46);
+            this.BtnCopyUnityString.TabIndex = 31;
+            this.BtnCopyUnityString.Text = "Copy";
+            this.BtnCopyUnityString.UseVisualStyleBackColor = true;
+            this.BtnCopyUnityString.Click += new System.EventHandler(this.BtnCopyUnityString_Click);
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.Location = new System.Drawing.Point(121, 644);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(149, 17);
+            this.label18.TabIndex = 30;
+            this.label18.Text = "Unity visualiser link";
+            // 
+            // TbUnityString
+            // 
+            this.TbUnityString.Location = new System.Drawing.Point(97, 664);
+            this.TbUnityString.Name = "TbUnityString";
+            this.TbUnityString.ReadOnly = true;
+            this.TbUnityString.Size = new System.Drawing.Size(220, 22);
+            this.TbUnityString.TabIndex = 29;
+            // 
+            // BtnConfig
+            // 
+            this.BtnConfig.Location = new System.Drawing.Point(174, 295);
+            this.BtnConfig.Name = "BtnConfig";
+            this.BtnConfig.Size = new System.Drawing.Size(95, 46);
+            this.BtnConfig.TabIndex = 28;
+            this.BtnConfig.Text = "config";
+            this.BtnConfig.UseVisualStyleBackColor = true;
+            this.BtnConfig.Click += new System.EventHandler(this.BtnConfig_Click);
             // 
             // LblRegularCount
             // 
@@ -641,6 +687,10 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Button BtnConfig;
+        private System.Windows.Forms.Button BtnCopyUnityString;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.TextBox TbUnityString;
     }
 }
 

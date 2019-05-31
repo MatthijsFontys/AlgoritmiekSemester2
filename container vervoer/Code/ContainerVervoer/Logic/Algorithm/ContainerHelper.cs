@@ -22,7 +22,6 @@ namespace Logic {
             return GetHeaviestContainer(containersOfType);
         }
 
-
         public static IContainer GetLightestContainerExcludingType<T>(IEnumerable<IContainer> containers) where T : IContainer {
             List<IContainer> containersOfType = containers.Where(c => c is T == false).ToList();
             double minWeight = (containersOfType.Count() > 0) ? containersOfType.Min(c => c.Weight) : -1;

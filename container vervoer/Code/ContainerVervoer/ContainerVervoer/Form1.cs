@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -61,6 +60,8 @@ namespace ContainerVervoer {
             loader.DivideContainers(GetContainersFromListBox(), ship);
             CreateSquares(PnlResult, layer);
             lblWeightDifference.Text = Math.Round(ship.GetWeightDifferenceInPercent(), 2) + " %";
+
+            TbUnityString.Text = GetUnityVisualiserString(ship);
         }
 
         private List<Logic.IContainer> GetContainersFromListBox() {
@@ -224,6 +225,47 @@ namespace ContainerVervoer {
                 BtnLayerUp.Enabled = false;
             else
                 BtnLayerUp.Enabled = true;
+        }
+
+        private string GetUnityVisualiserString(Ship ship) {
+            StringBuilder sb = new StringBuilder(@"https://i872272.venus.fhict.nl/ContainerVisualizer/index.html?");
+            sb.AppendFormat("length={0}&width={1}&stacks=", ship.Length, ship.Width);
+            List<Stack> stacks = new List<Stack>();
+            ship.Sides.ToList().ForEach(s => s.Stacks.ToList().ForEach(t => stacks.Add(t)));
+            stacks = stacks.OrderBy(s => s.X).ThenBy(s => s.Y).ToList();
+            foreach (Stack stack in stacks) {
+                List<IContainer> containers = stack.Containers.OrderBy(c => c.Z).ToList();
+                foreach (IContainer container in containers) {
+                    if (container is RegularContainer)
+                        sb.Append("1");
+                    else if (container is ValuableContainer)
+                        sb.Append("2");
+                    else if (container is CooledContainer)
+                        sb.Append("3");
+                }
+                if (stack.Y == ship.Length)
+                    sb.Append("/");
+                else
+                    sb.Append(",");
+            }
+            string visualiserLink = sb.ToString().Substring(0, sb.ToString().Length - 1);
+            Console.WriteLine(visualiserLink);
+            return visualiserLink;
+        }
+
+        private void BtnConfig_Click(object sender, EventArgs e) {
+           List<IContainer> containers =  ContainerFactory.ConcatContainerTypes(
+                ContainerFactory.CreateValuableContainers(4, 9),
+                ContainerFactory.CreateCooledContainers(4, 4, 8),
+                ContainerFactory.CreateRegularContainers(4, 1)
+                );
+            foreach (var item in containers) {
+                LbStartContainers.Items.Add(item);
+            }
+        }
+
+        private void BtnCopyUnityString_Click(object sender, EventArgs e) {
+            Clipboard.SetText(TbUnityString.Text);
         }
     }
 }
